@@ -21,7 +21,7 @@ public:
 	bool isPeiceRed(uint8_t row, uint8_t col) const;
 	bool isPeiceBlack(uint8_t row, uint8_t col) const;
 	bool isKing(uint8_t row, uint8_t col) const;
-
+	
 	bool isSpaceRed(uint8_t row, uint8_t col) const;
 	bool isSpaceBlack(uint8_t row, uint8_t col) const;
 
@@ -49,7 +49,7 @@ private:
 
 	char getSpaceCharacter(uint8_t row, uint8_t col) const;
 	
-private:
+public:
 	/*
 	Represents the board and all the peices on it.
 	Each bit represents to a single space on the board.
@@ -88,6 +88,7 @@ private:
 	*/
 	uint64_t king;
 
+private:
 	const char KING_CHAR = 'K';
 	const char PAWN_CHAR = 'p';
 };

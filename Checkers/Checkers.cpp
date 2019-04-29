@@ -166,7 +166,7 @@ void Checkers::print(uint8_t indent) const
 
 		for (uint8_t c = 0; c < nCols; c++) {
 			 char textColor = (isPeiceRed(r, c) ? Colors::RED : Colors::BLACK);
-			 char backColor = (((r + c) % 2 == 0) ? Colors::BROWN : Colors::RED);
+			 char backColor = (((r + c) % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
 
 			setColor(console, textColor + (backColor << 4));
 			
@@ -190,6 +190,8 @@ void Checkers::print(uint8_t indent) const
 	// Restore the previous fill character
 	cout.fill(prevFillCh);
 }
+
+
 
 void Checkers::init()
 {
