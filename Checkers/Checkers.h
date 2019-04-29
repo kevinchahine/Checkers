@@ -18,30 +18,30 @@ public:
 
 	bool isOccupied(uint8_t row, uint8_t col) const;
 
-	bool isPeiceRed(uint8_t row, uint8_t col) const;
-	bool isPeiceBlack(uint8_t row, uint8_t col) const;
+	bool isPieceRed(uint8_t row, uint8_t col) const;
+	bool isPieceBlack(uint8_t row, uint8_t col) const;
 	bool isKing(uint8_t row, uint8_t col) const;
 	
 	bool isSpaceRed(uint8_t row, uint8_t col) const;
 	bool isSpaceBlack(uint8_t row, uint8_t col) const;
 
 	// !!!Warning: 
-	//	Assumes that [fromRow, fromCol] is occupied by a peice
+	//	Assumes that [fromRow, fromCol] is occupied by a piece
 	//	Calling this function on an empty space will cause unexpected results
 	// !!!Warning:
-	//	If [toRow, toCol] is occupied, then this function will replace that peice
+	//	If [toRow, toCol] is occupied, then this function will replace that piece
 	//	with [fromRow, fromCol]
-	void movePeice(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_t toCol);
-	void removePeice(uint8_t row, uint8_t col);
+	void movePiece(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_t toCol);
+	void removePiece(uint8_t row, uint8_t col);
 
-	// Places a peice in the corresponding row and column.
-	// If a peice already exists there, it replaces it with the 
-	// new peice
+	// Places a piece in the corresponding row and column.
+	// If a piece already exists there, it replaces it with the 
+	// new piece
 	void placePiece(uint8_t row, uint8_t col, bool color, bool king);
 	void print(uint8_t indent = 20) const;
 
 private:
-	// initializes the peices as they would be at the start of a game
+	// initializes the pieces as they would be at the start of a game
 	void init();
 
 	void setColor(HANDLE console, uint8_t color) const;
@@ -51,38 +51,38 @@ private:
 	
 public:
 	/*
-	Represents the board and all the peices on it.
+	Represents the board and all the pieces on it.
 	Each bit represents to a single space on the board.
 	ex: bit 0  represents the upper left  most corner of the board
 		bit 63 represents the lower right most corner of the board
 
 	occupied determins if a space is occupied or not
-	1 means space is occupied by a peice
+	1 means space is occupied by a piece
 	0 means space is not occupied (empty)
 	*/
 	uint64_t occupied;
 
 	/*
-	Represents the board and all the peices on it.
+	Represents the board and all the pieces on it.
 	Each bit represents to a single space on the board.
 	ex: bit 0  represents the upper left  most corner of the board
 		bit 63 represents the lower right most corner of the board
 
-	peiceColor determins the color of the peice on that space
-	if a peice is there
-	1 means red peice
-	0 means black peice
+	pieceColor determins the color of the piece on that space
+	if a piece is there
+	1 means red piece
+	0 means black piece
 	*/
 	uint64_t red;
 
 	/*
-	Represents the board and all the peices on it.
+	Represents the board and all the pieces on it.
 	Each bit represents to a single space on the board.
 	ex: bit 0  represents the upper left  most corner of the board
 		bit 63 represents the lower right most corner of the board
 
-	king determines if the peice on that space is a king
-	if a peice is there
+	king determines if the piece on that space is a king
+	if a piece is there
 	1 means king
 	0 means pawn
 	*/

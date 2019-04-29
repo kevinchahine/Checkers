@@ -22,10 +22,22 @@ public:
 	// returns 2 if Draw
 	int status() const;
 
-	vector<move_t> possibleMovesBlack() const;
-	vector<move_t> possibleMovesRed() const;
+	vector<move_t> getPossibleMoves(bool playerIsBlack) const;
+	//vector<move_t> getPossibleMovesBlack() const;
+	//vector<move_t> getPossibleMovesRed() const;
 
 public:
+	// Warning: Assumes Space is Occupied
+	bool isMoveUpRightPossible(int r, int c) const;
+	// Warning: Assumes Space is Occupied
+	bool isMoveUpLeftPossible(int r, int c) const;
+	// Warning: Assumes Space is Occupied
+	bool isMoveDownLeftPossible(int r, int c) const;
+	// Warning: Assumes Space is Occupied
+	bool isMoveDownRightPossible(int r, int c) const;
+	// Warning: Assumes Space is Occupied
+	bool isMoveXYPossible(int r, int c, int r1, int c1) const;
+
 	// Warning: Assumes Space is Occupied
 	bool isJumpUpRightPossible(int r, int c) const;
 	// Warning: Assumes Space is Occupied
@@ -34,7 +46,7 @@ public:
 	bool isJumpDownLeftPossible(int r, int c) const;
 	// Warning: Assumes Space is Occupied
 	bool isJumpDownRightPossible(int r, int c) const;
-
+	// Warning: Assumes Space is Occupied
 	bool isJumpXYPossible(int r1, int r2, int c1, int c2, bool imBlack) const;
 };
 

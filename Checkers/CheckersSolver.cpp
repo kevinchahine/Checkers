@@ -47,8 +47,8 @@ int CheckersSolver::heuristic1(const Checkers & game) const
 			// Is Space Occupied?
 			if (game.isOccupied(r, c))
 			{
-				// Yes. By a black or red peice?
-				if (game.isPeiceBlack(r, c))
+				// Yes. By a black or red piece?
+				if (game.isPieceBlack(r, c))
 				{
 					// Black. Is it a King or Pawn?
 					if (game.isKing(r, c))

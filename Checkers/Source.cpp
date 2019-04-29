@@ -2,16 +2,17 @@
 #include <iomanip>
 
 #include "Checkers.h"
+#include "CheckersEngine.h"
+
+#include "TestCheckersEngine.h"
 
 using namespace std;
 
 int main()
 {
-	Checkers checkers;
+	TestCheckersEngine test;
 
-	checkers.print(20);
-	
-
+	test.possibleMoves();
 	
 	system("pause");
 	return 0;

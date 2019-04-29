@@ -32,13 +32,13 @@ bool Checkers::isOccupied(uint8_t row, uint8_t col) const
 	return (occupied & mask) == mask;
 }
 
-bool Checkers::isPeiceRed(uint8_t row, uint8_t col) const
+bool Checkers::isPieceRed(uint8_t row, uint8_t col) const
 {
 	uint64_t mask = ((uint64_t) 1 << ((row * 8) + col));
 	return (red & mask) == mask;
 }
 
-bool Checkers::isPeiceBlack(uint8_t row, uint8_t col) const
+bool Checkers::isPieceBlack(uint8_t row, uint8_t col) const
 {
 	uint64_t mask = ((uint64_t) 1 << ((row * 8) + col));
 	return (red & mask) != mask;
@@ -60,7 +60,7 @@ bool Checkers::isSpaceBlack(uint8_t row, uint8_t col) const
 	return (row + col) % 2 == 0;
 }
 
-void Checkers::movePeice(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_t toCol)
+void Checkers::movePiece(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_t toCol)
 {
 	uint64_t r;
 	uint64_t c;
@@ -80,32 +80,32 @@ void Checkers::movePeice(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_
 	this->occupied &= ~fromMask;
 	this->occupied |= toMask;
 
-	// B.) Move Peice Color bit
-	// B-1.) Get peice color at [fromRow, fromCol]
+	// B.) Move Piece Color bit
+	// B-1.) Get piece color at [fromRow, fromCol]
 	b = (this->red & ~fromMask);
 
-	// 2.) Set peice color at [toRow, toCol]
+	// 2.) Set piece color at [toRow, toCol]
 	this->red &= ~toMask;						// Clear to bit
-	b = (b == fromMask ? toMask : (uint64_t) 0);// Is peice red?
+	b = (b == fromMask ? toMask : (uint64_t) 0);// Is piece red?
 	this->red |= b;								// Set to bit
 
-	// 3.) Remove peice color at [fromRow, fromCol] (UNNESSESSARY)
+	// 3.) Remove piece color at [fromRow, fromCol] (UNNESSESSARY)
 	//this->red &= ~fromMask;						// (UNNESSASSARY)
 
 	// C.) Move Rank bit
 	// C-1.) Get rank at [fromRow, fromCol]
 	b = (this->king & ~fromMask);
 
-	// C-2.) Set peice rank at [toRow, toCol]
+	// C-2.) Set piece rank at [toRow, toCol]
 	this->king &= ~toMask;						// Clear to bit
-	b = (b == fromMask ? toMask : (uint64_t) 0); // Is peice a king?
+	b = (b == fromMask ? toMask : (uint64_t) 0); // Is piece a king?
 	this->king |= b;							// Set to bit
 
 	// C-3.) Remove rank at [fromRow, fromCol] (UNNESSESSARY)
 	//this->king &= ~fromMask;					(UNNESSARY)
 }
 
-void Checkers::removePeice(uint8_t row, uint8_t col)
+void Checkers::removePiece(uint8_t row, uint8_t col)
 {
 	uint64_t r = row;
 	uint64_t c = col;
@@ -165,7 +165,7 @@ void Checkers::print(uint8_t indent) const
 		getColor(prevColor);
 
 		for (uint8_t c = 0; c < nCols; c++) {
-			 char textColor = (isPeiceRed(r, c) ? Colors::RED : Colors::BLACK);
+			 char textColor = (isPieceRed(r, c) ? Colors::RED : Colors::BLACK);
 			 char backColor = (((r + c) % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
 
 			setColor(console, textColor + (backColor << 4));
