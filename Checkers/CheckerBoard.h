@@ -19,7 +19,7 @@ public:
 #pragma endregion
 
 #pragma region Functions
-	void print(int indent = 10) const;
+	void print(int indent = 10);
 
 protected:
 	// Initializes the background and foreground color 

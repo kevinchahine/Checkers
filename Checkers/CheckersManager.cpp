@@ -26,11 +26,10 @@ void CheckersManager::playUserVsUser()
 	{
 		if (gamePtr->status() != CheckersEngine::CONTINUE) break;
 
-		gamePtr->print();
-
 		possibleMoves = gamePtr->getPossibleMoves(blacksTurn);
 
-		/*for (auto m : possibleMoves)
+		// Show valid moves
+		for (auto m : possibleMoves)
 		{
 			int fromRow = (m >> 12) & 0x0f;
 			int fromCol = (m >> 8) & 0x0f;
@@ -40,8 +39,10 @@ void CheckersManager::playUserVsUser()
 				<< fromRow << ", " << fromCol << "]->["
 				<< toRow << ", " << toCol << "]"
 				<< endl;
-		}*/
+		}
 
+		gamePtr->print();
+		
 		cout << (blacksTurn ? "BLACK" : "RED") << ' ';
 			
 		getUserInput(fromRow, fromCol, toRow, toCol, possibleMoves);
@@ -111,7 +112,7 @@ CheckersEngine::move_t CheckersManager::getUserInput(
 			fromColChar = toupper(fromColChar);
 			fromCol = fromColChar - 'A';
 
-			fromRow = fromRowChar - '0';
+			fromRow = fromRowChar - '1';
 		}
 		else
 		{
@@ -123,12 +124,15 @@ CheckersEngine::move_t CheckersManager::getUserInput(
 			toColChar = toupper(toColChar);
 			toCol = toColChar - 'A';
 
-			toRow = toRowChar - '0';
+			toRow = toRowChar - '1';
 		}
 		else
 		{
 			continue;
 		}
+
+		cout << "Move = " << fromRow << " " << fromCol << " -> "
+			<< toRow << ' ' << toCol << endl;
 
 		// 3.) Calc move
 		move =

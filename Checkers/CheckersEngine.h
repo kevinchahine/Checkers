@@ -31,6 +31,12 @@ public:
 
 	vector<move_t> getPossibleMoves(bool playerIsBlack) const;
 	
+	// WARNING: Assumes Move is Valid
+	// Moves peice
+	// Evaluates jumps
+	// Evaluates promotions
+	void movePiece(int fromRow, int fromCol, int toRow, int toCol);
+
 public:
 	// Warning: Assumes Space is Occupied
 	bool isMoveUpRightPossible(int r, int c) const;

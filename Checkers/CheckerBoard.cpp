@@ -4,8 +4,10 @@ CheckerBoard::CheckerBoard() {}
 
 CheckerBoard::~CheckerBoard() {}
 
-void CheckerBoard::print(int indent) const
+void CheckerBoard::print(int indent)
 {
+	initBase();
+
 	// Take care of text color
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -28,7 +30,7 @@ void CheckerBoard::print(int indent) const
 			cout << text[r][c];
 		}
 
-		// .) ENDL
+		// 3.) ENDL
 		setColor(console, prevColor);
 		cout << endl;
 	}
@@ -49,15 +51,6 @@ void CheckerBoard::initBase()
 
 void CheckerBoard::resetArrays()
 {
-	for (size_t r = 0; r < 8; r++)
-	{
-		for (size_t c = 0; c < 8; c++)
-		{
-			peices[r][c] = ' ';
-			peicesForeColor[r][c] = Colors::WHITE;
-		}
-	}
-
 	for (size_t r = 0; r < N_ROWS; r++)
 	{
 		for (size_t c = 0; c < N_COLS; c++)

@@ -133,110 +133,22 @@ void Checkers::placePiece(uint8_t row, uint8_t col, bool color, bool king)
 
 void Checkers::print(uint8_t indent) const
 {
-	// Take care of text color
-	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CheckerBoard board;
 
-	// Remember the fill char (and set the new one at the same time)
-	char prevFillCh = cout.fill(ASCII::lines[ASCII::HORIZONTAL_DOUBLE]);
+	// 1.) Add peices and their color
+	for (size_t r = 0; r < 8; r++)
+	{
+		for (size_t c = 0; c < 8; c++)
+		{
+			board.peices[r][c] = getSpaceCharacter(r, c);
 
-	const size_t nRows = 8;
-	const size_t nCols = 8;
-
-	// Print Top Boarder
-	cout << setfill(' ') << setw(indent) 
-		<< ASCII::lines[ASCII::DOWN_DOUBLE | ASCII::RIGHT_DOUBLE]
-		<< setfill(ASCII::lines[ASCII::LEFT_DOUBLE | ASCII::RIGHT_DOUBLE])
-		<< setw(nCols + 3)
-		<< ASCII::lines[ASCII::DOWN_DOUBLE | ASCII::LEFT_DOUBLE]
-		<< endl;
-
-	// Print top coordinates
-	cout << setfill(' ') << setw(indent)
-		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE]
-		<< char(178);
-
-	for (uint8_t r = 0; r < nRows; r++) {
-		char textColor = Colors::WHITE;
-		char backColor = ((r % 2 == 1) ? Colors::LIGHTGREEN : Colors::GREEN);
-		
-		setColor(console, textColor + (backColor << 4));
-
-		cout << char('A' + r);
-	}
-
-	char textColor = Colors::WHITE;
-	char backColor = Colors::GREEN;
-
-	setColor(console, textColor + (backColor << 4));
-	
-	cout << char(178)
-		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE] 
-		<< endl;
-
-	// Print MIDDLE 
-	for (uint8_t r = 0; r < nRows; r++) {
-		// Indent
-		cout << setfill(' ') << setw(indent)
-			<< ASCII::lines[ASCII::VERTICAL_DOUBLE];
-
-		// Remember the current text color
-		uint8_t prevColor;
-		getColor(prevColor);
-
-		// Print Left Coordinate
-		char textColor = Colors::WHITE;
-		char backColor = ((r % 2 == 1) ? Colors::LIGHTGREEN : Colors::GREEN);
-		setColor(console, textColor + (backColor << 4));
-		cout << (int) r;
-
-		for (uint8_t c = 0; c < nCols; c++) {
-			char textColor = (isPieceRed(r, c) ? Colors::RED : Colors::BLACK);
-			char backColor = (((r + c) % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
-
-			setColor(console, textColor + (backColor << 4));
-			
-			cout << getSpaceCharacter(r, c);
+			char color = (isPieceBlack(r, c) ? Colors::BLACK : Colors::RED);
+			board.peicesForeColor[r][c] = color;
 		}
-
-		textColor = Colors::WHITE;
-		backColor = ((r % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
-		setColor(console, textColor + (backColor << 4));
-		cout << (int)r;
-
-		// Reassign the original text color
-		setColor(console, prevColor);
-
-		cout << ASCII::lines[ASCII::VERTICAL_DOUBLE]
-			<< endl;
 	}
 
-	// Print bottom coordinates
-	cout << setfill(' ') << setw(indent)
-		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE]
-		<< char(178);
-
-	for (uint8_t r = 0; r < nRows; r++) {
-		char textColor = Colors::WHITE;
-		char backColor = ((r % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
-
-		setColor(console, textColor + (backColor << 4));
-
-		cout << char('A' + r);
-	}
-	
-	cout << char(178)
-		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE] 
-		<< endl;
-
-	cout << setfill(' ')
-		<< setw(indent)
-		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::RIGHT_DOUBLE]
-		<< setfill(ASCII::lines[ASCII::HORIZONTAL_DOUBLE])
-		<< setw(nCols + 3)
-		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::LEFT_DOUBLE] << endl;
-
-	// Restore the previous fill character
-	cout.fill(prevFillCh);
+	// 2.) Print Board
+	board.print();
 }
 
 void Checkers::init()

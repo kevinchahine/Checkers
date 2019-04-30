@@ -176,6 +176,55 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 	return possibleMoves;
 }
 
+void CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
+{
+	Checkers::movePiece(fromRow, fromCol, toRow, toCol);
+
+	//// Was there a jump (Jumps only occure if moving 2 spaces)
+	//int temp = abs(fromRow - toRow);
+	//if (temp == 2)
+	//{
+	//	// Jump occured
+
+	//	// Which piece was jumped
+	//	int jumpedRow = (fromRow + toRow) >> 1;
+	//	int jumpedCol = (fromCol + toCol) >> 1;
+
+	//	// Take that piece
+	//	removePiece(jumpedRow, jumpedCol);
+	//}
+	//
+	//// Was there a promotion?
+	//// Black starts at rows 0, 1 and 2
+	//// Red starts at rows 5, 6 and 7
+	//// Is piece Black?
+	//if (isPieceBlack(fromRow, fromCol))
+	//{
+	//	// Yes its Black. Now did it reach the end zone?
+	//	if (toRow == 7)
+	//	{
+	//		// Yes, Black piece becomes a King
+	//		placePiece(toRow, toCol, false, true);
+	//	}
+	//	else
+	//		placePiece(toRow, toCol, false, false);
+	//}
+	//else
+	//{
+	//	// Then piece must be Red. Did it reach the end zone
+	//	if (toRow == 0)
+	//	{
+	//		// Yes, Red piece becomes a King
+	//		placePiece(toRow, toCol, true, true);
+	//	}
+	//	else
+	//		placePiece(toRow, toCol, true, false);
+	//}
+
+	//// Remove piece from [fromRow][fromCol]
+	//removePiece(fromRow, fromCol);
+}
+
 bool CheckersEngine::isMoveUpRightPossible(int r, int c) const
 {
 	bool isBlack = isPieceBlack(r, c);

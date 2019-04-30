@@ -5,6 +5,7 @@
 #include <vector>
 #include <Windows.h>
 
+#include "CheckerBoard.h"
 #include "E:\Documents\Programming\C++\ASCII\ASCII\ASCII.h"
 #include "Colors.h"
 
@@ -90,6 +91,6 @@ public:
 
 public:
 	const char KING_CHAR = 'K';
-	const char PAWN_CHAR = 'p';
+	const char PAWN_CHAR = 'P';
 };
 
