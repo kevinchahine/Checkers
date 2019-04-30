@@ -36,6 +36,11 @@ int CheckersSolver::minimax(Checkers game, int depth, bool maxPlayersMove)
 	return 0;
 }
 
+int CheckersSolver::heuristic(const Checkers & game) const
+{
+	return heuristic1(game);
+}
+
 int CheckersSolver::heuristic1(const Checkers & game) const
 {
 	int h = 0;

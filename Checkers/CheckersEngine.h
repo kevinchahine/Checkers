@@ -12,8 +12,8 @@
 */
 class CheckersEngine : public Checkers
 {
-public:
 #pragma region Constructors
+public:
 
 	CheckersEngine();
 	~CheckersEngine();
@@ -40,10 +40,9 @@ public:
 
 #pragma endregion
 
-public:
-
 #pragma region Move Validation Funcitions
 
+public:
 	// Warning: Assumes Space is Occupied
 	bool isMoveUpRightValid(int r, int c) const;
 	// Warning: Assumes Space is Occupied
@@ -68,5 +67,11 @@ public:
 
 #pragma endregion
 
+#pragma region Public Variables
+
+public:
+	int nMovesSinceLastTakeOrPromotion = 0;
+
+#pragma endregion
 };
 

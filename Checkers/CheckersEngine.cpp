@@ -37,14 +37,26 @@ Checkers::STATUS CheckersEngine::status() const
 		}
 	}
 
-	if (blackCount == 0)
-		return RED_WINS;	// Red wins
-	if (redCount == 0)
-		return BLACK_WINS;	// Black wins
-	
-	return CONTINUE;		// Continueing Game
+	// Who wins
+	if (nMovesSinceLastTakeOrPromotion >= 40)
+		return DRAW;
 
-	return DRAW;			// Draw
+	if (blackCount == 0)
+		return RED_WINS;
+	if (redCount == 0)
+		return BLACK_WINS;
+	
+	size_t nValidMovesRed = getValidMoves(false).size();
+	size_t nValidMovesBlack = getValidMoves(true).size();
+
+	if (nValidMovesRed == 0 && nValidMovesBlack == 0)
+		return DRAW;
+	if (nValidMovesRed == 0)
+		return BLACK_WINS;
+	if (nValidMovesBlack == 0)
+		return RED_WINS;
+
+	return CONTINUE;
 }
 
 vector<CheckersEngine::move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
@@ -201,6 +213,8 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 
 		// Remove that piece
 		removePiece(jumpedRow, jumpedCol);
+
+		nMovesSinceLastTakeOrPromotion = 0;
 	}
 	
 	// Was there a promotion?
@@ -215,6 +229,8 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 			// Yes, Black piece becomes a King.
 			placePiece(toRow, toCol, false, true);
 			// If Piece was already a BLACK king it will still work.
+
+			nMovesSinceLastTakeOrPromotion = 0;
 		}
 	}
 	else
@@ -225,9 +241,13 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 			// Yes. Red piece becomes a King.
 			placePiece(toRow, toCol, true, true);
 			// If Piece was already a RED king it will still work.
+
+			nMovesSinceLastTakeOrPromotion = 0;
 		}
 	}
 
+	nMovesSinceLastTakeOrPromotion++;
+	
 	return jumpOccurred;
 }
 

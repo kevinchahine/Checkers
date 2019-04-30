@@ -41,7 +41,9 @@ void CheckersManager::playUserVsUser()
 		}
 
 		gamePtr->print();
-		
+		cout << "Moves since last jump or promotion = "
+			<< gamePtr->nMovesSinceLastTakeOrPromotion << endl;
+
 		cout << (blacksTurn ? "BLACK" : "RED") << ' ';
 			
 		getUserInput(fromRow, fromCol, toRow, toCol, possibleMoves);

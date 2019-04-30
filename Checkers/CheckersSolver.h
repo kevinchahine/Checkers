@@ -23,6 +23,8 @@ public:
 	// Player 
 	int minimax(Checkers game, int depth, bool maxPlayersMove);
 
+	int heuristic(const Checkers & game) const;
+
 	int heuristic1(const Checkers & game) const;
 	
 public:
