@@ -181,10 +181,11 @@ vector<CheckersEngine::move_t> CheckersEngine::getValidMoves(bool playerIsBlack)
 	return validMoves;
 }
 
-void CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
+bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 {
 	bool pieceIsBlack = isPieceBlack(fromRow, fromCol);
-	
+	bool jumpOccurred = false;
+
 	Checkers::movePiece(fromRow, fromCol, toRow, toCol);
 
 	// Was there a jump (Jumps only occure if moving 2 spaces)?
@@ -192,6 +193,7 @@ void CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 	if (temp == 2)
 	{
 		// Jump occured
+		jumpOccurred = true;
 
 		// Which piece was jumped
 		int jumpedRow = (fromRow + toRow) >> 1;
@@ -225,6 +227,8 @@ void CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 			// If Piece was already a RED king it will still work.
 		}
 	}
+
+	return jumpOccurred;
 }
 
 #pragma endregion

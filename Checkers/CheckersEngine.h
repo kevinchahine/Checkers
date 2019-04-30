@@ -36,7 +36,7 @@ public:
 	// Moves peice
 	// Evaluates jumps
 	// Evaluates promotions
-	void movePiece(int fromRow, int fromCol, int toRow, int toCol);
+	bool movePiece(int fromRow, int fromCol, int toRow, int toCol);
 
 #pragma endregion
 

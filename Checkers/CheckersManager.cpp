@@ -10,7 +10,6 @@ CheckersManager::~CheckersManager()
 
 void CheckersManager::playUserVsComputer()
 {
-
 }
 
 void CheckersManager::playUserVsUser()
@@ -47,9 +46,12 @@ void CheckersManager::playUserVsUser()
 			
 		getUserInput(fromRow, fromCol, toRow, toCol, possibleMoves);
 
-		gamePtr->movePiece(fromRow, fromCol, toRow, toCol);
+		bool jumpOccurred = 
+			gamePtr->movePiece(fromRow, fromCol, toRow, toCol);
 
-		blacksTurn = !blacksTurn;
+		// If jump occurred, then its the same players turn
+		if (jumpOccurred)	{	}
+		else				{ blacksTurn = !blacksTurn; }
 	}
 
 	gamePtr->print();
