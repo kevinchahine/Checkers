@@ -88,7 +88,7 @@ public:
 	*/
 	uint64_t king;
 
-private:
+public:
 	const char KING_CHAR = 'K';
 	const char PAWN_CHAR = 'p';
 };

@@ -12,6 +12,13 @@ public:
 	// [4-bits ][4-bits ][4-bits][4-bits]
 	typedef uint16_t move_t;
 
+	enum STATUS {
+		BLACK_WINS,
+		DRAW,
+		RED_WINS,
+		CONTINUE
+	};
+
 public:
 	CheckersEngine();
 	~CheckersEngine();
@@ -20,12 +27,10 @@ public:
 	// returns 0 if continuing
 	// returns 1 if Black wins
 	// returns 2 if Draw
-	int status() const;
+	STATUS status() const;
 
 	vector<move_t> getPossibleMoves(bool playerIsBlack) const;
-	//vector<move_t> getPossibleMovesBlack() const;
-	//vector<move_t> getPossibleMovesRed() const;
-
+	
 public:
 	// Warning: Assumes Space is Occupied
 	bool isMoveUpRightPossible(int r, int c) const;

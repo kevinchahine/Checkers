@@ -8,7 +8,7 @@ CheckersEngine::~CheckersEngine()
 {
 }
 
-int CheckersEngine::status() const
+CheckersEngine::STATUS CheckersEngine::status() const
 {
 	int blackCount = 0;
 	int redCount = 0;
@@ -32,12 +32,13 @@ int CheckersEngine::status() const
 	}
 
 	if (blackCount == 0)
-		return -1;	// red wins
+		return RED_WINS;	// Red wins
 	if (redCount == 0)
-		return 1;	// black wins
-	return 0;	// Continueing Game
+		return BLACK_WINS;	// Black wins
+	
+	return CONTINUE;		// Continueing Game
 
-	return 2;	// Draw
+	return DRAW;			// Draw
 }
 
 vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBlack) const
@@ -73,11 +74,37 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 
 				possibleMoves.push_back(move);
 			}
+			if (isJumpUpRightPossible(fromRow, fromCol))
+			{
+				toRow = fromRow - 2;
+				toCol = fromCol + 2;
+
+				move =
+					(fromRow << 12) |
+					(fromCol << 8) |
+					(toRow << 4) |
+					(toCol);
+
+				possibleMoves.push_back(move);
+			}
 			// UP LEFT
 			if (isMoveUpLeftPossible(fromRow, fromCol))
 			{
 				toRow = fromRow - 1;
 				toCol = fromCol - 1;
+
+				move =
+					(fromRow << 12) |
+					(fromCol << 8) |
+					(toRow << 4) |
+					(toCol);
+
+				possibleMoves.push_back(move);
+			}
+			if (isJumpUpLeftPossible(fromRow, fromCol))
+			{
+				toRow = fromRow - 2;
+				toCol = fromCol - 2;
 
 				move =
 					(fromRow << 12) |
@@ -101,6 +128,19 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 
 				possibleMoves.push_back(move);
 			}
+			if (isJumpDownLeftPossible(fromRow, fromCol))
+			{
+				toRow = fromRow + 2;
+				toCol = fromCol - 2;
+
+				move =
+					(fromRow << 12) |
+					(fromCol << 8) |
+					(toRow << 4) |
+					(toCol);
+
+				possibleMoves.push_back(move);
+			}
 			// DOWN RIGHT
 			if (isMoveDownRightPossible(fromRow, fromCol))
 			{
@@ -115,169 +155,26 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 
 				possibleMoves.push_back(move);
 			}
+			if (isJumpDownRightPossible(fromRow, fromCol))
+			{
+				toRow = fromRow + 2;
+				toCol = fromCol + 2;
+
+				move =
+					(fromRow << 12) |
+					(fromCol << 8) |
+					(toRow << 4) |
+					(toCol);
+
+				possibleMoves.push_back(move);
+			}
+			
 		} // end for (int c = 
 	} // end for (int r = 0
 
 	possibleMoves.shrink_to_fit();
 	return possibleMoves;
 }
-
-//vector<CheckersEngine::move_t> CheckersEngine::getPossibleMovesBlack() const
-//{
-//	vector<move_t> possibleMoves;
-//	possibleMoves.reserve(12 * 4);
-//
-//	uint16_t move = 0;
-//
-//	int toRow = 0;
-//	int toCol = 0;
-//
-//	for (int fromRow = 0; fromRow < 8; fromRow++)
-//	{
-//		for (int fromCol = (fromRow % 2); fromCol < 8; fromCol++)
-//		{
-//			// Is this space occupied by a Black Piece?
-//			if (!isOccupied(fromRow, fromCol) || 
-//				!isPieceBlack(fromRow, fromCol))
-//				continue;
-//
-//			// Can we move UP?
-//			if (isKing(fromRow, fromCol))
-//			{
-//				// Can we move UP?
-//				toRow = fromRow - 1;
-//				if (toRow > 0)
-//				{
-//					// Can we move LEFT?
-//					toCol = fromCol - 1;
-//					if (toCol > 0)
-//					{
-//						if (!isOccupied(toRow, toCol))
-//						{
-//							move =
-//								(fromRow << 12) |
-//								(fromCol << 8) |
-//								(toRow << 4) |
-//								(toCol);
-//
-//							possibleMoves.push_back(move);
-//						}
-//					}
-//
-//					// Can we move RIGHT?
-//					toCol = fromCol + 1;
-//					if (toCol < 8)
-//					{
-//						if (!isOccupied(toRow, toCol))
-//						{
-//							move =
-//								(fromRow << 12) |
-//								(fromCol << 8) |
-//								(toRow << 4) |
-//								(toCol);
-//
-//							possibleMoves.push_back(move);
-//						}
-//					}
-//				}
-//			}
-//
-//			// Can we move DOWN?
-//			toRow = fromRow + 1;
-//			if (toRow < 8)
-//			{
-//				// Can we move LEFT?
-//				toCol = fromCol - 1;
-//				if (toCol > 0)
-//				{
-//					if (!isOccupied(toRow, toCol))
-//					{
-//						move =
-//							(fromRow << 12) |
-//							(fromCol << 8) |
-//							(toRow << 4) |
-//							(toCol);
-//
-//						possibleMoves.push_back(move);
-//					}
-//				}
-//
-//				// Can we move RIGHT?
-//				toCol = fromCol + 1;
-//				if (toCol < 8)
-//				{
-//					if (!isOccupied(toRow, toCol))
-//					{
-//						move =
-//							(fromRow << 12) |
-//							(fromCol << 8) |
-//							(toRow << 4) |
-//							(toCol);
-//
-//						possibleMoves.push_back(move);
-//					}
-//				}
-//			}
-//			
-//			// Which Jumps are possible
-//			if (isJumpUpRightPossible(fromRow, fromCol))
-//			{
-//				toRow = fromRow - 2;
-//				toCol = fromCol + 2;
-//				move =
-//					(fromRow << 12) |
-//					(fromCol << 8) |
-//					(toRow << 4) |
-//					(toCol);
-//
-//				possibleMoves.push_back(move);
-//			}
-//			if (isJumpUpLeftPossible(fromRow, fromCol)) 
-//			{
-//				toRow = fromRow - 2;
-//				toCol = fromCol - 2;
-//				move =
-//					(fromRow << 12) |
-//					(fromCol << 8) |
-//					(toRow << 4) |
-//					(toCol);
-//
-//				possibleMoves.push_back(move);
-//			}
-//			if (isJumpDownLeftPossible(fromRow, fromCol)) 
-//			{
-//				toRow = fromRow + 2;
-//				toCol = fromCol - 2;
-//				move =
-//					(fromRow << 12) |
-//					(fromCol << 8) |
-//					(toRow << 4) |
-//					(toCol);
-//
-//				possibleMoves.push_back(move);
-//			}
-//			if (isJumpDownRightPossible(fromRow, fromCol)) 
-//			{
-//				toRow = fromRow + 2;
-//				toCol = fromCol + 2;
-//				move =
-//					(fromRow << 12) |
-//					(fromCol << 8) |
-//					(toRow << 4) |
-//					(toCol);
-//
-//				possibleMoves.push_back(move);
-//			}
-//		}
-//	}
-//
-//	return possibleMoves;
-//}
-//
-//vector<CheckersEngine::move_t> CheckersEngine::getPossibleMovesRed() const
-//{
-//	return vector<move_t>();
-//}
 
 bool CheckersEngine::isMoveUpRightPossible(int r, int c) const
 {

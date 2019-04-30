@@ -82,27 +82,21 @@ void Checkers::movePiece(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_
 
 	// B.) Move Piece Color bit
 	// B-1.) Get piece color at [fromRow, fromCol]
-	b = (this->red & ~fromMask);
+	b = (this->red & fromMask);
 
 	// 2.) Set piece color at [toRow, toCol]
 	this->red &= ~toMask;						// Clear to bit
 	b = (b == fromMask ? toMask : (uint64_t) 0);// Is piece red?
 	this->red |= b;								// Set to bit
 
-	// 3.) Remove piece color at [fromRow, fromCol] (UNNESSESSARY)
-	//this->red &= ~fromMask;						// (UNNESSASSARY)
-
 	// C.) Move Rank bit
 	// C-1.) Get rank at [fromRow, fromCol]
-	b = (this->king & ~fromMask);
+	b = (this->king & fromMask);
 
 	// C-2.) Set piece rank at [toRow, toCol]
 	this->king &= ~toMask;						// Clear to bit
 	b = (b == fromMask ? toMask : (uint64_t) 0); // Is piece a king?
 	this->king |= b;							// Set to bit
-
-	// C-3.) Remove rank at [fromRow, fromCol] (UNNESSESSARY)
-	//this->king &= ~fromMask;					(UNNESSARY)
 }
 
 void Checkers::removePiece(uint8_t row, uint8_t col)
@@ -149,12 +143,37 @@ void Checkers::print(uint8_t indent) const
 	const size_t nCols = 8;
 
 	// Print Top Boarder
-	cout << setfill(' ') << setw(indent) << ASCII::lines[ASCII::DOWN_DOUBLE | ASCII::RIGHT_DOUBLE]
+	cout << setfill(' ') << setw(indent) 
+		<< ASCII::lines[ASCII::DOWN_DOUBLE | ASCII::RIGHT_DOUBLE]
 		<< setfill(ASCII::lines[ASCII::LEFT_DOUBLE | ASCII::RIGHT_DOUBLE])
-		<< setw(nCols + 1)
+		<< setw(nCols + 3)
 		<< ASCII::lines[ASCII::DOWN_DOUBLE | ASCII::LEFT_DOUBLE]
 		<< endl;
 
+	// Print top coordinates
+	cout << setfill(' ') << setw(indent)
+		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE]
+		<< char(178);
+
+	for (uint8_t r = 0; r < nRows; r++) {
+		char textColor = Colors::WHITE;
+		char backColor = ((r % 2 == 1) ? Colors::LIGHTGREEN : Colors::GREEN);
+		
+		setColor(console, textColor + (backColor << 4));
+
+		cout << char('A' + r);
+	}
+
+	char textColor = Colors::WHITE;
+	char backColor = Colors::GREEN;
+
+	setColor(console, textColor + (backColor << 4));
+	
+	cout << char(178)
+		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE] 
+		<< endl;
+
+	// Print MIDDLE 
 	for (uint8_t r = 0; r < nRows; r++) {
 		// Indent
 		cout << setfill(' ') << setw(indent)
@@ -164,14 +183,25 @@ void Checkers::print(uint8_t indent) const
 		uint8_t prevColor;
 		getColor(prevColor);
 
+		// Print Left Coordinate
+		char textColor = Colors::WHITE;
+		char backColor = ((r % 2 == 1) ? Colors::LIGHTGREEN : Colors::GREEN);
+		setColor(console, textColor + (backColor << 4));
+		cout << (int) r;
+
 		for (uint8_t c = 0; c < nCols; c++) {
-			 char textColor = (isPieceRed(r, c) ? Colors::RED : Colors::BLACK);
-			 char backColor = (((r + c) % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
+			char textColor = (isPieceRed(r, c) ? Colors::RED : Colors::BLACK);
+			char backColor = (((r + c) % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
 
 			setColor(console, textColor + (backColor << 4));
 			
 			cout << getSpaceCharacter(r, c);
 		}
+
+		textColor = Colors::WHITE;
+		backColor = ((r % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
+		setColor(console, textColor + (backColor << 4));
+		cout << (int)r;
 
 		// Reassign the original text color
 		setColor(console, prevColor);
@@ -180,18 +210,34 @@ void Checkers::print(uint8_t indent) const
 			<< endl;
 	}
 
+	// Print bottom coordinates
+	cout << setfill(' ') << setw(indent)
+		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE]
+		<< char(178);
+
+	for (uint8_t r = 0; r < nRows; r++) {
+		char textColor = Colors::WHITE;
+		char backColor = ((r % 2 == 0) ? Colors::LIGHTGREEN : Colors::GREEN);
+
+		setColor(console, textColor + (backColor << 4));
+
+		cout << char('A' + r);
+	}
+	
+	cout << char(178)
+		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::DOWN_DOUBLE] 
+		<< endl;
+
 	cout << setfill(' ')
 		<< setw(indent)
 		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::RIGHT_DOUBLE]
 		<< setfill(ASCII::lines[ASCII::HORIZONTAL_DOUBLE])
-		<< setw(nCols + 1)
+		<< setw(nCols + 3)
 		<< ASCII::lines[ASCII::UP_DOUBLE | ASCII::LEFT_DOUBLE] << endl;
 
 	// Restore the previous fill character
 	cout.fill(prevFillCh);
 }
-
-
 
 void Checkers::init()
 {
