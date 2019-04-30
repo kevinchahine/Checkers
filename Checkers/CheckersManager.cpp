@@ -26,7 +26,7 @@ void CheckersManager::playUserVsUser()
 	{
 		if (gamePtr->status() != CheckersEngine::CONTINUE) break;
 
-		possibleMoves = gamePtr->getPossibleMoves(blacksTurn);
+		possibleMoves = gamePtr->getValidMoves(blacksTurn);
 
 		// Show valid moves
 		for (auto m : possibleMoves)

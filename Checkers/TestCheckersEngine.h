@@ -12,6 +12,10 @@ public:
 
 	void possibleMoves();
 
+	void validMoves();
+
 	void print() const;
+
+	
 };
 

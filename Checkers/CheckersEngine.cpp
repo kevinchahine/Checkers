@@ -1,5 +1,7 @@
 #include "CheckersEngine.h"
 
+#pragma region Constructors
+
 CheckersEngine::CheckersEngine()
 {
 }
@@ -8,7 +10,11 @@ CheckersEngine::~CheckersEngine()
 {
 }
 
-CheckersEngine::STATUS CheckersEngine::status() const
+#pragma endregion
+
+#pragma region Public Functions
+
+Checkers::STATUS CheckersEngine::status() const
 {
 	int blackCount = 0;
 	int redCount = 0;
@@ -41,10 +47,10 @@ CheckersEngine::STATUS CheckersEngine::status() const
 	return DRAW;			// Draw
 }
 
-vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBlack) const
+vector<CheckersEngine::move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 {
-	vector<move_t> possibleMoves;
-	possibleMoves.reserve(12 * 4);
+	vector<move_t> validMoves;
+	validMoves.reserve(12 * 4);
 
 	uint16_t move = 0;
 
@@ -55,13 +61,13 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 	{
 		for (int fromCol = (fromRow % 2); fromCol < 8; fromCol++)
 		{
-			// Is this space occupied by the correct color Piece?
+			// Is this space occupied and by the correct color Piece?
 			if (!isOccupied(fromRow, fromCol) ||
 				(isPieceBlack(fromRow, fromCol) != playerIsBlack))
 				continue;	// No, Skip this space
 
 			// UP RIGHT
-			if (isMoveUpRightPossible(fromRow, fromCol))
+			if (isMoveUpRightValid(fromRow, fromCol))
 			{
 				toRow = fromRow - 1;
 				toCol = fromCol + 1;
@@ -72,9 +78,9 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
-			if (isJumpUpRightPossible(fromRow, fromCol))
+			if (isJumpUpRightValid(fromRow, fromCol))
 			{
 				toRow = fromRow - 2;
 				toCol = fromCol + 2;
@@ -85,10 +91,10 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
 			// UP LEFT
-			if (isMoveUpLeftPossible(fromRow, fromCol))
+			if (isMoveUpLeftValid(fromRow, fromCol))
 			{
 				toRow = fromRow - 1;
 				toCol = fromCol - 1;
@@ -99,9 +105,9 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
-			if (isJumpUpLeftPossible(fromRow, fromCol))
+			if (isJumpUpLeftValid(fromRow, fromCol))
 			{
 				toRow = fromRow - 2;
 				toCol = fromCol - 2;
@@ -112,10 +118,10 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
 			// DOWN LEFT
-			if (isMoveDownLeftPossible(fromRow, fromCol))
+			if (isMoveDownLeftValid(fromRow, fromCol))
 			{
 				toRow = fromRow + 1;
 				toCol = fromCol - 1;
@@ -126,9 +132,9 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
-			if (isJumpDownLeftPossible(fromRow, fromCol))
+			if (isJumpDownLeftValid(fromRow, fromCol))
 			{
 				toRow = fromRow + 2;
 				toCol = fromCol - 2;
@@ -139,10 +145,10 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
 			// DOWN RIGHT
-			if (isMoveDownRightPossible(fromRow, fromCol))
+			if (isMoveDownRightValid(fromRow, fromCol))
 			{
 				toRow = fromRow + 1;
 				toCol = fromCol + 1;
@@ -153,9 +159,9 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
-			if (isJumpDownRightPossible(fromRow, fromCol))
+			if (isJumpDownRightValid(fromRow, fromCol))
 			{
 				toRow = fromRow + 2;
 				toCol = fromCol + 2;
@@ -166,14 +172,13 @@ vector<CheckersEngine::move_t> CheckersEngine::getPossibleMoves(bool playerIsBla
 					(toRow << 4) |
 					(toCol);
 
-				possibleMoves.push_back(move);
+				validMoves.push_back(move);
 			}
-			
 		} // end for (int c = 
 	} // end for (int r = 0
 
-	possibleMoves.shrink_to_fit();
-	return possibleMoves;
+	validMoves.shrink_to_fit();
+	return validMoves;
 }
 
 void CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
@@ -225,7 +230,11 @@ void CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 	//removePiece(fromRow, fromCol);
 }
 
-bool CheckersEngine::isMoveUpRightPossible(int r, int c) const
+#pragma endregion
+
+#pragma region Move Validation Functions
+
+bool CheckersEngine::isMoveUpRightValid(int r, int c) const
 {
 	bool isBlack = isPieceBlack(r, c);
 	bool isPawn = !isKing(r, c);
@@ -233,10 +242,10 @@ bool CheckersEngine::isMoveUpRightPossible(int r, int c) const
 	// Black pawns can't move up
 	if (isBlack && isPawn)	return false;
 
-	return isMoveXYPossible(r, c, r - 1, c + 1);
+	return isMoveXYValid(r, c, r - 1, c + 1);
 }
 
-bool CheckersEngine::isMoveUpLeftPossible(int r, int c) const
+bool CheckersEngine::isMoveUpLeftValid(int r, int c) const
 {
 	bool isBlack = isPieceBlack(r, c);
 	bool isPawn = !isKing(r, c);
@@ -244,10 +253,10 @@ bool CheckersEngine::isMoveUpLeftPossible(int r, int c) const
 	// Black pawns can't move up
 	if (isBlack && isPawn)	return false;
 
-	return isMoveXYPossible(r, c, r - 1, c - 1);
+	return isMoveXYValid(r, c, r - 1, c - 1);
 }
 
-bool CheckersEngine::isMoveDownLeftPossible(int r, int c) const
+bool CheckersEngine::isMoveDownLeftValid(int r, int c) const
 {
 	bool isRed = isPieceRed(r, c);
 	bool isPawn = !isKing(r, c);
@@ -255,10 +264,10 @@ bool CheckersEngine::isMoveDownLeftPossible(int r, int c) const
 	// Red pawns can't move down
 	if (isRed && isPawn)	return false; 
 	
-	return isMoveXYPossible(r, c, r + 1, c - 1);
+	return isMoveXYValid(r, c, r + 1, c - 1);
 }
 
-bool CheckersEngine::isMoveDownRightPossible(int r, int c) const
+bool CheckersEngine::isMoveDownRightValid(int r, int c) const
 {
 	bool isRed = isPieceRed(r, c);
 	bool isPawn = !isKing(r, c);
@@ -266,10 +275,10 @@ bool CheckersEngine::isMoveDownRightPossible(int r, int c) const
 	// Red pawns can't move down
 	if (isRed && isPawn)	return false;
 
-	return isMoveXYPossible(r, c, r + 1, c + 1);
+	return isMoveXYValid(r, c, r + 1, c + 1);
 }
 
-bool CheckersEngine::isMoveXYPossible(int fromRow, int fromCol, int toRow, int toCol) const
+bool CheckersEngine::isMoveXYValid(int fromRow, int fromCol, int toRow, int toCol) const
 {
 	if (toRow < 0) return false;
 	if (toRow > 7) return false;
@@ -279,55 +288,71 @@ bool CheckersEngine::isMoveXYPossible(int fromRow, int fromCol, int toRow, int t
 	return !isOccupied(toRow, toCol);
 }
 
-bool CheckersEngine::isJumpUpRightPossible(int r, int c) const
+bool CheckersEngine::isJumpUpRightValid(int r, int c) const
 {
 	bool imBlack = isPieceBlack(r, c);
+	bool isPawn = !isKing(r, c);
+
+	// Black pawns can't move down
+	if (imBlack && isPawn)	return false;
 
 	int r1 = r - 1;
 	int r2 = r - 2;
 	int c1 = c + 1;
 	int c2 = c + 2;
 
-	return isJumpXYPossible(r1, r2, c1, c2, imBlack);
+	return isJumpXYValid(r1, r2, c1, c2, imBlack);
 }
 
-bool CheckersEngine::isJumpUpLeftPossible(int r, int c) const
+bool CheckersEngine::isJumpUpLeftValid(int r, int c) const
 {
 	bool imBlack = isPieceBlack(r, c);
+	bool isPawn = !isKing(r, c);
+
+	// Black pawns can't move down
+	if (imBlack && isPawn)	return false;
 
 	int r1 = r - 1;
 	int r2 = r - 2;
 	int c1 = c - 1;
 	int c2 = c - 2;
 
-	return isJumpXYPossible(r1, r2, c1, c2, imBlack);
+	return isJumpXYValid(r1, r2, c1, c2, imBlack);
 }
 
-bool CheckersEngine::isJumpDownLeftPossible(int r, int c) const
+bool CheckersEngine::isJumpDownLeftValid(int r, int c) const
 {
 	bool imBlack = isPieceBlack(r, c);
+	bool isPawn = !isKing(r, c);
 
+	// Red pawns can't move down
+	if (!imBlack && isPawn)	return false;
+	
 	int r1 = r + 1;
 	int r2 = r + 2;
 	int c1 = c - 1;
 	int c2 = c - 2;
 
-	return isJumpXYPossible(r1, r2, c1, c2, imBlack);
+	return isJumpXYValid(r1, r2, c1, c2, imBlack);
 }
 
-bool CheckersEngine::isJumpDownRightPossible(int r, int c) const
+bool CheckersEngine::isJumpDownRightValid(int r, int c) const
 {
 	bool imBlack = isPieceBlack(r, c);
+	bool isPawn = !isKing(r, c);
 
+	// Red pawns can't move down
+	if (!imBlack && isPawn)	return false;
+	
 	int r1 = r + 1;
 	int r2 = r + 2;
-	int c1 = c - 1;
-	int c2 = c - 2;
+	int c1 = c + 1;
+	int c2 = c + 2;
 
-	return isJumpXYPossible(r1, r2, c1, c2, imBlack);
+	return isJumpXYValid(r1, r2, c1, c2, imBlack);
 }
 
-bool CheckersEngine::isJumpXYPossible(int r1, int r2, int c1, int c2, bool imBlack) const
+bool CheckersEngine::isJumpXYValid(int r1, int r2, int c1, int c2, bool imBlack) const
 {
 	// Bounds checking
 	if (r2 < 0)	return false;
@@ -338,7 +363,7 @@ bool CheckersEngine::isJumpXYPossible(int r1, int r2, int c1, int c2, bool imBla
 	// Is there something to jump over
 	if (isOccupied(r1, c1))
 	{
-		// Is jump space an opponent
+		// Is jump space occupied by an opponent
 		if (isPieceBlack(r1, c1) != imBlack)
 		{
 			// Is landing space empty
@@ -351,3 +376,5 @@ bool CheckersEngine::isJumpXYPossible(int r1, int r2, int c1, int c2, bool imBla
 
 	return false;
 }
+
+#pragma endregion

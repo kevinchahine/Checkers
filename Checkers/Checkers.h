@@ -11,12 +11,33 @@
 
 class Checkers
 {
+#pragma region typedef and enum
 public:
+	// A move_t 
+	// [fromRow][fromCol][toRow ][toCol ]
+	// [4-bits ][4-bits ][4-bits][4-bits]
+	typedef uint16_t move_t;
+
+	enum STATUS {
+		BLACK_WINS,
+		DRAW,
+		RED_WINS,
+		CONTINUE
+	};
+#pragma endregion
+
+public:
+#pragma region Constructors
+
 	Checkers();
 	Checkers(const Checkers& game);
 	Checkers(const Checkers&& game);
 	~Checkers();
 
+#pragma endregion
+
+#pragma region Public Functions
+	
 	bool isOccupied(uint8_t row, uint8_t col) const;
 
 	bool isPieceRed(uint8_t row, uint8_t col) const;
@@ -38,10 +59,14 @@ public:
 	// Places a piece in the corresponding row and column.
 	// If a piece already exists there, it replaces it with the 
 	// new piece
-	void placePiece(uint8_t row, uint8_t col, bool color, bool king);
+	void placePiece(uint8_t row, uint8_t col, bool red, bool king);
 	void print(uint8_t indent = 20) const;
 
+#pragma endregion
+
 private:
+#pragma region Private Functions
+
 	// initializes the pieces as they would be at the start of a game
 	void init();
 
@@ -50,7 +75,11 @@ private:
 
 	char getSpaceCharacter(uint8_t row, uint8_t col) const;
 	
-public:
+#pragma endregion
+
+protected:
+#pragma region Protected Variables
+
 	/*
 	Represents the board and all the pieces on it.
 	Each bit represents to a single space on the board.
@@ -89,8 +118,14 @@ public:
 	*/
 	uint64_t king;
 
+#pragma endregion
+
 public:
+#pragma region Public Variables
+
 	const char KING_CHAR = 'K';
 	const char PAWN_CHAR = 'P';
+
+#pragma endregion
 };
 

@@ -4,7 +4,6 @@ TestCheckersEngine::TestCheckersEngine()
 {
 }
 
-
 TestCheckersEngine::~TestCheckersEngine()
 {
 }
@@ -26,7 +25,7 @@ void TestCheckersEngine::possibleMoves()
 
 	clock_t startTime = clock();
 	vector<CheckersEngine::move_t> moves = 
-		this->getPossibleMoves(true);
+		this->getValidMoves(true);
 	clock_t endTime = clock();
 
 	cout << endTime - startTime << " mSec" << endl;
@@ -54,6 +53,44 @@ void TestCheckersEngine::possibleMoves()
 		<< setw(10) << "UpLeftt" << this->isJumpUpLeftPossible(r, c) << endl
 		<< setw(10) << "DownLeft" << this->isJumpDownLeftPossible(r, c) << endl
 		<< setw(10) << "DownRight" << this->isJumpDownRightPossible(r, c) << endl;*/
+}
+
+void TestCheckersEngine::validMoves()
+{
+	this->occupied = 0;
+	placePiece(3, 5, false, true);	// black
+	placePiece(4, 4, true, true);	// red
+
+	CheckersEngine::print();
+
+	vector<CheckersEngine::move_t> movesBlack = this->getValidMoves(true);
+	vector<CheckersEngine::move_t> movesRed = this->getValidMoves(false);
+
+	cout << "Valid Moves BLACK" << endl;
+	for (CheckersEngine::move_t m : movesBlack)
+	{
+		int fromRow = (m >> 12) & 0x0f;
+		int fromCol = (m >> 8) & 0x0f;
+		int toRow = (m >> 4) & 0x0f;
+		int toCol = m & 0x0f;
+		cout << m << "["
+			<< fromRow << ", " << fromCol << "]->["
+			<< toRow << ", " << toCol << "]"
+			<< endl;
+	}
+
+	cout << "Valid Moves RED" << endl;
+	for (CheckersEngine::move_t m : movesRed)
+	{
+		int fromRow = (m >> 12) & 0x0f;
+		int fromCol = (m >> 8) & 0x0f;
+		int toRow = (m >> 4) & 0x0f;
+		int toCol = m & 0x0f;
+		cout << m << "["
+			<< fromRow << ", " << fromCol << "]->["
+			<< toRow << ", " << toCol << "]"
+			<< endl;
+	}
 }
 
 void TestCheckersEngine::print() const

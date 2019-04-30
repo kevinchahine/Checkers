@@ -108,7 +108,7 @@ void Checkers::removePiece(uint8_t row, uint8_t col)
 	occupied &= ~mask;
 }
 
-void Checkers::placePiece(uint8_t row, uint8_t col, bool color, bool king)
+void Checkers::placePiece(uint8_t row, uint8_t col, bool red, bool king)
 {
 	uint64_t r = row;
 	uint64_t c = col;
@@ -116,7 +116,7 @@ void Checkers::placePiece(uint8_t row, uint8_t col, bool color, bool king)
 	
 	uint64_t mask = (uint64_t) 1 << ((r << 3) + c);
 	
-	b = (color ? (uint64_t)1 : (uint64_t)0);
+	b = (red ? (uint64_t)1 : (uint64_t)0);
 	uint64_t colorMask = (b << ((r << 3) + c));
 	
 	b = (king ? (uint64_t)1 : (uint64_t)0);

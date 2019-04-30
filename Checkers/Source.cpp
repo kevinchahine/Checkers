@@ -14,15 +14,15 @@ using namespace std;
 
 int main()
 {
-	CheckersEngine game;
-	CheckersManager manager;
-	manager.gamePtr = &game;
+	//CheckersEngine game;
+	//CheckersManager manager;
+	//manager.gamePtr = &game;
 	
-	manager.playUserVsUser();
+	//manager.playUserVsUser();
 
-	/*TestCheckerBoard board;
-	board.print();*/
-
+	TestCheckersEngine e;
+	e.validMoves();
+	
 	system("pause");
 	return 0;
 }

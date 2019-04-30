@@ -40,7 +40,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestCheckerBoard.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +66,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestCheckerBoard.h">
-      <Filter>Header Files</Filter>
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
