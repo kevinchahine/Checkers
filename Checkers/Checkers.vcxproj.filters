@@ -42,6 +42,9 @@
     <ClCompile Include="TestCheckerBoard.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Checkers.h">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="TestCheckerBoard.h">
       <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

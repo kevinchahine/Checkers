@@ -17,7 +17,9 @@ int main()
 	CheckersEngine game;
 	CheckersManager manager;
 	manager.gamePtr = &game;
-	manager.playUserVsUser();
+	
+	///manager.playUserVsUser();
+	manager.playComputerVsComputer();
 
 	//TestCheckersEngine e;
 	//e.validMoves();

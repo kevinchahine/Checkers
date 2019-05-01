@@ -3,9 +3,10 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <algorithm>
 #include <Windows.h>
 
-#include "Checkers.h"
+#include "CheckersEngine.h"
 
 /*
 Black plays 1st (MAX)
@@ -15,23 +16,20 @@ class CheckersSolver
 {
 public:
 	CheckersSolver();
-	CheckersSolver(Checkers * gamePtr);
 	~CheckersSolver();
 
-	void playAsRed();
+	pair<bool, Checkers::move_t> playAsRed(CheckersEngine & game);
+	pair<bool, Checkers::move_t> playAsBlack(CheckersEngine & game);
 
 	// Player 
-	int minimax(Checkers game, int depth, bool maxPlayersMove);
+	pair<int, CheckersEngine::move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);
 
-	int heuristic(const Checkers & game) const;
+	int heuristic(const CheckersEngine & game) const;
 
-	int heuristic1(const Checkers & game) const;
+	int heuristic1(const CheckersEngine & game) const;
 	
 public:
-	const static int depthLimit = 10;
-
-protected:
-	Checkers * gamePtr;
+	const static int depthLimit = 6;
 
 };
 

@@ -36,7 +36,10 @@ public:
 	// Moves peice
 	// Evaluates jumps
 	// Evaluates promotions
+	// returns true if a jump occured (piece was killed)
 	bool movePiece(int fromRow, int fromCol, int toRow, int toCol);
+
+	bool movePiece(CheckersEngine::move_t move);
 
 #pragma endregion
 

@@ -251,6 +251,16 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 	return jumpOccurred;
 }
 
+bool CheckersEngine::movePiece(CheckersEngine::move_t move)
+{
+	int fromRow = (move >> 12) & 0x0f;
+	int fromCol = (move >> 8) & 0x0f;
+	int toRow = (move >> 4) & 0x0f;
+	int toCol = move & 0x0f;
+	
+	return movePiece(fromRow, fromCol, toRow, toCol);
+}
+
 #pragma endregion
 
 #pragma region Move Validation Functions

@@ -148,7 +148,7 @@ void Checkers::print(uint8_t indent) const
 	}
 
 	// 2.) Print Board
-	board.print();
+	board.print(indent);
 }
 
 void Checkers::init()

@@ -1,47 +1,133 @@
 #include "CheckersSolver.h"
 
-CheckersSolver::CheckersSolver() :
-	gamePtr(nullptr) {}
-
-CheckersSolver::CheckersSolver(Checkers * gamePtr) :
-	gamePtr(gamePtr) {}
+CheckersSolver::CheckersSolver() {}
 
 CheckersSolver::~CheckersSolver() {}
 
-void CheckersSolver::playAsRed()
+pair<bool, Checkers::move_t>  CheckersSolver::playAsRed(CheckersEngine & game)
 {
+	pair<int, CheckersEngine::move_t> ret;
 
+	ret = minimax(game, 0, false);
+
+	return pair<bool, Checkers::move_t> (game.movePiece(ret.second), ret.second);
 }
 
-int CheckersSolver::minimax(Checkers game, int depth, bool maxPlayersMove)
+pair<bool, Checkers::move_t>  CheckersSolver::playAsBlack(CheckersEngine & game)
+{
+	pair<int, CheckersEngine::move_t> ret;
+
+	ret = minimax(game, 0, true);
+
+	return pair<bool, Checkers::move_t> (game.movePiece(ret.second), ret.second);
+}
+
+pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game, int depth, bool maxPlayersMove)
 {
 	// Did we reach the depth limit
 	if (depth >= this->depthLimit)
 	{
 		// return a heuristic
-		return heuristic1(game);
+		int h = heuristic(game);
+
+		return pair<int, CheckersEngine::move_t>(h, 0);
 	}
 
-	// Player Black
+	// Did we reach a terminal node
+	auto s = game.status();
+	switch (s)
+	{
+	case CheckersEngine::RED_WINS:
+		return pair<int, CheckersEngine::move_t>(INT_MIN, 0);
+		break;
+	case CheckersEngine::BLACK_WINS:
+		return pair<int, CheckersEngine::move_t>(INT_MAX, 0);
+		break;
+	case CheckersEngine::DRAW:
+		return pair<int, CheckersEngine::move_t>(0, 0);
+		break;
+	}
+
+	// Player Black (MAX)
 	if (maxPlayersMove)
 	{
+		int bestMoveIndex = 0;
+		int bestMoveValue = INT_MIN;
 
-	}
-	// Player Red
+		vector<CheckersEngine::move_t> validMovesBlack = game.getValidMoves(true);
+
+		pair<int, CheckersEngine::move_t> ret;
+
+		for (int i = 0; i < validMovesBlack.size(); i++)
+		{
+			CheckersEngine nextState = game;
+			bool jumpOccured;
+			jumpOccured = nextState.movePiece(validMovesBlack[i]);
+
+			if (jumpOccured)
+				ret = minimax(nextState, depth + 1, maxPlayersMove);
+			else
+				ret = minimax(nextState, depth + 1, !maxPlayersMove);
+
+			int result = ret.first;
+			if (result > bestMoveValue)
+			{
+				bestMoveIndex = i;
+				bestMoveValue = result;
+			}
+		}
+
+		// Return best heuristic and move
+		ret.first = bestMoveValue;
+		ret.second = validMovesBlack.at(bestMoveIndex);
+
+		return ret;
+	} // -------------------- MAX -------------------------
+	// Player Red (MIN)
 	else
 	{
+		int bestMoveIndex = 0;
+		int bestMoveValue = INT_MAX;
 
-	}
+		vector<CheckersEngine::move_t> validMovesRed = game.getValidMoves(false);
+		
+		pair<int, CheckersEngine::move_t> ret;
 
-	return 0;
+		for (int i = 0; i < validMovesRed.size(); i++)
+		{
+			CheckersEngine nextState = game;
+			bool jumpOccured;
+			jumpOccured = nextState.movePiece(validMovesRed[i]);
+
+			if (jumpOccured)
+				ret = minimax(nextState, depth + 1, maxPlayersMove);
+			else
+				ret = minimax(nextState, depth + 1, !maxPlayersMove);
+
+			int result = ret.first;
+
+			if (result < bestMoveValue)
+			{
+				bestMoveIndex = i;
+				bestMoveValue = result;
+			}
+		}
+
+		// Return best heuristic and move
+		ret.first = bestMoveValue;
+		ret.second = validMovesRed.at(bestMoveIndex);
+
+		return ret;
+	} // -------------------- MIN -------------------------
 }
 
-int CheckersSolver::heuristic(const Checkers & game) const
+int CheckersSolver::heuristic(const CheckersEngine & game) const
 {
-	return heuristic1(game);
+	int h = heuristic1(game);
+	return h;
 }
 
-int CheckersSolver::heuristic1(const Checkers & game) const
+int CheckersSolver::heuristic1(const CheckersEngine & game) const
 {
 	int h = 0;
 
