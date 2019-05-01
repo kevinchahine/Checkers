@@ -116,11 +116,11 @@ void CheckersManager::playComputerVsComputer()
 
 		int h = solver.heuristic(*gamePtr);
 		if (h > 0)
-			Checkers::setColor(console, Colors::DARKGREY + Colors::LIGHTGREY << 4);
+			Checkers::setColor(console, Colors::DARKGREY + (Colors::LIGHTGREY << 4));
 		else if (h < 0)
-			Checkers::setColor(console, Colors::BLACK + Colors::RED << 4);
+			Checkers::setColor(console, Colors::BLACK + (Colors::RED << 4));
 		else
-			Checkers::setColor(console, Colors::BLACK + Colors::WHITE << 4);
+			Checkers::setColor(console, Colors::BLACK + (Colors::WHITE << 4));
 
 		cout << h << endl;
 		Checkers::setColor(console, prevColor);

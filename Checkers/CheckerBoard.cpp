@@ -7,17 +7,16 @@ CheckerBoard::~CheckerBoard() {}
 void CheckerBoard::print(int indent)
 {
 	initBase();
-
-	// Take care of text color
+	
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	setColor(console, (Colors::WHITE + (Colors::BLACK << 4)));
-	
+	Console::setColor(console, Colors::WHITE, Colors::BLACK);
+
 	for (size_t r = 0; r < N_ROWS; r++)
 	{
 		// 0.) Remember prev color
 		uint8_t prevColor;
-		getColor(prevColor);
+		Console::getColor(prevColor);
 
 		// 1.) Indent Board
 		cout << right << setfill(' ') << setw(indent) << '\0';
@@ -25,13 +24,13 @@ void CheckerBoard::print(int indent)
 		// 2.) Print row
 		for (size_t c = 0; c < N_COLS; c++)
 		{
-			setColor(console, (foreColor[r][c] + (backColor[r][c] << 4)));
+			Console::setColor(console, foreColor[r][c], backColor[r][c]);
 
 			cout << text[r][c];
 		}
 
 		// 3.) ENDL
-		setColor(console, prevColor);
+		Console::setColor(console, prevColor);
 		cout << endl;
 	}
 }
@@ -232,25 +231,4 @@ void CheckerBoard::placePieces()
 		} // end for (size_t spaceCol = 0
 	} // end for (size_t spaceRow = 0
 }
-
-void CheckerBoard::setColor(HANDLE console, uint8_t color) const
-{
-	SetConsoleTextAttribute(console, color);
-}
-
-bool CheckerBoard::getColor(uint8_t & color) const
-{
-	CONSOLE_SCREEN_BUFFER_INFO info;
-
-	if (!GetConsoleScreenBufferInfo(
-		GetStdHandle(STD_OUTPUT_HANDLE),
-		&info)) {
-		return false;
-	}
-
-	color = (uint8_t)info.wAttributes;
-
-	return true;
-}
-
 

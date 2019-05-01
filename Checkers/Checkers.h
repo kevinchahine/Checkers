@@ -6,7 +6,6 @@
 #include <Windows.h>
 
 #include "CheckerBoard.h"
-#include "E:\Documents\Programming\C++\ASCII\ASCII\ASCII.h"
 #include "Colors.h"
 
 class Checkers
@@ -82,7 +81,7 @@ protected:
 
 	/*
 	Represents the board and all the pieces on it.
-	Each bit represents to a single space on the board.
+	Each bit cooresponds to a single space on the board.
 	ex: bit 0  represents the upper left  most corner of the board
 		bit 63 represents the lower right most corner of the board
 
@@ -94,7 +93,7 @@ protected:
 
 	/*
 	Represents the board and all the pieces on it.
-	Each bit represents to a single space on the board.
+	Each bit cooresponds to a single space on the board.
 	ex: bit 0  represents the upper left  most corner of the board
 		bit 63 represents the lower right most corner of the board
 
@@ -123,8 +122,8 @@ protected:
 #pragma region Public Variables
 public:
 
-	const char KING_CHAR = 'K';
-	const char PAWN_CHAR = 'P';
+	static const char KING_CHAR = 'K';
+	static const char PAWN_CHAR = 'P';
 
 #pragma endregion
 };

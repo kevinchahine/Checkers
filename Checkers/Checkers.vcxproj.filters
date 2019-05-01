@@ -42,6 +42,9 @@
     <ClCompile Include="CheckersManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Checkers.h">
@@ -66,6 +69,9 @@
       <Filter>Test</Filter>
     </ClInclude>
     <ClInclude Include="CheckersManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

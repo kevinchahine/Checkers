@@ -3,10 +3,10 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include <Windows.h>
 
 #include "E:\Documents\Programming\C++\ASCII\ASCII\ASCII.h"
 #include "Colors.h"
+#include "Console.h"
 
 class CheckerBoard
 {
@@ -37,13 +37,10 @@ protected:
 
 	void placePieces();
 
-	void setColor(HANDLE console, uint8_t color) const;
-	bool getColor(uint8_t & color) const;
-
 #pragma endregion
 
-	// ====================== VARIABLES ===================
 #pragma region VARIABLES
+
 public:
 	static const char DARK_COLOR = Colors::DARKGREY;
 	static const char LIGHT_COLOR = Colors::GREEN;
@@ -67,6 +64,7 @@ protected:
 	char text[N_ROWS][N_COLS] = { ' ' };
 	char foreColor[N_ROWS][N_COLS] = { Colors::WHITE };
 	char backColor[N_ROWS][N_COLS] = { Colors::BLACK };
+
 #pragma endregion
 };
 

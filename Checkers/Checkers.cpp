@@ -136,9 +136,9 @@ void Checkers::print(uint8_t indent, move_t highlightMove) const
 	CheckerBoard board;
 
 	// 1.) Add peices and their color
-	for (size_t r = 0; r < 8; r++)
+	for (uint8_t r = 0; r < 8; r++)
 	{
-		for (size_t c = 0; c < 8; c++)
+		for (uint8_t c = 0; c < 8; c++)
 		{
 			board.peices[r][c] = getSpaceCharacter(r, c);
 
