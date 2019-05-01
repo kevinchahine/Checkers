@@ -24,12 +24,17 @@ public:
 	// Player 
 	pair<int, CheckersEngine::move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);
 
+	// Minimax with Alpha Beta Prunning
+	pair<int, CheckersEngine::move_t> alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove);
+
 	int heuristic(const CheckersEngine & game) const;
 
 	int heuristic1(const CheckersEngine & game) const;
-	
+	 
+	int heuristic2(const CheckersEngine & game) const;
+
 public:
-	const static int depthLimit = 7;
+	const static int depthLimit = 6;
 
 };
 

@@ -66,6 +66,12 @@ void CheckersManager::playComputerVsUser()
 
 void CheckersManager::playComputerVsComputer()
 {
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	
+	clock_t gameStartTime = clock();
+	clock_t gameEndTime;
+	int gameMoveCounter = 0;
+
 	gamePtr->print();
 
 	CheckersSolver solver;
@@ -80,9 +86,12 @@ void CheckersManager::playComputerVsComputer()
 
 		pair<bool, Checkers::move_t> ret;
 
+		clock_t startTime = clock();
 		if (blacksTurn) ret = solver.playAsBlack(*gamePtr);
 		else			ret = solver.playAsRed(*gamePtr);
-		
+		clock_t endTime = clock();
+		gameMoveCounter++;
+
 		bool jumpOccurred;
 		jumpOccurred = ret.first;
 
@@ -95,10 +104,34 @@ void CheckersManager::playComputerVsComputer()
 		gamePtr->print(20, move);
 
 		cout << "Moves since last jump or promotion = "
-			<< gamePtr->nMovesSinceLastTakeOrPromotion << endl;
+			<< gamePtr->nMovesSinceLastTakeOrPromotion << ' '
+			<< (endTime - startTime) / 1000.0 << " sec\t"
+			<< "average move time = "
+			<< (endTime - gameStartTime) / gameMoveCounter / 1000.0
+			<< " sec\t"
+			<< "Heuristic = ";
 		
+		uint8_t prevColor;
+		Checkers::getColor(prevColor);
+
+		int h = solver.heuristic(*gamePtr);
+		if (h > 0)
+			Checkers::setColor(console, Colors::DARKGREY + Colors::LIGHTGREY << 4);
+		else if (h < 0)
+			Checkers::setColor(console, Colors::BLACK + Colors::RED << 4);
+		else
+			Checkers::setColor(console, Colors::BLACK + Colors::WHITE << 4);
+
+		cout << h << endl;
+		Checkers::setColor(console, prevColor);
+
 		///system("pause");
 	}
+
+	gameEndTime = clock();
+	cout << "average move time = "
+		<< (gameStartTime - gameEndTime) / gameMoveCounter / 1000.0
+		<< " sec" << endl;
 
 	///gamePtr->print();
 	cout << getEndGameMessage().str() << endl;

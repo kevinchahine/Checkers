@@ -162,6 +162,26 @@ void Checkers::print(uint8_t indent, move_t highlightMove) const
 	board.print(indent);
 }
 
+void Checkers::setColor(HANDLE console, uint8_t color)
+{
+	SetConsoleTextAttribute(console, color);
+}
+
+bool Checkers::getColor(uint8_t & color)
+{
+	CONSOLE_SCREEN_BUFFER_INFO info;
+
+	if (!GetConsoleScreenBufferInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		&info)) {
+		return false;
+	}
+
+	color = (uint8_t)info.wAttributes;
+
+	return true;
+}
+
 void Checkers::init()
 {
 	placePiece(0, 0, 0, 0);
@@ -198,26 +218,6 @@ void Checkers::init()
 		<< this->occupied << endl
 		<< this->red << endl
 		<< this->king << endl;
-}
-
-void Checkers::setColor(HANDLE console, uint8_t color) const
-{
-	SetConsoleTextAttribute(console, color);
-}
-
-bool Checkers::getColor(uint8_t & color) const
-{
-	CONSOLE_SCREEN_BUFFER_INFO info;
-
-	if (!GetConsoleScreenBufferInfo(
-		GetStdHandle(STD_OUTPUT_HANDLE),
-		&info)) {
-		return false;
-	}
-
-	color = (uint8_t) info.wAttributes;
-
-	return true;
 }
 
 char Checkers::getSpaceCharacter(uint8_t row, uint8_t col) const

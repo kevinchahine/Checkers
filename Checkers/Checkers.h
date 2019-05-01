@@ -62,23 +62,23 @@ public:
 	void placePiece(uint8_t row, uint8_t col, bool red, bool king);
 	void print(uint8_t indent = 20, move_t highlightMove = 0) const;
 
+	static void setColor(HANDLE console, uint8_t color);
+	static bool getColor(uint8_t & color);
+
 #pragma endregion
 
-private:
 #pragma region Private Functions
+private:
 
 	// initializes the pieces as they would be at the start of a game
 	void init();
-
-	void setColor(HANDLE console, uint8_t color) const;
-	bool getColor(uint8_t & color) const;
 
 	char getSpaceCharacter(uint8_t row, uint8_t col) const;
 	
 #pragma endregion
 
-protected:
 #pragma region Protected Variables
+protected:
 
 	/*
 	Represents the board and all the pieces on it.
@@ -120,8 +120,8 @@ protected:
 
 #pragma endregion
 
-public:
 #pragma region Public Variables
+public:
 
 	const char KING_CHAR = 'K';
 	const char PAWN_CHAR = 'P';

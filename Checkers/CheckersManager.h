@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <time.h>
 
 #include "CheckersEngine.h"
 #include "CheckersSolver.h"
