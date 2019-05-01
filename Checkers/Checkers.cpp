@@ -131,7 +131,7 @@ void Checkers::placePiece(uint8_t row, uint8_t col, bool red, bool king)
 	this->king |= kingMask;
 }
 
-void Checkers::print(uint8_t indent) const
+void Checkers::print(uint8_t indent, move_t highlightMove) const
 {
 	CheckerBoard board;
 
@@ -147,7 +147,18 @@ void Checkers::print(uint8_t indent) const
 		}
 	}
 
-	// 2.) Print Board
+	// 2.) Set highlighted spaces
+	if (highlightMove != 0)
+	{
+		int fromRow = (highlightMove >> 12) & 0x0f;
+		int fromCol = (highlightMove >> 8) & 0x0f;
+		int toRow = (highlightMove >> 4) & 0x0f;
+		int toCol = highlightMove & 0x0f;
+		board.highlightedSpaces[fromRow][fromCol] = true;
+		board.highlightedSpaces[toRow][toCol] = true;
+	}
+
+	// 3.) Print Board
 	board.print(indent);
 }
 

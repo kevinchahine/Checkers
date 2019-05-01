@@ -45,18 +45,21 @@ protected:
 	// ====================== VARIABLES ===================
 #pragma region VARIABLES
 public:
+	static const char DARK_COLOR = Colors::DARKGREY;
+	static const char LIGHT_COLOR = Colors::GREEN;
+	static const char DARK_HIGHLIGHT = Colors::LIGHTGREY;
+	static const char LIGHT_HIGHLIGHT = Colors::LIGHTGREEN;
+
 	char peices[8][8] = { 'X' };
 	char peicesForeColor[8][8] = { Colors::WHITE };
-	
-	static const char darkColor = Colors::DARKGREY;
-	static const char lightColor = Colors::GREEN;
+	bool highlightedSpaces[8][8] = { false };
 
 protected:
 	static const size_t SPACE_WIDTH = 5;
 	static const size_t SPACE_HEIGHT = 3;
 
-	static const size_t N_ROWS = 4 + SPACE_HEIGHT * 8; // 28;
-	static const size_t N_COLS = 4 + SPACE_WIDTH * 8; // 28;
+	static const size_t N_ROWS = 4 + SPACE_HEIGHT * 8;
+	static const size_t N_COLS = 4 + SPACE_WIDTH * 8;
 
 	const size_t HORIZONTAL_OFFSET = 2;
 	const size_t VERTICAL_OFFSET = 2;

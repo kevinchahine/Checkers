@@ -60,7 +60,7 @@ public:
 	// If a piece already exists there, it replaces it with the 
 	// new piece
 	void placePiece(uint8_t row, uint8_t col, bool red, bool king);
-	void print(uint8_t indent = 20) const;
+	void print(uint8_t indent = 20, move_t highlightMove = 0) const;
 
 #pragma endregion
 

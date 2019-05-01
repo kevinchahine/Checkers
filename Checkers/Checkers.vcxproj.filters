@@ -33,16 +33,13 @@
     <ClCompile Include="TestCheckersEngine.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="CheckersManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CheckerBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestCheckerBoard.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
+    <ClCompile Include="CheckersManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,16 +59,13 @@
     <ClInclude Include="TestCheckersEngine.h">
       <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="CheckersManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CheckerBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestCheckerBoard.h">
       <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
+    <ClInclude Include="CheckersManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

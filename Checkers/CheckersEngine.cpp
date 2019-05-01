@@ -196,6 +196,7 @@ vector<CheckersEngine::move_t> CheckersEngine::getValidMoves(bool playerIsBlack)
 bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 {
 	bool pieceIsBlack = isPieceBlack(fromRow, fromCol);
+	bool pieceIsKing = isKing(fromRow, fromCol);
 	bool jumpOccurred = false;
 
 	Checkers::movePiece(fromRow, fromCol, toRow, toCol);
@@ -223,26 +224,31 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 	// Is piece Black?
 	if (pieceIsBlack == true)
 	{
-		// Yes. Did it reach the end zone?
-		if (toRow == 7)
+		if (pieceIsKing == false)
 		{
-			// Yes, Black piece becomes a King.
-			placePiece(toRow, toCol, false, true);
-			// If Piece was already a BLACK king it will still work.
+			// Yes. Did it reach the end zone?
+			if (toRow == 7)
+			{
+				// Yes, Black piece becomes a King.
+				placePiece(toRow, toCol, false, true);
+				// If Piece was already a BLACK king it will still work.
 
-			nMovesSinceLastTakeOrPromotion = 0;
+				nMovesSinceLastTakeOrPromotion = 0;
+			}
 		}
 	}
 	else
 	{
-		// Then piece must be Red. Did it reach the end zone?
-		if (toRow == 0)
-		{
-			// Yes. Red piece becomes a King.
-			placePiece(toRow, toCol, true, true);
-			// If Piece was already a RED king it will still work.
+		if (pieceIsKing == false)
+		{// Then piece must be Red. Did it reach the end zone?
+			if (toRow == 0)
+			{
+				// Yes. Red piece becomes a King.
+				placePiece(toRow, toCol, true, true);
+				// If Piece was already a RED king it will still work.
 
-			nMovesSinceLastTakeOrPromotion = 0;
+				nMovesSinceLastTakeOrPromotion = 0;
+			}
 		}
 	}
 

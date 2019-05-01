@@ -66,6 +66,8 @@ void CheckersManager::playComputerVsUser()
 
 void CheckersManager::playComputerVsComputer()
 {
+	gamePtr->print();
+
 	CheckersSolver solver;
 	
 	bool blacksTurn = true;
@@ -74,13 +76,8 @@ void CheckersManager::playComputerVsComputer()
 	{
 		if (gamePtr->status() != CheckersEngine::CONTINUE) break;
 
-		gamePtr->print();
-		cout << "Moves since last jump or promotion = "
-			<< gamePtr->nMovesSinceLastTakeOrPromotion << endl;
-
 		cout << (blacksTurn ? "BLACK" : "RED") << "'s turn" << endl;
 
-		
 		pair<bool, Checkers::move_t> ret;
 
 		if (blacksTurn) ret = solver.playAsBlack(*gamePtr);
@@ -93,10 +90,17 @@ void CheckersManager::playComputerVsComputer()
 		if (jumpOccurred) {}
 		else { blacksTurn = !blacksTurn; }
 		
-		//system("pause");
+		Checkers::move_t move = ret.second;
+
+		gamePtr->print(20, move);
+
+		cout << "Moves since last jump or promotion = "
+			<< gamePtr->nMovesSinceLastTakeOrPromotion << endl;
+		
+		///system("pause");
 	}
 
-	gamePtr->print();
+	///gamePtr->print();
 	cout << getEndGameMessage().str() << endl;
 }
 

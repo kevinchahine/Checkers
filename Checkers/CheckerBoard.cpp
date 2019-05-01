@@ -66,8 +66,8 @@ void CheckerBoard::initBoarders()
 {
 	size_t r, c;
 	char temp;
-	char tempForeColor = lightColor;
-	char tempBackColor = darkColor;
+	char tempForeColor = LIGHT_COLOR;
+	char tempBackColor = DARK_COLOR;
 
 	// Top Bottom Borders
 	temp = ASCII::lines[ASCII::HORIZONTAL_DOUBLE];
@@ -119,9 +119,9 @@ void CheckerBoard::initCoordinates()
 	for (size_t spaceCol = 0; spaceCol < 8; spaceCol++)
 	{
 		const char TEMP_BACK_COLOR_TOP =
-			((spaceCol) % 2) ? lightColor : darkColor;
+			((spaceCol) % 2) ? LIGHT_COLOR : DARK_COLOR;
 		const char TEMP_BACK_COLOR_BOTTOM = 
-			((spaceCol) % 2) ? darkColor : lightColor;
+			((spaceCol) % 2) ? DARK_COLOR : LIGHT_COLOR;
 		
 		const size_t CHAR_COL = 2 + spaceCol * SPACE_WIDTH + SPACE_WIDTH / 2;
 
@@ -145,9 +145,9 @@ void CheckerBoard::initCoordinates()
 	for (size_t spaceRow = 0; spaceRow < 8; spaceRow++)
 	{
 		const char TEMP_BACK_COLOR_TOP =
-			((spaceRow) % 2) ? lightColor : darkColor;
+			((spaceRow) % 2) ? LIGHT_COLOR : DARK_COLOR;
 		const char TEMP_BACK_COLOR_BOTTOM =
-			((spaceRow) % 2) ? darkColor : lightColor;
+			((spaceRow) % 2) ? DARK_COLOR : LIGHT_COLOR;
 		
 		const size_t CHAR_ROW = 2 + spaceRow * SPACE_HEIGHT + SPACE_HEIGHT / 2;
 
@@ -175,8 +175,20 @@ void CheckerBoard::initSpaces()
 	{
 		for (size_t spaceCol = 0; spaceCol < 8; spaceCol++)
 		{
-			const char TEMP_BACK_COLOR = 
-				((spaceRow + spaceCol) % 2) ? darkColor : lightColor;
+			char tempBackColor;
+
+			// Do we need to highlight the space?
+			if (highlightedSpaces[spaceRow][spaceCol] == true)
+			{
+				// Yes, highlight the space
+				tempBackColor =	((spaceRow + spaceCol) % 2) ? 
+					DARK_HIGHLIGHT : LIGHT_HIGHLIGHT;
+			}
+			else {
+				// No, Don't highlight the space
+				tempBackColor = ((spaceRow + spaceCol) % 2) ? 
+					DARK_COLOR : LIGHT_COLOR;
+			}
 
 			for (size_t r = 0; r < SPACE_HEIGHT; r++)
 			{
@@ -192,7 +204,7 @@ void CheckerBoard::initSpaces()
 						spaceCol * SPACE_WIDTH +
 						c;
 
-					backColor[ROW][COL] = TEMP_BACK_COLOR;
+					backColor[ROW][COL] = tempBackColor;
 				} // end for (size_t c = 0
 			} // end for (size_t r = 0
 		} // end for (size_t spaceCol = 0
