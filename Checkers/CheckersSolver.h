@@ -34,7 +34,7 @@ public:
 	int heuristic2(const CheckersEngine & game) const;
 
 public:
-	const static int depthLimit = 6;
+	const static int depthLimit = 4;
 
 };
 

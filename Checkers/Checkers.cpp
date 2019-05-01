@@ -2,7 +2,7 @@
 
 Checkers::Checkers() :
 	occupied(0xaa55aa000055aa55),
-	red(0xffffffffaa000000),
+	black(0x55aa55ffaa55aa55),
 	king(0x0)
 {
 	//init();
@@ -10,14 +10,14 @@ Checkers::Checkers() :
 
 Checkers::Checkers(const Checkers & game) :
 	occupied(game.occupied),
-	red(game.red),
+	black(game.black),
 	king(game.king)
 {
 }
 
 Checkers::Checkers(const Checkers && game) :
 	occupied(game.occupied),
-	red(game.red),
+	black(game.black),
 	king(game.king)
 {
 }
@@ -35,19 +35,25 @@ bool Checkers::isOccupied(uint8_t row, uint8_t col) const
 bool Checkers::isPieceRed(uint8_t row, uint8_t col) const
 {
 	uint64_t mask = ((uint64_t) 1 << ((row * 8) + col));
-	return (red & mask) == mask;
+	return (black & mask) != mask;
 }
 
 bool Checkers::isPieceBlack(uint8_t row, uint8_t col) const
 {
 	uint64_t mask = ((uint64_t) 1 << ((row * 8) + col));
-	return (red & mask) != mask;
+	return (black & mask) == mask;
 }
 
 bool Checkers::isKing(uint8_t row, uint8_t col) const
 {
 	uint64_t mask = ((uint64_t)1 << ((row << 3) + col));
 	return (king & mask) == mask;
+}
+
+bool Checkers::isPawn(uint8_t row, uint8_t col) const
+{
+	uint64_t mask = ((uint64_t)1 << ((row << 3) + col));
+	return (king & mask) != mask;
 }
 
 bool Checkers::isSpaceRed(uint8_t row, uint8_t col) const
@@ -82,12 +88,12 @@ void Checkers::movePiece(uint8_t fromRow, uint8_t fromCol, uint8_t toRow, uint8_
 
 	// B.) Move Piece Color bit
 	// B-1.) Get piece color at [fromRow, fromCol]
-	b = (this->red & fromMask);
+	b = (this->black & fromMask);
 
 	// 2.) Set piece color at [toRow, toCol]
-	this->red &= ~toMask;						// Clear to bit
-	b = (b == fromMask ? toMask : (uint64_t) 0);// Is piece red?
-	this->red |= b;								// Set to bit
+	this->black &= ~toMask;						// Clear to bit
+	b = (b == fromMask ? toMask : (uint64_t) 0);// Is piece black?
+	this->black |= b;							// Set to bit
 
 	// C.) Move Rank bit
 	// C-1.) Get rank at [fromRow, fromCol]
@@ -108,7 +114,7 @@ void Checkers::removePiece(uint8_t row, uint8_t col)
 	occupied &= ~mask;
 }
 
-void Checkers::placePiece(uint8_t row, uint8_t col, bool red, bool king)
+void Checkers::placePiece(uint8_t row, uint8_t col, bool black, bool king)
 {
 	uint64_t r = row;
 	uint64_t c = col;
@@ -116,7 +122,7 @@ void Checkers::placePiece(uint8_t row, uint8_t col, bool red, bool king)
 	
 	uint64_t mask = (uint64_t) 1 << ((r << 3) + c);
 	
-	b = (red ? (uint64_t)1 : (uint64_t)0);
+	b = (black ? (uint64_t)1 : (uint64_t)0);
 	uint64_t colorMask = (b << ((r << 3) + c));
 	
 	b = (king ? (uint64_t)1 : (uint64_t)0);
@@ -124,8 +130,8 @@ void Checkers::placePiece(uint8_t row, uint8_t col, bool red, bool king)
 
 	this->occupied |= mask;
 	
-	this->red &= ~mask;
-	this->red |= colorMask;
+	this->black &= ~mask;
+	this->black |= colorMask;
 
 	this->king &= ~mask;
 	this->king |= kingMask;
@@ -162,61 +168,41 @@ void Checkers::print(uint8_t indent, move_t highlightMove) const
 	board.print(indent);
 }
 
-void Checkers::setColor(HANDLE console, uint8_t color)
-{
-	SetConsoleTextAttribute(console, color);
-}
-
-bool Checkers::getColor(uint8_t & color)
-{
-	CONSOLE_SCREEN_BUFFER_INFO info;
-
-	if (!GetConsoleScreenBufferInfo(
-		GetStdHandle(STD_OUTPUT_HANDLE),
-		&info)) {
-		return false;
-	}
-
-	color = (uint8_t)info.wAttributes;
-
-	return true;
-}
-
 void Checkers::init()
 {
-	placePiece(0, 0, 0, 0);
-	placePiece(0, 2, 0, 0);
-	placePiece(0, 4, 0, 0);
-	placePiece(0, 6, 0, 0);
+	placePiece(0, 0, 1, 0);
+	placePiece(0, 2, 1, 0);
+	placePiece(0, 4, 1, 0);
+	placePiece(0, 6, 1, 0);
 	
-	placePiece(1, 1, 0, 0);
-	placePiece(1, 3, 0, 0);
-	placePiece(1, 5, 0, 0);
-	placePiece(1, 7, 0, 0);
+	placePiece(1, 1, 1, 0);
+	placePiece(1, 3, 1, 0);
+	placePiece(1, 5, 1, 0);
+	placePiece(1, 7, 1, 0);
 
-	placePiece(2, 0, 0, 0);
-	placePiece(2, 2, 0, 0);
-	placePiece(2, 4, 0, 0);
-	placePiece(2, 6, 0, 0);
+	placePiece(2, 0, 1, 0);
+	placePiece(2, 2, 1, 0);
+	placePiece(2, 4, 1, 0);
+	placePiece(2, 6, 1, 0);
 
-	placePiece(5, 1, 1, 0);
-	placePiece(5, 3, 1, 0);
-	placePiece(5, 5, 1, 0);
-	placePiece(5, 7, 1, 0);
+	placePiece(5, 1, 0, 0);
+	placePiece(5, 3, 0, 0);
+	placePiece(5, 5, 0, 0);
+	placePiece(5, 7, 0, 0);
 
-	placePiece(6, 0, 1, 0);
-	placePiece(6, 2, 1, 0);
-	placePiece(6, 4, 1, 0);
-	placePiece(6, 6, 1, 0);
+	placePiece(6, 0, 0, 0);
+	placePiece(6, 2, 0, 0);
+	placePiece(6, 4, 0, 0);
+	placePiece(6, 6, 0, 0);
 
-	placePiece(7, 1, 1, 0);
-	placePiece(7, 3, 1, 0);
-	placePiece(7, 5, 1, 0);
-	placePiece(7, 7, 1, 0);
+	placePiece(7, 1, 0, 0);
+	placePiece(7, 3, 0, 0);
+	placePiece(7, 5, 0, 0);
+	placePiece(7, 7, 0, 0);
 
 	cout << hex  
 		<< this->occupied << endl
-		<< this->red << endl
+		<< this->black << endl
 		<< this->king << endl;
 }
 

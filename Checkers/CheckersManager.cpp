@@ -70,7 +70,7 @@ void CheckersManager::playComputerVsComputer()
 	
 	clock_t gameStartTime = clock();
 	clock_t gameEndTime;
-	int gameMoveCounter = 0;
+	int gameMoveCounter = 1;
 
 	gamePtr->print();
 
@@ -112,18 +112,18 @@ void CheckersManager::playComputerVsComputer()
 			<< "Heuristic = ";
 		
 		uint8_t prevColor;
-		Checkers::getColor(prevColor);
+		Console::getColor(prevColor);
 
 		int h = solver.heuristic(*gamePtr);
 		if (h > 0)
-			Checkers::setColor(console, Colors::DARKGREY + (Colors::LIGHTGREY << 4));
+			Console::setColor(console, Colors::DARKGREY + (Colors::LIGHTGREY << 4));
 		else if (h < 0)
-			Checkers::setColor(console, Colors::BLACK + (Colors::RED << 4));
+			Console::setColor(console, Colors::BLACK + (Colors::RED << 4));
 		else
-			Checkers::setColor(console, Colors::BLACK + (Colors::WHITE << 4));
+			Console::setColor(console, Colors::BLACK + (Colors::WHITE << 4));
 
 		cout << h << endl;
-		Checkers::setColor(console, prevColor);
+		Console::setColor(console, prevColor);
 
 		///system("pause");
 	}

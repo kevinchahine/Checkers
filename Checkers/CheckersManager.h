@@ -6,6 +6,7 @@
 
 #include "CheckersEngine.h"
 #include "CheckersSolver.h"
+#include "Console.h"
 
 using namespace std;
 

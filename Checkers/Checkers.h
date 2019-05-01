@@ -41,7 +41,9 @@ public:
 
 	bool isPieceRed(uint8_t row, uint8_t col) const;
 	bool isPieceBlack(uint8_t row, uint8_t col) const;
+
 	bool isKing(uint8_t row, uint8_t col) const;
+	bool isPawn(uint8_t row, uint8_t col) const;
 	
 	bool isSpaceRed(uint8_t row, uint8_t col) const;
 	bool isSpaceBlack(uint8_t row, uint8_t col) const;
@@ -58,11 +60,9 @@ public:
 	// Places a piece in the corresponding row and column.
 	// If a piece already exists there, it replaces it with the 
 	// new piece
-	void placePiece(uint8_t row, uint8_t col, bool red, bool king);
+	void placePiece(uint8_t row, uint8_t col, bool black, bool king);
+	
 	void print(uint8_t indent = 20, move_t highlightMove = 0) const;
-
-	static void setColor(HANDLE console, uint8_t color);
-	static bool getColor(uint8_t & color);
 
 #pragma endregion
 
@@ -99,10 +99,10 @@ protected:
 
 	pieceColor determins the color of the piece on that space
 	if a piece is there
-	1 means red piece
-	0 means black piece
+	1 means black piece
+	0 means red piece
 	*/
-	uint64_t red;
+	uint64_t black;
 
 	/*
 	Represents the board and all the pieces on it.
