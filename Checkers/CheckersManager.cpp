@@ -16,7 +16,7 @@ void CheckersManager::playUserVsUser()
 {
 	int fromRow, fromCol, toRow, toCol;
 
-	typedef vector<CheckersEngine::move_t> moves_t;
+	typedef vector<move_t> moves_t;
 	moves_t possibleMoves;
 
 	bool blacksTurn = true;
@@ -84,7 +84,7 @@ void CheckersManager::playComputerVsComputer()
 
 		cout << (blacksTurn ? "BLACK" : "RED") << "'s turn" << endl;
 
-		pair<bool, Checkers::move_t> ret;
+		pair<bool, move_t> ret;
 
 		clock_t startTime = clock();
 		if (blacksTurn) ret = solver.playAsBlack(*gamePtr);
@@ -99,7 +99,7 @@ void CheckersManager::playComputerVsComputer()
 		if (jumpOccurred) {}
 		else { blacksTurn = !blacksTurn; }
 		
-		Checkers::move_t move = ret.second;
+		move_t move = ret.second;
 
 		gamePtr->print(20, move);
 
@@ -162,11 +162,11 @@ stringstream CheckersManager::getEndGameMessage() const
 	return ss;
 }
 
-CheckersEngine::move_t CheckersManager::getUserInput(
+move_t CheckersManager::getUserInput(
 	int & fromRow, int & fromCol, int & toRow, int & toCol, 
-	const vector<CheckersEngine::move_t>& validMoves) const
+	const vector<move_t>& validMoves) const
 {
-	CheckersEngine::move_t move;
+	move_t move;
 
 	char fromRowChar, fromColChar, toRowChar, toColChar;
 	
@@ -215,7 +215,7 @@ CheckersEngine::move_t CheckersManager::getUserInput(
 			(toCol);
 
 		// 4.) See if move is valid
-		vector<CheckersEngine::move_t>::const_iterator it =
+		vector<move_t>::const_iterator it =
 			find(validMoves.begin(), validMoves.end(), move);
 
 		if (it == validMoves.end())

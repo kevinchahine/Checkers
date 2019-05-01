@@ -3,12 +3,12 @@
 #include <vector>
 
 #include "Checkers.h"
+#include "Move.h"
 
 /*
 	class CheckersEngine
 
 	Purpose: Controls game mechanics: rules and piece movement 
-
 */
 class CheckersEngine : public Checkers
 {
@@ -16,6 +16,7 @@ class CheckersEngine : public Checkers
 public:
 
 	CheckersEngine();
+	CheckersEngine(const CheckersEngine & game);
 	~CheckersEngine();
 
 #pragma endregion
@@ -39,7 +40,7 @@ public:
 	// returns true if a jump occured (piece was killed)
 	bool movePiece(int fromRow, int fromCol, int toRow, int toCol);
 
-	bool movePiece(CheckersEngine::move_t move);
+	bool movePiece(move_t move);
 
 #pragma endregion
 

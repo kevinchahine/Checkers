@@ -24,13 +24,13 @@ void TestCheckersEngine::possibleMoves()
 	int c = 3;
 
 	clock_t startTime = clock();
-	vector<CheckersEngine::move_t> moves = 
+	vector<move_t> moves = 
 		this->getValidMoves(true);
 	clock_t endTime = clock();
 
 	cout << endTime - startTime << " mSec" << endl;
 
-	for (CheckersEngine::move_t m : moves)
+	for (move_t m : moves)
 	{
 		int fromRow = (m >> 12) & 0x0f;
 		int fromCol = (m >> 8) & 0x0f;
@@ -63,11 +63,11 @@ void TestCheckersEngine::validMoves()
 
 	CheckersEngine::print();
 
-	vector<CheckersEngine::move_t> movesBlack = this->getValidMoves(true);
-	vector<CheckersEngine::move_t> movesRed = this->getValidMoves(false);
+	vector<move_t> movesBlack = this->getValidMoves(true);
+	vector<move_t> movesRed = this->getValidMoves(false);
 
 	cout << "Valid Moves BLACK" << endl;
-	for (CheckersEngine::move_t m : movesBlack)
+	for (move_t m : movesBlack)
 	{
 		int fromRow = (m >> 12) & 0x0f;
 		int fromCol = (m >> 8) & 0x0f;
@@ -80,7 +80,7 @@ void TestCheckersEngine::validMoves()
 	}
 
 	cout << "Valid Moves RED" << endl;
-	for (CheckersEngine::move_t m : movesRed)
+	for (move_t m : movesRed)
 	{
 		int fromRow = (m >> 12) & 0x0f;
 		int fromCol = (m >> 8) & 0x0f;

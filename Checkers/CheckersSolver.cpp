@@ -4,27 +4,27 @@ CheckersSolver::CheckersSolver() {}
 
 CheckersSolver::~CheckersSolver() {}
 
-pair<bool, Checkers::move_t>  CheckersSolver::playAsRed(CheckersEngine & game)
+pair<bool, move_t> CheckersSolver::playAsRed(CheckersEngine & game)
 {
-	pair<int, CheckersEngine::move_t> ret;
+	pair<int, move_t> ret;
 
 	//ret = minimax(game, 0, false);
 	ret = alphabeta(game, 0, INT_MIN, INT_MAX, false);
 
-	return pair<bool, Checkers::move_t> (game.movePiece(ret.second), ret.second);
+	return pair<bool, move_t>(game.movePiece(ret.second), ret.second);
 }
 
-pair<bool, Checkers::move_t>  CheckersSolver::playAsBlack(CheckersEngine & game)
+pair<bool, move_t> CheckersSolver::playAsBlack(CheckersEngine & game)
 {
-	pair<int, CheckersEngine::move_t> ret;
+	pair<int, move_t> ret;
 
 	//ret = minimax(game, 0, true);
 	ret = alphabeta(game, 0, INT_MIN, INT_MAX, true);
 
-	return pair<bool, Checkers::move_t> (game.movePiece(ret.second), ret.second);
+	return pair<bool, move_t>(game.movePiece(ret.second), ret.second);
 }
 
-pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game, int depth, bool maxPlayersMove)
+pair<int, move_t> CheckersSolver::minimax(CheckersEngine & game, int depth, bool maxPlayersMove)
 {
 	// 1.) Did we reach the depth limit?
 	if (depth >= this->depthLimit)
@@ -32,7 +32,7 @@ pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game,
 		// return a heuristic
 		int h = heuristic(game);
 
-		return pair<int, CheckersEngine::move_t>(h, 0);
+		return pair<int, move_t>(h, 0);
 	}
 
 	// 2.) Did we reach a terminal node?
@@ -40,13 +40,13 @@ pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game,
 	switch (s)
 	{
 	case CheckersEngine::RED_WINS:
-		return pair<int, CheckersEngine::move_t>(INT_MIN, 0);
+		return pair<int, move_t>(INT_MIN, 0);
 		break;
 	case CheckersEngine::BLACK_WINS:
-		return pair<int, CheckersEngine::move_t>(INT_MAX, 0);
+		return pair<int, move_t>(INT_MAX, 0);
 		break;
 	case CheckersEngine::DRAW:
-		return pair<int, CheckersEngine::move_t>(0, 0);
+		return pair<int, move_t>(0, 0);
 		break;
 	}
 
@@ -58,14 +58,14 @@ pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game,
 		int bestMoveIndex = 0;
 		int bestMoveValue = INT_MIN;
 
-		vector<Checkers::move_t> validMovesBlack = game.getValidMoves(true);
+		vector<move_t> validMovesBlack = game.getValidMoves(true);
 
-		pair<int, Checkers::move_t> ret;
+		pair<int, move_t> ret;
 
 		for (int i = 0; i < validMovesBlack.size(); i++)
 		{
 			CheckersEngine nextState = game;
-			
+
 			bool jumpOccured;
 			jumpOccured = nextState.movePiece(validMovesBlack[i]);
 
@@ -94,9 +94,9 @@ pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game,
 		int bestMoveIndex = 0;
 		int bestMoveValue = INT_MAX;
 
-		vector<Checkers::move_t> validMovesRed = game.getValidMoves(false);
-		
-		pair<int, Checkers::move_t> ret;
+		vector<move_t> validMovesRed = game.getValidMoves(false);
+
+		pair<int, move_t> ret;
 
 		for (int i = 0; i < validMovesRed.size(); i++)
 		{
@@ -126,7 +126,7 @@ pair<int, CheckersEngine::move_t> CheckersSolver::minimax(CheckersEngine & game,
 	} // -------------------- MIN -------------------------
 }
 
-pair<int, CheckersEngine::move_t> CheckersSolver::alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove)
+pair<int, move_t> CheckersSolver::alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove)
 {
 	// 1.) Did we reach the depth limit?
 	if (depth >= this->depthLimit)
@@ -134,7 +134,7 @@ pair<int, CheckersEngine::move_t> CheckersSolver::alphabeta(CheckersEngine & gam
 		// return a heuristic
 		int h = heuristic(game);
 
-		return pair<int, CheckersEngine::move_t>(h, 0);
+		return pair<int, move_t>(h, 0);
 	}
 
 	// 2.) Did we reach a terminal node?
@@ -142,13 +142,13 @@ pair<int, CheckersEngine::move_t> CheckersSolver::alphabeta(CheckersEngine & gam
 	switch (s)
 	{
 	case CheckersEngine::RED_WINS:
-		return pair<int, CheckersEngine::move_t>(INT_MIN, 0);
+		return pair<int, move_t>(INT_MIN, 0);
 		break;
 	case CheckersEngine::BLACK_WINS:
-		return pair<int, CheckersEngine::move_t>(INT_MAX, 0);
+		return pair<int, move_t>(INT_MAX, 0);
 		break;
 	case CheckersEngine::DRAW:
-		return pair<int, CheckersEngine::move_t>(0, 0);
+		return pair<int, move_t>(0, 0);
 		break;
 	}
 
@@ -160,9 +160,9 @@ pair<int, CheckersEngine::move_t> CheckersSolver::alphabeta(CheckersEngine & gam
 		int bestMoveIndex = 0;
 		int bestMoveValue = INT_MIN;
 
-		vector<Checkers::move_t> validMovesBlack = game.getValidMoves(true);
+		vector<move_t> validMovesBlack = game.getValidMoves(true);
 
-		pair<int, Checkers::move_t> ret;
+		pair<int, move_t> ret;
 
 		for (int i = 0; i < validMovesBlack.size(); i++)
 		{
@@ -177,13 +177,13 @@ pair<int, CheckersEngine::move_t> CheckersSolver::alphabeta(CheckersEngine & gam
 				ret = minimax(nextState, depth + 1, !maxPlayersMove);
 
 			int result = ret.first;
-			
+
 			if (result > bestMoveValue)
 			{
 				bestMoveIndex = i;
 				bestMoveValue = result;
 			}
-			
+
 			alpha = max(alpha, result);
 			if (alpha >= beta)
 				break;	// cut-off
@@ -201,9 +201,9 @@ pair<int, CheckersEngine::move_t> CheckersSolver::alphabeta(CheckersEngine & gam
 		int bestMoveIndex = 0;
 		int bestMoveValue = INT_MAX;
 
-		vector<Checkers::move_t> validMovesRed = game.getValidMoves(false);
+		vector<move_t> validMovesRed = game.getValidMoves(false);
 
-		pair<int, Checkers::move_t> ret;
+		pair<int, move_t> ret;
 
 		for (int i = 0; i < validMovesRed.size(); i++)
 		{

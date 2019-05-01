@@ -7,15 +7,12 @@
 
 #include "CheckerBoard.h"
 #include "Colors.h"
+#include "Move.h"
 
 class Checkers
 {
 #pragma region typedef and enum
 public:
-	// A move_t 
-	// [fromRow][fromCol][toRow ][toCol ]
-	// [4-bits ][4-bits ][4-bits][4-bits]
-	typedef uint16_t move_t;
 
 	enum STATUS {
 		BLACK_WINS,
@@ -29,6 +26,7 @@ public:
 #pragma region Constructors
 
 	Checkers();
+	Checkers(uint64_t occupied, uint64_t black, uint64_t king);
 	Checkers(const Checkers& game);
 	Checkers(const Checkers&& game);
 	~Checkers();

@@ -8,6 +8,13 @@ Checkers::Checkers() :
 	//init();
 }
 
+Checkers::Checkers(uint64_t occupied, uint64_t black, uint64_t king) :
+	occupied(occupied),
+	black(black),
+	king(king)
+{
+}
+
 Checkers::Checkers(const Checkers & game) :
 	occupied(game.occupied),
 	black(game.black),

@@ -6,6 +6,11 @@ CheckersEngine::CheckersEngine()
 {
 }
 
+CheckersEngine::CheckersEngine(const CheckersEngine & game) :
+	Checkers(game.occupied, game.black, game.king)
+{
+}
+
 CheckersEngine::~CheckersEngine()
 {
 }
@@ -59,7 +64,7 @@ Checkers::STATUS CheckersEngine::status() const
 	return CONTINUE;
 }
 
-vector<CheckersEngine::move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
+vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 {
 	vector<move_t> validMoves;
 	validMoves.reserve(12 * 4);
@@ -257,7 +262,7 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 	return jumpOccurred;
 }
 
-bool CheckersEngine::movePiece(CheckersEngine::move_t move)
+bool CheckersEngine::movePiece(move_t move)
 {
 	int fromRow = (move >> 12) & 0x0f;
 	int fromCol = (move >> 8) & 0x0f;

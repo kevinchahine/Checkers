@@ -182,6 +182,7 @@
     <ClInclude Include="CheckersSolver.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="TestCheckerBoard.h" />
     <ClInclude Include="TestCheckersEngine.h" />
   </ItemGroup>

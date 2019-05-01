@@ -24,9 +24,9 @@ public:
 	stringstream getEndGameMessage() const;
 
 private:
-	CheckersEngine::move_t getUserInput(
+	move_t getUserInput(
 		int & fromRow, int & fromCol, int & toRow, int & toCol,
-		const vector<CheckersEngine::move_t> & validMoves) const;
+		const vector<move_t> & validMoves) const;
 	
 public:
 	CheckersEngine * gamePtr;
