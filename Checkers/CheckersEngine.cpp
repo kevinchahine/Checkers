@@ -89,11 +89,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow - 1;
 				toCol = fromCol + 1;
 				
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -102,11 +98,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow - 2;
 				toCol = fromCol + 2;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -116,11 +108,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow - 1;
 				toCol = fromCol - 1;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -129,11 +117,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow - 2;
 				toCol = fromCol - 2;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -143,11 +127,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow + 1;
 				toCol = fromCol - 1;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -156,11 +136,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow + 2;
 				toCol = fromCol - 2;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -170,11 +146,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow + 1;
 				toCol = fromCol + 1;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -183,11 +155,7 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 				toRow = fromRow + 2;
 				toCol = fromCol + 2;
 
-				move =
-					(fromRow << 12) |
-					(fromCol << 8) |
-					(toRow << 4) |
-					(toCol);
+				move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 				validMoves.push_back(move);
 			}
@@ -264,11 +232,13 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 
 bool CheckersEngine::movePiece(move_t move)
 {
-	int fromRow = (move >> 12) & 0x0f;
-	int fromCol = (move >> 8) & 0x0f;
-	int toRow = (move >> 4) & 0x0f;
-	int toCol = move & 0x0f;
+	uint8_t fromRow;
+	uint8_t fromCol;
+	uint8_t toRow;
+	uint8_t toCol;
 	
+	Move::separate(move, fromRow, fromCol, toRow, toCol);
+
 	return movePiece(fromRow, fromCol, toRow, toCol);
 }
 

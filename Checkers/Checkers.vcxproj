@@ -170,6 +170,7 @@
     <ClCompile Include="CheckersManager.cpp" />
     <ClCompile Include="CheckersSolver.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TestCheckerBoard.cpp" />
     <ClCompile Include="TestCheckersEngine.cpp" />

@@ -30,10 +30,9 @@ void CheckersManager::playUserVsUser()
 		// Show valid moves
 		for (auto m : possibleMoves)
 		{
-			int fromRow = (m >> 12) & 0x0f;
-			int fromCol = (m >> 8) & 0x0f;
-			int toRow = (m >> 4) & 0x0f;
-			int toCol = m & 0x0f;
+			uint8_t fromRow,fromCol,toRow,toCol;
+			Move::separate(m, fromRow, fromCol, toRow, toCol);
+
 			cout << m << "["
 				<< fromRow << ", " << fromCol << "]->["
 				<< toRow << ", " << toCol << "]"
@@ -124,16 +123,13 @@ void CheckersManager::playComputerVsComputer()
 
 		cout << h << endl;
 		Console::setColor(console, prevColor);
-
-		///system("pause");
 	}
 
 	gameEndTime = clock();
 	cout << "average move time = "
-		<< (gameStartTime - gameEndTime) / gameMoveCounter / 1000.0
+		<< (gameEndTime - gameStartTime) / gameMoveCounter / 1000.0
 		<< " sec" << endl;
 
-	///gamePtr->print();
 	cout << getEndGameMessage().str() << endl;
 }
 
@@ -208,11 +204,7 @@ move_t CheckersManager::getUserInput(
 			<< toRow << ' ' << toCol << endl;
 
 		// 3.) Calc move
-		move =
-			(fromRow << 12) |
-			(fromCol << 8) |
-			(toRow << 4) |
-			(toCol);
+		move = Move::combine(fromRow, fromCol, toRow, toCol);
 
 		// 4.) See if move is valid
 		vector<move_t>::const_iterator it =
@@ -222,8 +214,6 @@ move_t CheckersManager::getUserInput(
 			continue;	// Move is not valid
 		else
 			break;		// Move is valid
-
-
 	}
 
 	return move;
