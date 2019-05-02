@@ -20,7 +20,8 @@ int main()
 
 	TestCheckersEngine t;
 	//t.isPieceSafe();
-	t.isPieceMovable();
+	//t.isPieceMovable();
+	t.isPieceLoner();
 
 	system("pause");
 	return 0;
