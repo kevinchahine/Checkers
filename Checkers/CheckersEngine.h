@@ -79,7 +79,12 @@ public:
 	
 	bool isPieceLoner(int8_t r, int8_t c) const;
 	
-	bool isSpaceAHole(int8_t r, int8_t c) const;
+	// Returns a pair<bool, bool>
+	// first - true iff there is a hole
+	// second - true iff hole is surrounded by all black pieces
+	// second - false iff hole is surrounded by all red pieces
+	// Note: if first is false, then second has no meaning
+	pair<bool, bool> isSpaceAHole(int8_t r, int8_t c) const;
 
 #pragma endregion
 

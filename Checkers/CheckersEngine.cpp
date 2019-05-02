@@ -482,11 +482,11 @@ bool CheckersEngine::isPieceLoner(int8_t r, int8_t c) const
 	return true;
 }
 
-bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
+pair<bool, bool> CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
 {
 	// Spaces have to be empty to be considered holes
 	if (isOccupied(r, c))
-		return false;
+		return pair<bool, bool>(false, false);
 
 	// Is space surounded by 3 or 4 pieces all of the same color
 	int8_t nOccupied = 0;
@@ -520,7 +520,7 @@ bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
 		if (colorIsBlackIsAssigned)
 		{
 			if (upLeftIsBlack != colorIsBlack)
-				return false;
+				return pair<bool, bool>(false, false);
 		}
 		else
 		{
@@ -541,7 +541,7 @@ bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
 		if (colorIsBlackIsAssigned)
 		{
 			if (downLeftIsBlack != colorIsBlack)
-				return false;
+				return pair<bool, bool>(false, false);
 		}
 		else
 		{
@@ -562,7 +562,7 @@ bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
 		if (colorIsBlackIsAssigned)
 		{
 			if (downRightIsBlack != colorIsBlack)
-				return false;
+				return pair<bool, bool>(false, false);
 		}
 		else
 		{
@@ -572,9 +572,13 @@ bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
 	}
 
 	// Do we have atleast 3 surrounding pieces?
-	if (nOccupied < 3)	return false;	// No we either have 0, 1 or 2
+	// No we either have 0, 1 or 2
+	if (nOccupied < 3)	return pair<bool, bool>(false, false);
 
-	return true; // we have atleast 3
+	// By this point there are guarenteed to be atleast 3 
+	// surrounding pieces to the hole and all the pieces
+	// are the same color.
+	return pair<bool, bool>(true, colorIsBlack);
 }
 
 #pragma endregion

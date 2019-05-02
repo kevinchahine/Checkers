@@ -257,10 +257,20 @@ bool TestCheckersEngine::isSpaceAHole()
 
 					cout << right << setw(20) << ' ';
 
-					if (CheckersEngine::isSpaceAHole(row, col))
-						cout << "Space is a hole ";
+					pair<bool, bool> ret = CheckersEngine::isSpaceAHole(row, col);
+					
+					// Print message
+					cout << "Space is ";
+					if (ret.first)
+					{
+						cout << "a "
+							<< (ret.second ? "BLACK" : "RED");
+					}
 					else
-						cout << "Space is NOT a hole ";
+					{
+						cout << "NOT a ";
+					}
+					cout << "hole ";
 
 					system("pause");
 				}
