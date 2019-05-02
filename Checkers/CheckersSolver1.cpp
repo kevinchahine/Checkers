@@ -18,8 +18,8 @@ int CheckersSolver1::calcHeuristic(const CheckersEngine & game) const
 	2.) # of Kings
 	3.) # of safe pawns	*
 	4.) # of safe Kings *
-	5.) # of moveable pawns *
-	6.) # of moveable kings *
+	5.) # of moveable pawns (able to make a move other than capture) *
+	6.) # of moveable kings (able to make a move other than capture) *
 	7.) Aggregated distance of Pawns to promotion line
 	8.) # of unoccupied fields on promotion line
 	9.) # of defender pieces (pieces in 2 lower most rows)

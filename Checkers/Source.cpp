@@ -19,7 +19,8 @@ int main()
 	///game.playComputerVsComputer();
 
 	TestCheckersEngine t;
-	t.isPieceSafe();
+	//t.isPieceSafe();
+	t.isPieceMovable();
 
 	system("pause");
 	return 0;
