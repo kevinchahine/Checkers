@@ -14,32 +14,33 @@ int CheckersSolver1::calcHeuristic(const CheckersEngine & game) const
 
 	/*
 	HEURISTIC COMPONENTS:
-	# of Pawns
-	# of Kings
-	# of safe pawns
-	# of safe Kings
-	# of moveable pawns
-	# of moveable kings
-	Aggregated distance of Pawns to promotion line
-	# of unoccupied fields on promotion line
-	# of defender pieces (pieces in 2 lower most rows)
-	# of attacking pawns (pieces in 3 upper most rows)
-	# of centrally positioned pawns (pawns in 8 central positions on board)
-	# of pawns positioned on the main diagonal
-	# of kings positioned on the main diagonal
-	# of pawns positioned on the double diagonal
-	# of kings positioned on the double diagonal
-	# on loner pawns (pawn no adjacent to any other piece)
-	# of loner kings
-	# of holes (empty spaces adjacent to at least 3 pieces of the same color)
+	1.) # of Pawns
+	2.) # of Kings
+	3.) # of safe pawns	*
+	4.) # of safe Kings *
+	5.) # of moveable pawns *
+	6.) # of moveable kings *
+	7.) Aggregated distance of Pawns to promotion line
+	8.) # of unoccupied fields on promotion line
+	9.) # of defender pieces (pieces in 2 lower most rows)
+	10.) # of attacking pawns (pieces in 3 upper most rows)
+	11.) # of centrally positioned pawns (pawns in 8 central positions on board)
+	12.) # of centrally positioned kings 
+	13.) # of pawns positioned on the main diagonal
+	14.) # of kings positioned on the main diagonal
+	15.) # of pawns positioned on the double diagonal
+	16.) # of kings positioned on the double diagonal
+	17.) # on loner pawns (pawn not adjacent to any other piece)
+	18.) # of loner kings (king not adjacent to any other piece)
+	19.) # of holes (empty spaces adjacent to at least 3 pieces of the same color)
 
 	Below components will have boolean values
-	Presence of a Triangle pattern
-	Presence of an Oreo pattern
-	Presence of a Bridge pattern
-	Presence of a Dog pattern
-	Presence of a pawn in corner
-	Presence of a knig in corner
+	20.) Presence of a Triangle pattern *
+	21.) Presence of an Oreo pattern *
+	22.) Presence of a Bridge pattern *
+	23.) Presence of a Dog pattern *
+	24.) Presence of a pawn in corner
+	25.) Presence of a knig in corner
 	*/
 
 	for (int r = 0; r < 8; r++)

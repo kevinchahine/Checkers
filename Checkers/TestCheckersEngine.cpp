@@ -97,3 +97,40 @@ void TestCheckersEngine::print() const
 {
 	CheckersEngine::print();
 }
+
+bool TestCheckersEngine::isPieceSafe()
+{
+	int8_t r = 3;
+	int8_t c = 3;
+
+	this->occupied = 0;	// remove all pieces
+	
+	placePiece(r, c, false, false);
+
+	for (int8_t attackR = -1; attackR < 2; attackR += 2)
+	{
+		for (int8_t attackC = -1; attackC < 2; attackC += 2)
+		{
+			for (int8_t isBlack = 0; isBlack < 2; isBlack++)
+			{
+				for (int8_t isKing = 0; isKing < 2; isKing++)
+				{
+					placePiece(r + attackR, c + attackC, isBlack, isKing);
+		
+					Checkers::print(20, Move::combine(r, c, 0, c));
+
+					if (CheckersEngine::isPieceSafe(r, c))
+						cout << "Piece is safe" << endl;
+					else
+						cout << "Piece is being attacked" << endl;
+
+					system("pause");
+
+					removePiece(r + attackR, c + attackC);
+				}
+			}
+		}
+	}
+	
+	return false;
+}

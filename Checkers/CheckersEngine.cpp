@@ -389,4 +389,172 @@ bool CheckersEngine::isJumpXYValid(int r1, int r2, int c1, int c2, bool imBlack)
 	return false;
 }
 
+bool CheckersEngine::isPieceSafe(int8_t r, int8_t c) const
+{
+	int8_t attackerRow;
+	int8_t attackerCol;
+
+	// Can we be attacked from Up Right
+	attackerRow = r - 1;
+	attackerCol = c + 1;
+	if (attackerRow >= 0 &&
+		attackerCol < 8 &&
+		isOccupied(attackerRow, attackerCol) &&
+		isJumpDownLeftValid(attackerRow, attackerCol))
+		return false;
+
+	// Can we be attacked from Up Left
+	attackerRow = r - 1;
+	attackerCol = c - 1;
+	if (attackerRow >= 0 &&
+		attackerCol >= 0 &&
+		isOccupied(attackerRow, attackerCol) &&
+		isJumpDownRightValid(attackerRow, attackerCol))
+		return false;
+	
+	// Can we be attacked from Down Left
+	attackerRow = r + 1;
+	attackerCol = c - 1;
+	if (attackerRow < 8 &&
+		attackerCol >= 0 &&
+		isOccupied(attackerRow, attackerCol) &&
+		isJumpUpRightValid(attackerRow, attackerCol))
+		return false;
+
+	// Can we be attacked from Down Right
+	attackerRow = r + 1;
+	attackerCol = c + 1;
+	if (attackerRow < 8 &&
+		attackerCol < 8 &&
+		isOccupied(attackerRow, attackerCol) &&
+		isJumpUpLeftValid(attackerRow, attackerCol))
+		return false;
+
+	return true;
+}
+
+bool CheckersEngine::isPieceMovable(int8_t r, int8_t c) const
+{
+	return 
+		isMoveUpRightValid(r, c) || 
+		isMoveUpLeftValid(r, c) ||
+		isMoveDownLeftValid(r, c) ||
+		isMoveDownRightValid(r, c);
+}
+
+bool CheckersEngine::isPieceLoner(int8_t r, int8_t c) const
+{
+	int8_t spaceR;
+	int8_t spaceC;
+
+	// Is there a piece at UP RIGHT
+	spaceR = r - 1;
+	spaceC = c + 1;
+	if (spaceR >= 0 &&
+		spaceC < 8 &&
+		isOccupied(spaceR, spaceC))
+		return false;
+
+	// Is there a piece at UP LEFT
+	spaceR = r - 1;
+	spaceC = c - 1;
+	if (spaceR >= 0 &&
+		spaceC < 8 &&
+		isOccupied(spaceR, spaceC))
+		return false;
+
+	// Is there a piece at DOWN LEFT
+	spaceR = r + 1;
+	spaceC = c - 1;
+	if (spaceR >= 0 &&
+		spaceC < 8 &&
+		isOccupied(spaceR, spaceC))
+		return false;
+
+	// Is there a piece at DOWN RIGHT
+	spaceR = r + 1;
+	spaceC = c + 1;
+	if (spaceR >= 0 &&
+		spaceC < 8 &&
+		isOccupied(spaceR, spaceC))
+		return false;
+
+	return true;
+}
+
+bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
+{
+	// Is space surounded by 3 or 4 pieces all of the same color
+	int8_t nOccupied = 0;
+
+	bool colorIsBlack;
+	
+	int8_t row;
+	int8_t col;
+
+	bool upRightIsBlack, upRightIsOccupied;
+	bool upLeftIsBlack, upLeftIsOccupied;
+	bool downLeftIsBlack, downLeftIsOccupied;
+	bool downRightIsBlack, downRightIsOccupied;
+
+	// UP RIGHT
+	row = r - 1;
+	col = c + 1;
+	upRightIsOccupied = isOccupied(row, col);
+	if (upRightIsOccupied)
+	{
+		upRightIsBlack = isPieceBlack(row, col);
+		nOccupied++;
+
+		colorIsBlack = upRightIsBlack;
+	}
+
+	// UP LEFT
+	row = r - 1;
+	col = c - 1;
+	upLeftIsOccupied = isOccupied(row, col);
+	if (upLeftIsOccupied)
+	{
+		upLeftIsBlack = isPieceBlack(row, col);
+		nOccupied++;
+
+		if (!upRightIsOccupied)
+			colorIsBlack = upLeftIsBlack;
+		
+		if (upLeftIsBlack != colorIsBlack)
+			return false;
+	}
+
+	// DOWN LEFT
+	row = r + 1;
+	col = c - 1;
+	downLeftIsOccupied = isOccupied(row, col);
+	if (downLeftIsOccupied)
+	{
+		downLeftIsBlack = isPieceBlack(row, col);
+		nOccupied++;
+
+		if (downLeftIsBlack != colorIsBlack)
+			return false;
+	}
+
+	// DOWN RIGHT
+	row = r + 1;
+	col = c + 1;
+	downRightIsOccupied = isOccupied(row, col);
+	if (downRightIsOccupied)
+	{
+		downRightIsBlack = isPieceBlack(row, col);
+		nOccupied++;
+
+		if (downRightIsBlack != colorIsBlack)
+			return false;
+	}
+
+	// Do we have atleast 3 surrounding pieces?
+	if (nOccupied < 3)	return false;	// No we either have 0, 1 or 2
+
+	return true;
+}
+
 #pragma endregion

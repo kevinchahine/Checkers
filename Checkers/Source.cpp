@@ -14,10 +14,12 @@ using namespace std;
 
 int main()
 {
-	CheckersManager game;
-	
+	///CheckersManager game;
 	///manager.playUserVsUser();
-	game.playComputerVsComputer();
+	///game.playComputerVsComputer();
+
+	TestCheckersEngine t;
+	t.isPieceSafe();
 
 	system("pause");
 	return 0;

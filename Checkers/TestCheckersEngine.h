@@ -16,6 +16,13 @@ public:
 
 	void print() const;
 
-	
+	bool isPieceSafe();
+
+	bool isPieceMovable();
+
+	bool isPieceLoner();
+
+	bool isSpaceAHole();
+
 };
 

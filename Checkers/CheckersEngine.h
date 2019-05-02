@@ -71,6 +71,18 @@ public:
 
 #pragma endregion
 
+#pragma region More Functions
+
+	bool isPieceSafe(int8_t r, int8_t c) const;
+	
+	bool isPieceMovable(int8_t r, int8_t c) const;
+	
+	bool isPieceLoner(int8_t r, int8_t c) const;
+	
+	bool isSpaceAHole(int8_t r, int8_t c) const;
+
+#pragma endregion
+
 #pragma region Public Variables
 
 public:
