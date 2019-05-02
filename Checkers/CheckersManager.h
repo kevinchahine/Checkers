@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class CheckersManager
+class CheckersManager : CheckersEngine
 {
 public:
 	CheckersManager();
@@ -25,10 +25,19 @@ public:
 
 private:
 	move_t getUserInput(
-		int & fromRow, int & fromCol, int & toRow, int & toCol,
+		int & fromRow, 
+		int & fromCol, 
+		int & toRow, 
+		int & toCol,
 		const vector<move_t> & validMoves) const;
-	
-public:
-	CheckersEngine * gamePtr;
+
+	void printAnalytics(
+		int nMovesSinceLastJumpOrPromotion,
+		clock_t startTime,
+		clock_t endTime,
+		clock_t gameStartTime,
+		int gameMoveCounter,
+		int heuristic,
+		HANDLE console);
 };
 

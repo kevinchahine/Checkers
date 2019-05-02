@@ -23,9 +23,9 @@ void CheckersManager::playUserVsUser()
 
 	while (true)
 	{
-		if (gamePtr->status() != CheckersEngine::CONTINUE) break;
+		if (status() != CheckersEngine::CONTINUE) break;
 
-		possibleMoves = gamePtr->getValidMoves(blacksTurn);
+		possibleMoves = getValidMoves(blacksTurn);
 
 		// Show valid moves
 		for (auto m : possibleMoves)
@@ -39,23 +39,23 @@ void CheckersManager::playUserVsUser()
 				<< endl;
 		}
 
-		gamePtr->print();
+		print();
 		cout << "Moves since last jump or promotion = "
-			<< gamePtr->nMovesSinceLastTakeOrPromotion << endl;
+			<< nMovesSinceLastTakeOrPromotion << endl;
 
 		cout << (blacksTurn ? "BLACK" : "RED") << ' ';
 			
 		getUserInput(fromRow, fromCol, toRow, toCol, possibleMoves);
 
 		bool jumpOccurred = 
-			gamePtr->movePiece(fromRow, fromCol, toRow, toCol);
+			movePiece(fromRow, fromCol, toRow, toCol);
 
 		// If jump occurred, then its the same players turn
 		if (jumpOccurred)	{	}
 		else				{ blacksTurn = !blacksTurn; }
 	}
 
-	gamePtr->print();
+	print();
 	cout << getEndGameMessage().str() << endl;
 }
 
@@ -71,7 +71,7 @@ void CheckersManager::playComputerVsComputer()
 	clock_t gameEndTime;
 	int gameMoveCounter = 1;
 
-	gamePtr->print();
+	print();
 
 	CheckersSolver solver;
 	
@@ -79,50 +79,31 @@ void CheckersManager::playComputerVsComputer()
 
 	while (true)
 	{
-		if (gamePtr->status() != CheckersEngine::CONTINUE) break;
+		if (status() != CheckersEngine::CONTINUE) break;
 
 		cout << (blacksTurn ? "BLACK" : "RED") << "'s turn" << endl;
 
 		pair<bool, move_t> ret;
 
 		clock_t startTime = clock();
-		if (blacksTurn) ret = solver.playAsBlack(*gamePtr);
-		else			ret = solver.playAsRed(*gamePtr);
+		if (blacksTurn) ret = solver.playAsBlack(*this);
+		else			ret = solver.playAsRed(*this);
 		clock_t endTime = clock();
+
 		gameMoveCounter++;
 
-		bool jumpOccurred;
-		jumpOccurred = ret.first;
-
-		// If jump occurred, then its the same players turn
-		if (jumpOccurred) {}
-		else { blacksTurn = !blacksTurn; }
+		// If jump did not occur, then its the opponents turn
+		bool jumpOccurred = ret.first;
+		if (!jumpOccurred) { blacksTurn = !blacksTurn; }
 		
 		move_t move = ret.second;
 
-		gamePtr->print(20, move);
-
-		cout << "Moves since last jump or promotion = "
-			<< gamePtr->nMovesSinceLastTakeOrPromotion << ' '
-			<< (endTime - startTime) / 1000.0 << " sec\t"
-			<< "average move time = "
-			<< (endTime - gameStartTime) / gameMoveCounter / 1000.0
-			<< " sec\t"
-			<< "Heuristic = ";
-		
-		uint8_t prevColor;
-		Console::getColor(prevColor);
-
-		int h = solver.heuristic(*gamePtr);
-		if (h > 0)
-			Console::setColor(console, Colors::DARKGREY + (Colors::LIGHTGREY << 4));
-		else if (h < 0)
-			Console::setColor(console, Colors::BLACK + (Colors::RED << 4));
-		else
-			Console::setColor(console, Colors::BLACK + (Colors::WHITE << 4));
-
-		cout << h << endl;
-		Console::setColor(console, prevColor);
+		print(20, move);
+		printAnalytics(
+			nMovesSinceLastTakeOrPromotion, 
+			startTime, endTime, gameStartTime, 
+			gameMoveCounter, solver.heuristic(*this),
+			console);
 	}
 
 	gameEndTime = clock();
@@ -139,7 +120,7 @@ stringstream CheckersManager::getEndGameMessage() const
 
 	ss << "Game Over ";
 
-	switch (gamePtr->status())
+	switch (status())
 	{
 	case CheckersEngine::BLACK_WINS:
 		ss << "Black Player Wins";
@@ -151,7 +132,7 @@ stringstream CheckersManager::getEndGameMessage() const
 		ss << "Draw";
 		break;
 	default:
-		ss << "Unknown game status " << gamePtr->status() << endl;
+		ss << "Unknown game status " << status() << endl;
 		break;
 	}
 
@@ -217,6 +198,38 @@ move_t CheckersManager::getUserInput(
 	}
 
 	return move;
+}
+
+void CheckersManager::printAnalytics(
+	int nMovesSinceLastJumpOrPromotion, 
+	clock_t startTime, 
+	clock_t endTime, 
+	clock_t gameStartTime, 
+	int gameMoveCounter, 
+	int heuristic, 
+	HANDLE console)
+{
+	cout << "Moves since last jump or promotion = "
+		<< nMovesSinceLastTakeOrPromotion << ' '
+		<< (endTime - startTime) / 1000.0 << " sec\t"
+		<< "average move time = "
+		<< (endTime - gameStartTime) / gameMoveCounter / 1000.0
+		<< " sec\t"
+		<< "Heuristic = ";
+
+	uint8_t prevColor;
+	Console::getColor(prevColor);
+
+	if (heuristic > 0)
+		Console::setColor(console, Colors::DARKGREY + (Colors::LIGHTGREY << 4));
+	else if (heuristic < 0)
+		Console::setColor(console, Colors::BLACK + (Colors::RED << 4));
+	else
+		Console::setColor(console, Colors::BLACK + (Colors::WHITE << 4));
+
+	cout << heuristic << endl;
+
+	Console::setColor(console, prevColor);
 }
 
 
