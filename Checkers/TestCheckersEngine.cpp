@@ -226,3 +226,49 @@ bool TestCheckersEngine::isPieceLoner()
 
 	return false;
 }
+
+bool TestCheckersEngine::isSpaceAHole()
+{
+	int8_t row = 3;
+	int8_t col = 3;
+
+	for (int a = 0; a < 2; a++)
+	{
+		for (int b = 0; b < 2; b++)
+		{
+			for (int c = 0; c < 2; c++)
+			{
+				for (int d = 0; d < 2; d++)
+				{
+					this->occupied = 0;	// remove all pieces
+
+					//placePiece(row, col, true, true);
+
+					if (a == true)
+						placePiece(row - 1, col + 1, true, false);
+					if (b == true)
+						placePiece(row - 1, col - 1, true, false);
+					if (c == true)
+						placePiece(row + 1, col - 1, true, false);
+					if (d == true)
+						placePiece(row + 1, col + 1, true, false);
+
+					Checkers::print(20, Move::combine(row, col, 0, 0));
+
+					cout << right << setw(20) << ' ';
+
+					if (CheckersEngine::isSpaceAHole(row, col))
+						cout << "Space is a hole ";
+					else
+						cout << "Space is NOT a hole ";
+
+					system("pause");
+				}
+			}
+		}
+	}
+
+	system("pause");
+
+	return false;
+}

@@ -21,7 +21,8 @@ int main()
 	TestCheckersEngine t;
 	//t.isPieceSafe();
 	//t.isPieceMovable();
-	t.isPieceLoner();
+	//t.isPieceLoner();
+	t.isSpaceAHole();
 
 	system("pause");
 	return 0;

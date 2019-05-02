@@ -484,77 +484,97 @@ bool CheckersEngine::isPieceLoner(int8_t r, int8_t c) const
 
 bool CheckersEngine::isSpaceAHole(int8_t r, int8_t c) const
 {
+	// Spaces have to be empty to be considered holes
+	if (isOccupied(r, c))
+		return false;
+
 	// Is space surounded by 3 or 4 pieces all of the same color
 	int8_t nOccupied = 0;
 
 	bool colorIsBlack;
+	bool colorIsBlackIsAssigned = false;
 	
 	int8_t row;
 	int8_t col;
 
-	bool upRightIsBlack, upRightIsOccupied;
-	bool upLeftIsBlack, upLeftIsOccupied;
-	bool downLeftIsBlack, downLeftIsOccupied;
-	bool downRightIsBlack, downRightIsOccupied;
-
 	// UP RIGHT
 	row = r - 1;
 	col = c + 1;
-	upRightIsOccupied = isOccupied(row, col);
-	if (upRightIsOccupied)
+	if (isOccupied(row, col))
 	{
-		upRightIsBlack = isPieceBlack(row, col);
 		nOccupied++;
 
-		colorIsBlack = upRightIsBlack;
+		colorIsBlack = isPieceBlack(row, col);
+		colorIsBlackIsAssigned = true;
 	}
 
 	// UP LEFT
 	row = r - 1;
 	col = c - 1;
-	upLeftIsOccupied = isOccupied(row, col);
-	if (upLeftIsOccupied)
+	if (isOccupied(row, col))
 	{
-		upLeftIsBlack = isPieceBlack(row, col);
 		nOccupied++;
 
-		if (!upRightIsOccupied)
+		bool upLeftIsBlack = isPieceBlack(row, col);
+
+		if (colorIsBlackIsAssigned)
+		{
+			if (upLeftIsBlack != colorIsBlack)
+				return false;
+		}
+		else
+		{
 			colorIsBlack = upLeftIsBlack;
-		
-		if (upLeftIsBlack != colorIsBlack)
-			return false;
+			colorIsBlackIsAssigned = true;
+		}
 	}
 
 	// DOWN LEFT
 	row = r + 1;
 	col = c - 1;
-	downLeftIsOccupied = isOccupied(row, col);
-	if (downLeftIsOccupied)
+	if (isOccupied(row, col))
 	{
-		downLeftIsBlack = isPieceBlack(row, col);
+		bool downLeftIsBlack = isPieceBlack(row, col);
+		
 		nOccupied++;
 
-		if (downLeftIsBlack != colorIsBlack)
-			return false;
+		if (colorIsBlackIsAssigned)
+		{
+			if (downLeftIsBlack != colorIsBlack)
+				return false;
+		}
+		else
+		{
+			colorIsBlack = downLeftIsBlack;
+			colorIsBlackIsAssigned = true;
+		}
 	}
 
 	// DOWN RIGHT
 	row = r + 1;
 	col = c + 1;
-	downRightIsOccupied = isOccupied(row, col);
-	if (downRightIsOccupied)
+	if (isOccupied(row, col))
 	{
-		downRightIsBlack = isPieceBlack(row, col);
+		bool downRightIsBlack = isPieceBlack(row, col);
+
 		nOccupied++;
 
-		if (downRightIsBlack != colorIsBlack)
-			return false;
+		if (colorIsBlackIsAssigned)
+		{
+			if (downRightIsBlack != colorIsBlack)
+				return false;
+		}
+		else
+		{
+			colorIsBlack = downRightIsBlack;
+			colorIsBlackIsAssigned = true;
+		}
 	}
 
 	// Do we have atleast 3 surrounding pieces?
 	if (nOccupied < 3)	return false;	// No we either have 0, 1 or 2
 
-	return true;
+	return true; // we have atleast 3
 }
 
 #pragma endregion
