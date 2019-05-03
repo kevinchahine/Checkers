@@ -2,6 +2,82 @@
 
 CheckersSolver1::CheckersSolver1()
 {
+	// 1.) # of Pawns 
+	weights[0] = 1;
+
+	// 2.) # of Kings
+	weights[1] = 1;
+
+	// 3.) # of safe pawns
+	weights[2] = 1;
+
+	// 4.) # of safe Kings
+	weights[3] = 1;
+
+	// 5.) # of moveable pawns (able to make a move other than capture)
+	weights[4] = 1;
+
+	// 6.) # of moveable kings (able to make a move other than capture)
+	weights[5] = 1;
+
+	// 7.) Aggregated distance of Pawns to promotion line
+	weights[6] = 1;
+
+	// 8.) # of unoccupied fields on promotion line
+	weights[7] = 1;
+
+	// 9.) # of defender pieces (pieces in 2 lower most rows)
+	weights[8] = 1;
+
+	// 10.) # of attacking pawns (pieces in 3 upper most rows)
+	weights[9] = 1;
+
+	// 11.) # of centrally positioned pawns (pawns in 8 central positions on board)
+	weights[10] = 1;
+
+	// 12.) # of centrally positioned kings 
+	weights[11] = 1;
+
+	// 13.) # of pawns positioned on the main diagonal
+	weights[12] = 1;
+
+	// 14.) # of kings positioned on the main diagonal
+	weights[13] = 1;
+
+	// 15.) # of pawns positioned on the double diagonal
+	weights[14] = 1;
+
+	// 16.) # of kings positioned on the double diagonal
+	weights[15] = 1;
+
+	// 17.) # on loner pawns (pawn not adjacent to any other piece)
+	weights[16] = 1;
+
+	// 18.) # of loner kings (king not adjacent to any other piece)
+	weights[17] = 1;
+
+	// 19.) # of holes (empty spaces adjacent to at least 3 pieces of the same color)
+	weights[18] = 1;
+
+	// Below components will have boolean values
+	
+	// 20.) Presence of a Triangle pattern *
+	weights[19] = 1; // Not yet counted
+
+	// 21.) Presence of an Oreo pattern *
+	weights[20] = 1; // Not yet counted
+
+	// 22.) Presence of a Bridge pattern *
+	weights[21] = 1; // Not yet counted
+
+	// 23.) Presence of a Dog pattern *
+	weights[22] = 1; // Not yet counted
+
+	// 24.) Presence of a pawn in corner
+	weights[23] = 1;
+
+	// 25.) Presence of a king in corner
+	weights[24] = 1;
 }
 
 CheckersSolver1::~CheckersSolver1()
@@ -210,55 +286,55 @@ int CheckersSolver1::calcHeuristic(const CheckersEngine & game) const
 	// ------------- SUM UP HUERISTIC COMPONENTS ----------
 	int h =
 		// 1.) # of Pawns 
-		w1 * nOfPawns +
+		weights[0] * nOfPawns +
 		// 2.) # of Kings
-		w2 * nOfKings +
+		weights[1]  * nOfKings +
 		// 3.) # of safe pawns
-		w3 * nOfSafePawns +
+		weights[2]  * nOfSafePawns +
 		// 4.) # of safe Kings
-		w4 * nOfSafeKings +
+		weights[3]  * nOfSafeKings +
 		// 5.) # of moveable pawns (able to make a move other than capture)
-		w5 * nOfMoveablePawns +
+		weights[4]  * nOfMoveablePawns +
 		// 6.) # of moveable kings (able to make a move other than capture)
-		w6 * nOfMovableKings +
+		weights[5]  * nOfMovableKings +
 		// 7.) Aggregated distance of Pawns to promotion line
-		w7 * distPawnsToPromotion +
+		weights[6]  * distPawnsToPromotion +
 		// 8.) # of unoccupied fields on promotion line
-		w8 * nUnoccupiedSpacesOnPromotionLine +
+		weights[7]  * nUnoccupiedSpacesOnPromotionLine +
 		// 9.) # of defender pieces (pieces in 2 lower most rows)
-		w9 * nDefenderPieces +
+		weights[8]  * nDefenderPieces +
 		// 10.) # of attacking pawns (pieces in 3 upper most rows)
-		w10 * nAttackigPawns +
+		weights[9]  * nAttackigPawns +
 		// 11.) # of centrally positioned pawns (pawns in 8 central positions on board)
-		w11 * nCentralPawns +
+		weights[10]  * nCentralPawns +
 		// 12.) # of centrally positioned kings 
-		w12 * nCentralKings +
+		weights[11]  * nCentralKings +
 		// 13.) # of pawns positioned on the main diagonal
-		w13 * nMainDiagonalPawns +
+		weights[12]  * nMainDiagonalPawns +
 		// 14.) # of kings positioned on the main diagonal
-		w14 * nMainDiagonalKings +
+		weights[13]  * nMainDiagonalKings +
 		// 15.) # of pawns positioned on the double diagonal
-		w15 * nDoubleDiagonalPawns +
+		weights[14]  * nDoubleDiagonalPawns +
 		// 16.) # of kings positioned on the double diagonal
-		w16 * nDoubleDiagonalKings +
+		weights[15]  * nDoubleDiagonalKings +
 		// 17.) # on loner pawns (pawn not adjacent to any other piece)
-		w17 * nLonerPawns +
+		weights[16]  * nLonerPawns +
 		// 18.) # of loner kings (king not adjacent to any other piece)
-		w18 * nLonerKings +
+		weights[17]  * nLonerKings +
 		// 19.) # of holes (empty spaces adjacent to at least 3 pieces of the same color)
-		w19 * nHoles +
+		weights[18]  * nHoles +
 		// 20.) Presence of a Triangle pattern *
-		w20 * triangleIsPresent +
+		weights[19]  * triangleIsPresent +
 		// 21.) Presence of an Oreo pattern *
-		w21 * oreoIsPresent +
+		weights[20]  * oreoIsPresent +
 		// 22.) Presence of a Bridge pattern *
-		w22 * bridgeIsPresent +
+		weights[21]  * bridgeIsPresent +
 		// 23.) Presence of a Dog pattern *
-		w23 * dogIsPresent +
+		weights[22]  * dogIsPresent +
 		// 24.) Presence of a pawn in corner
-		w24 * nOfCornerPawns +
+		weights[23]  * nOfCornerPawns +
 		// 25.) Presence of a king in corner
-		w25 * nOfCornerKings;
+		weights[24]  * nOfCornerKings;
 
 	return h;
 }

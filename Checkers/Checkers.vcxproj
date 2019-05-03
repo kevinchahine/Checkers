@@ -185,6 +185,7 @@
     <ClInclude Include="CheckersSolver1.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="TestCheckerBoard.h" />
     <ClInclude Include="TestCheckersEngine.h" />

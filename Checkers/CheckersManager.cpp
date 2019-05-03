@@ -73,7 +73,7 @@ void CheckersManager::playComputerVsComputer()
 
 	print();
 
-	CheckersSolver solver;
+	CheckersSolver1 solver;
 	
 	bool blacksTurn = true;
 
@@ -102,7 +102,7 @@ void CheckersManager::playComputerVsComputer()
 		printAnalytics(
 			nMovesSinceLastTakeOrPromotion, 
 			startTime, endTime, gameStartTime, 
-			gameMoveCounter, solver.heuristic(*this),
+			gameMoveCounter, 333,// solver.calcHeuristic(*this),
 			console);
 	}
 
@@ -112,6 +112,7 @@ void CheckersManager::playComputerVsComputer()
 		<< " sec" << endl;
 
 	cout << getEndGameMessage().str() << endl;
+	cout << (char)7;
 }
 
 stringstream CheckersManager::getEndGameMessage() const
@@ -214,6 +215,8 @@ void CheckersManager::printAnalytics(
 		<< (endTime - startTime) / 1000.0 << " sec\t"
 		<< "average move time = "
 		<< (endTime - gameStartTime) / gameMoveCounter / 1000.0
+		<< " sec\n"
+		<< "game duration = " << (endTime - gameStartTime) / 1000.0
 		<< " sec\t"
 		<< "Heuristic = ";
 
