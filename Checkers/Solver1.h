@@ -9,6 +9,7 @@ class Solver1 : public Solver
 {
 public:
 	Solver1();
+	Solver1(int depthLimit);
 	Solver1(const Solver1 & solver1);
 	~Solver1();
 

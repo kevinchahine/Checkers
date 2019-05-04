@@ -2,6 +2,9 @@
 
 Solver::Solver() {}
 
+Solver::Solver(int depthLimit) :
+	depthLimit(depthLimit) {}
+
 Solver::~Solver() {}
 
 pair<bool, move_t> Solver::playAsRed(CheckersEngine & game)
@@ -44,7 +47,7 @@ pair<int, move_t> Solver::minimax(CheckersEngine & game, int depth, bool maxPlay
 	}
 
 	// 2.) Did we reach the depth limit?
-	if (depth >= this->DEPTH_LIMIT)
+	if (depth >= this->depthLimit)
 	{
 		// return a heuristic
 		int h = calcHeuristic(game);
@@ -146,7 +149,7 @@ pair<int, move_t> Solver::alphabeta(CheckersEngine & game, int depth, int alpha,
 	}
 
 	// 2.) Did we reach the depth limit?
-	if (depth >= this->DEPTH_LIMIT)
+	if (depth >= this->depthLimit)
 	{
 		// Yes. return a heuristic
 		int h = calcHeuristic(game);

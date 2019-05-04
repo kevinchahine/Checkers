@@ -19,6 +19,7 @@ class Solver
 {
 public:
 	Solver();
+	Solver(int depthLimit);
 	~Solver();
 
 	virtual pair<bool, move_t> playAsRed(CheckersEngine & game);
@@ -35,6 +36,6 @@ public:
 	virtual int calcHeuristic(const CheckersEngine & game) const = 0;
 
 public:
-	const static int DEPTH_LIMIT = 7;
+	int depthLimit;
 };
 

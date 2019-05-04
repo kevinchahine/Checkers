@@ -17,25 +17,35 @@ extern default_random_engine generator;
 
 namespace GeneticAlgorithm
 {
-	vector<pair<Solver1, int>> generateInitialPopulation();
+	typedef Solver1 solver_t;
+	typedef pair<solver_t, int> individual_t;
+	typedef vector<individual_t> population_t;
 
-	int evaluateFitnessOfPopulation(vector<pair<Solver1, int>> & population);
+	// Generates the initial population (Generation 0) to be
+	// used in the GA. Individuals are generated with random
+	// values between 
+	population_t generateInitialPopulation();
+
+	int evaluateFitnessOfPopulation(population_t & population);
 	
-	pair<Solver1, int> & selectRandomIndividual(vector<pair<Solver1, int>> & population, int sumOfFitness);
+	individual_t & selectRandomIndividual(population_t & population, int sumOfFitness);
 
-	void reproduce(const Solver1 & parent1, const Solver1 & parent2, Solver1 & newIndividual);
+	void reproduce(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual);
 	
-	void splice(const Solver1 & parent1, const Solver1 & parent2, Solver1 & newIndividual);
+	void splice(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual);
 
-	void singleMutation(Solver1 & individual);
+	void singleMutation(solver_t & individual);
 
-	Solver1 solve();
+	solver_t solve();
 
-	static const size_t POPULATION_SIZE = 4;
-	
-	static const bool LIMIT_BY_TIME = true;
-	static const bool LIMIT_BY_GENERATIONS = false;
+	const size_t POPULATION_SIZE = 4;// 25;
+	const int MIN_WEIGHT = -40;
+	const int MAX_WEIGHT = 40;
+	const int PROBABILITY_OF_SINGLE_MUTATION = 20;	// 20%
 
-	static const size_t N_GENERATIONS = 30;
-	static const clock_t TIME_LIMIT = 5 * 60 * 1000;	// 5 minutes
+	const bool LIMIT_BY_TIME = true;
+	const bool LIMIT_BY_GENERATIONS = false;
+
+	const size_t N_GENERATIONS = 30;
+	const clock_t TIME_LIMIT = 5 * 60 * 1000;	// 5 minutes
 }

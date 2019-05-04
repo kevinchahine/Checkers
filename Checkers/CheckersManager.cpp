@@ -73,7 +73,7 @@ void CheckersManager::playComputerVsComputer()
 
 	print();
 
-	Solver1 solver;
+	Solver1 solver(7);
 	
 	bool blacksTurn = true;
 

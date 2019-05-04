@@ -1,29 +1,32 @@
 #include "GeneticAlgorithm.h"
 
-vector<pair<Solver1, int>> GeneticAlgorithm::generateInitialPopulation()
+using namespace GeneticAlgorithm;
+
+population_t GeneticAlgorithm::generateInitialPopulation()
 {
-	vector<pair<Solver1, int>> population;
+	population_t population;
 
 	population.reserve(POPULATION_SIZE);
 
-	uniform_int_distribution<int> dist(-40, 40);
+	uniform_int_distribution<int> dist(MIN_WEIGHT, MAX_WEIGHT);
 
 	for (size_t i = 0; i < population.capacity(); i++)
 	{
-		Solver1 solver;
+		// Create a 1-ply solver 
+		solver_t solver(1);
 
 		for (size_t j = 0; j < solver.N_WEIGHTS; j++)
 		{
 			solver.weights[j] = dist(generator);
 		}
 
-		population.push_back(pair<Solver1, int>(solver, 0));
+		population.push_back(individual_t(solver, 0));
 	}
 
 	return population;
 }
 
-int GeneticAlgorithm::evaluateFitnessOfPopulation(vector<pair<Solver1, int>>& population)
+int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 {
 	// To evaluate the fitness of each individual in the population
 	// we need to play them against each other and count their wins
@@ -35,19 +38,22 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(vector<pair<Solver1, int>>& po
 		population[i].second = 0;
 	}
 
-	// Play each solver against all other solvers and count their wins and losses
+	// Play each solver against all OTHER solvers twice
+	// (once as black, once as red)
+	// and count their wins and loses
+	// Wins count as +1 point loses count as -1 point
 	for (size_t player1 = 0; player1 = popSize; player1++)
 	{
 		for (size_t player2 = 0; player2 < popSize; player2++)
 		{
 			if (player1 != player2)
 			{
-				Solver1 & blackSolver = population[player1].first;
-				Solver1 & redSolver = population[player2].first;
+				solver_t & blackSolver = population[player1].first;
+				solver_t & redSolver = population[player2].first;
 
 				CheckersManager game;
 				game.playComputerVsComputer(blackSolver, redSolver);
-
+				
 				switch (game.status())
 				{
 				case Checkers::BLACK_WINS:
@@ -57,9 +63,9 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(vector<pair<Solver1, int>>& po
 					population[player1].second--;
 					population[player2].second++;
 				}
-			}
-		}
-	}
+			} // end if (player1 != player2)
+		} // end for (size_t player2 = player1 + 1; 
+	} // end for (size_t player1 = 0;
 
 	// Calculate the sum of all fitness values
 	int fitnessSum = 0;
@@ -71,9 +77,9 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(vector<pair<Solver1, int>>& po
 	return fitnessSum;
 }
 
-pair<Solver1, int> & GeneticAlgorithm::selectRandomIndividual(vector<pair<Solver1, int>>& population, int sumOfFitness)
+individual_t & GeneticAlgorithm::selectRandomIndividual(population_t & population, int sumOfFitness)
 {
-	uniform_int_distribution<int> dist(0, sumOfFitness);
+	uniform_int_distribution<int> dist(0, sumOfFitness - 1);
 	int r = dist(generator);
 
 	int temp = 0;
@@ -85,20 +91,24 @@ pair<Solver1, int> & GeneticAlgorithm::selectRandomIndividual(vector<pair<Solver
 			return population[i];
 	}
 
-	return population[0];
+	cerr << "Error: " << __FILE__ << " line " << __LINE__
+		<< " a random individual could not be chosen" << endl
+		<< "r = " << r << " sumOfFitness = " << sumOfFitness << endl;
+
+	return population[0];	// return bluff value
 }
 
-void GeneticAlgorithm::reproduce(const Solver1 & parent1, const Solver1 & parent2, Solver1 & newIndividual)
+void GeneticAlgorithm::reproduce(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual)
 {
 	splice(parent1, parent2, newIndividual);
 
 	singleMutation(newIndividual);
 }
 
-void GeneticAlgorithm::splice(const Solver1 & parent1, const Solver1 & parent2, Solver1 & newIndividual)
+void GeneticAlgorithm::splice(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual)
 {
 	// Where should we perform the splice?
-	uniform_int_distribution<int> dist1(0, Solver1::N_WEIGHTS - 1);
+	uniform_int_distribution<int> dist1(0, solver_t::N_WEIGHTS - 1);
 	int crossOverPoint = dist1(generator);
 
 	// Copy values from parent1 in the range [0, crossOverPoint)
@@ -108,25 +118,25 @@ void GeneticAlgorithm::splice(const Solver1 & parent1, const Solver1 & parent2, 
 	}
 
 	// Copy value fromparent2 in the range [crossOverPoint, N_WEIGHTS)
-	for (size_t i = crossOverPoint; i < Solver1::N_WEIGHTS; i++)
+	for (size_t i = crossOverPoint; i < solver_t::N_WEIGHTS; i++)
 	{
 		newIndividual.weights[i] = parent2.weights[i];
 	}
 }
 
-void GeneticAlgorithm::singleMutation(Solver1 & individual)
+void GeneticAlgorithm::singleMutation(solver_t & individual)
 {
 	// Should we perform a mutation?
 	uniform_int_distribution<int> dist1(0, 100);
 	int probabilityOfMutation = dist1(generator);
-	if (probabilityOfMutation < 20)
+	if (probabilityOfMutation < PROBABILITY_OF_SINGLE_MUTATION)
 	{
 		// Yes. Which value should we mutate
-		uniform_int_distribution<int> dist2(0, Solver1::N_WEIGHTS - 1);
+		uniform_int_distribution<int> dist2(0, solver_t::N_WEIGHTS - 1);
 		int index = dist2(generator);
 
-		// What value should we mutate it to?
-		uniform_int_distribution<int> dist3(-40, 40);
+		// What value should we change it to?
+		uniform_int_distribution<int> dist3(MIN_WEIGHT, MAX_WEIGHT);
 		int newValue = dist3(generator);
 
 		// Mutate the value
@@ -134,10 +144,10 @@ void GeneticAlgorithm::singleMutation(Solver1 & individual)
 	}
 }
 
-Solver1 GeneticAlgorithm::solve()
+solver_t GeneticAlgorithm::solve()
 {
-	vector<pair<Solver1, int>> population;
-	vector<pair<Solver1, int>> newPopulation;
+	population_t population;
+	population_t newPopulation;
 
 	// 1.) Generation the initial population (1st Genteration)
 	population = generateInitialPopulation();
@@ -153,7 +163,7 @@ Solver1 GeneticAlgorithm::solve()
 			break;
 
 		// 2-2.)
-		cout << "Generation " << generationNumber << endl;
+		cout << "Generation: " << generationNumber << endl;
 
 		// 2-3.) Evaluate fitness of each individual
 		//	 *** THIS FUNCTION WILL TAKE A LONG TIME ***
@@ -162,9 +172,9 @@ Solver1 GeneticAlgorithm::solve()
 		// 2-4.) Create next generation
 		for (size_t i = 0; i < POPULATION_SIZE; i++)
 		{
-			pair<Solver1, int> & parent1 =
+			individual_t & parent1 =
 				selectRandomIndividual(population, fitnessSum);
-			pair<Solver1, int> & parent2 =
+			individual_t & parent2 =
 				selectRandomIndividual(population, fitnessSum);
 
 			reproduce(parent1.first, parent2.first, newPopulation[i].first);
