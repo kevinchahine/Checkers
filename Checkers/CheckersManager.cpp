@@ -73,7 +73,7 @@ void CheckersManager::playComputerVsComputer()
 
 	print();
 
-	CheckersSolver1 solver;
+	Solver1 solver;
 	
 	bool blacksTurn = true;
 
@@ -102,8 +102,60 @@ void CheckersManager::playComputerVsComputer()
 		printAnalytics(
 			nMovesSinceLastTakeOrPromotion, 
 			startTime, endTime, gameStartTime, 
-			gameMoveCounter, 333,// solver.calcHeuristic(*this),
+			gameMoveCounter, solver.calcHeuristic(*this),
 			console);
+	}
+
+	gameEndTime = clock();
+	cout << "average move time = "
+		<< (gameEndTime - gameStartTime) / gameMoveCounter / 1000.0
+		<< " sec" << endl;
+
+	cout << getEndGameMessage().str() << endl;
+	cout << (char)7;
+}
+
+void CheckersManager::playComputerVsComputer(Solver & blackSolver, Solver & redSolver)
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	clock_t gameStartTime = clock();
+	clock_t gameEndTime;
+	int gameMoveCounter = 1;
+
+	print();
+
+	bool blacksTurn = true;
+
+	while (true)
+	{
+		if (status() != CheckersEngine::CONTINUE) break;
+
+		cout << (blacksTurn ? "BLACK" : "RED") << "'s turn" << endl;
+
+		pair<bool, move_t> ret;
+
+		clock_t startTime = clock();
+		if (blacksTurn) ret = blackSolver.playAsBlack(*this);
+		else			ret = redSolver.playAsRed(*this);
+		clock_t endTime = clock();
+
+		gameMoveCounter++;
+
+		// If jump did not occur, then its the opponents turn
+		bool jumpOccurred = ret.first;
+		if (!jumpOccurred) { blacksTurn = !blacksTurn; }
+
+		move_t move = ret.second;
+
+		print(20, move);
+		printAnalytics(
+			nMovesSinceLastTakeOrPromotion,
+			startTime, endTime, gameStartTime,
+			gameMoveCounter, 0,
+			console);
+		cout << "Blacks heuristic = " << blackSolver.calcHeuristic(*this) << endl;
+		cout << "Reds heuristic = " << redSolver.calcHeuristic(*this) << endl;
 	}
 
 	gameEndTime = clock();

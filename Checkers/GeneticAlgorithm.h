@@ -7,10 +7,9 @@
 #include <random>
 #include <time.h>
 #include <vector>
-#include <list>
-#include <set>
 
-#include "CheckersSolver1.h"
+#include "CheckersManager.h"
+#include "Solver1.h"
 
 using namespace std;
 
@@ -18,13 +17,25 @@ extern default_random_engine generator;
 
 namespace GeneticAlgorithm
 {
-	vector<CheckersSolver1> generateInitialPopulation();
+	vector<pair<Solver1, int>> generateInitialPopulation();
 
-	CheckersSolver1 & selectRandomIndividual(const vector<CheckersSolver1> & population);
+	int evaluateFitnessOfPopulation(vector<pair<Solver1, int>> & population);
+	
+	pair<Solver1, int> & selectRandomIndividual(vector<pair<Solver1, int>> & population, int sumOfFitness);
 
-	CheckersSolver1 reproduce(const CheckersSolver1 & x, const CheckersSolver1 & y);
+	void reproduce(const Solver1 & parent1, const Solver1 & parent2, Solver1 & newIndividual);
+	
+	void splice(const Solver1 & parent1, const Solver1 & parent2, Solver1 & newIndividual);
 
-	CheckersSolver1 solve();
+	void singleMutation(Solver1 & individual);
 
+	Solver1 solve();
 
+	static const size_t POPULATION_SIZE = 4;
+	
+	static const bool LIMIT_BY_TIME = true;
+	static const bool LIMIT_BY_GENERATIONS = false;
+
+	static const size_t N_GENERATIONS = 30;
+	static const clock_t TIME_LIMIT = 5 * 60 * 1000;	// 5 minutes
 }

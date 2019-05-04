@@ -1,16 +1,20 @@
 #pragma once
 
 #include <list>
+#include <sstream>
 
-#include "CheckersSolver.h"
+#include "Solver.h"
 
-class CheckersSolver1 : public CheckersSolver
+class Solver1 : public Solver
 {
 public:
-	CheckersSolver1();
-	~CheckersSolver1();
+	Solver1();
+	Solver1(const Solver1 & solver1);
+	~Solver1();
 
-	int calcHeuristic(const CheckersEngine & game) const;
+	virtual stringstream toStream() const;
+
+	virtual int calcHeuristic(const CheckersEngine & game) const;
 
 	//8.) # of unoccupied fields on promotion line
 	int8_t countUnoccupiedSpacesOnPromotionLine(const CheckersEngine & game) const;
@@ -43,8 +47,7 @@ public:
 	20.) Presence of a Triangle pattern NOT COUNTED
 	21.) Presence of an Oreo pattern NOT COUNTED
 	22.) Presence of a Bridge pattern NOT COUNTED
-	23.) Presence of a Dog pattern NOT COUNTED
-	*/
+	23.) Presence of a Dog pattern NOT COUNTED*/
 
 	// 24.) Presence of a pawn in corner
 	int8_t countCornerPawns(const CheckersEngine & game) const;
@@ -53,6 +56,7 @@ public:
 	int8_t countCornerKings(const CheckersEngine & game) const;
 
 public:
+	static const size_t N_WEIGHTS = 25;
 	// 1.) # of Pawns 
 	// 2.) # of Kings
 	// 4.) # of safe Kings
@@ -78,6 +82,6 @@ public:
 	// 23.) Presence of a Dog pattern *  Not yet counted
 	// 24.) Presence of a pawn in corner
 	// 25.) Presence of a king in corner
-	int weights[25];
+	int weights[N_WEIGHTS];
 };
 

@@ -1,6 +1,6 @@
-#include "CheckersSolver1.h"
+#include "Solver1.h"
 
-CheckersSolver1::CheckersSolver1()
+Solver1::Solver1()
 {
 	// 1.) # of Pawns 
 	weights[0] = 1;
@@ -80,11 +80,31 @@ CheckersSolver1::CheckersSolver1()
 	weights[24] = 1;
 }
 
-CheckersSolver1::~CheckersSolver1()
+Solver1::Solver1(const Solver1 & solver1)
+{
+	for (size_t i = 0; i < N_WEIGHTS; i++)
+	{
+		this->weights[i] = solver1.weights[i];
+	}
+}
+
+Solver1::~Solver1()
 {
 }
 
-int CheckersSolver1::calcHeuristic(const CheckersEngine & game) const
+stringstream Solver1::toStream() const
+{
+	stringstream ss;
+
+	for (size_t i = 0; i < N_WEIGHTS; i++)
+	{
+		ss << weights[i] << ' ';
+	}
+
+	return ss;
+}
+
+int Solver1::calcHeuristic(const CheckersEngine & game) const
 {
 	// HEURISTIC COMPONENTS:
 	// (BLACK pieces count as +1, RED pieces count as -1)
@@ -339,7 +359,7 @@ int CheckersSolver1::calcHeuristic(const CheckersEngine & game) const
 	return h;
 }
 
-int8_t CheckersSolver1::countUnoccupiedSpacesOnPromotionLine(const CheckersEngine & game) const
+int8_t Solver1::countUnoccupiedSpacesOnPromotionLine(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -361,7 +381,7 @@ int8_t CheckersSolver1::countUnoccupiedSpacesOnPromotionLine(const CheckersEngin
 	return count;
 }
 
-int8_t CheckersSolver1::countDefenderPieces(const CheckersEngine & game) const
+int8_t Solver1::countDefenderPieces(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -388,7 +408,7 @@ int8_t CheckersSolver1::countDefenderPieces(const CheckersEngine & game) const
 	return count;
 }
 
-int8_t CheckersSolver1::countAttackingPawns(const CheckersEngine & game) const
+int8_t Solver1::countAttackingPawns(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -419,7 +439,7 @@ int8_t CheckersSolver1::countAttackingPawns(const CheckersEngine & game) const
 	return count;
 }
 
-int8_t CheckersSolver1::countCentralPawns(const CheckersEngine & game) const
+int8_t Solver1::countCentralPawns(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -437,7 +457,7 @@ int8_t CheckersSolver1::countCentralPawns(const CheckersEngine & game) const
 	return count;
 }
 
-int8_t CheckersSolver1::countCentralKings(const CheckersEngine & game) const
+int8_t Solver1::countCentralKings(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -455,7 +475,7 @@ int8_t CheckersSolver1::countCentralKings(const CheckersEngine & game) const
 	return count;
 }
 
-int8_t CheckersSolver1::countMainDiagonalPawns(const CheckersEngine & game) const
+int8_t Solver1::countMainDiagonalPawns(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -470,7 +490,7 @@ int8_t CheckersSolver1::countMainDiagonalPawns(const CheckersEngine & game) cons
 	return count;
 }
 
-int8_t CheckersSolver1::countMainDiagonalKings(const CheckersEngine & game) const
+int8_t Solver1::countMainDiagonalKings(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -485,7 +505,7 @@ int8_t CheckersSolver1::countMainDiagonalKings(const CheckersEngine & game) cons
 	return count;
 }
 
-int8_t CheckersSolver1::countDoubleDiagonalPawns(const CheckersEngine & game) const
+int8_t Solver1::countDoubleDiagonalPawns(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -509,7 +529,7 @@ int8_t CheckersSolver1::countDoubleDiagonalPawns(const CheckersEngine & game) co
 	return count;
 }
 
-int8_t CheckersSolver1::countDoubleDiagonalKings(const CheckersEngine & game) const
+int8_t Solver1::countDoubleDiagonalKings(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -533,7 +553,7 @@ int8_t CheckersSolver1::countDoubleDiagonalKings(const CheckersEngine & game) co
 	return count;
 }
 
-int8_t CheckersSolver1::countCornerPawns(const CheckersEngine & game) const
+int8_t Solver1::countCornerPawns(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 
@@ -552,7 +572,7 @@ int8_t CheckersSolver1::countCornerPawns(const CheckersEngine & game) const
 	return count;
 }
 
-int8_t CheckersSolver1::countCornerKings(const CheckersEngine & game) const
+int8_t Solver1::countCornerKings(const CheckersEngine & game) const
 {
 	int8_t count = 0;
 

@@ -5,13 +5,13 @@
 #include <time.h>
 
 #include "CheckersEngine.h"
-#include "CheckersSolver.h"
-#include "CheckersSolver1.h"
+#include "Solver.h"
+#include "Solver1.h"
 #include "Console.h"
 
 using namespace std;
 
-class CheckersManager : CheckersEngine
+class CheckersManager : public CheckersEngine
 {
 public:
 	CheckersManager();
@@ -21,7 +21,8 @@ public:
 	void playUserVsUser();
 	void playComputerVsUser();
 	void playComputerVsComputer();
-	
+	void playComputerVsComputer(Solver & blackSolver, Solver & redSolver);
+
 	stringstream getEndGameMessage() const;
 
 private:

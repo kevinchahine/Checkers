@@ -24,9 +24,6 @@
     <ClCompile Include="Checkers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CheckersSolver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CheckersEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,7 +45,22 @@
     <ClCompile Include="Move.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CheckersSolver1.cpp">
+    <ClCompile Include="GeneticAlgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCheckersSolver1.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TestGeneticAlgorithm.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Solver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Solver1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Solver0.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,9 +69,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Colors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckersSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CheckersEngine.h">
@@ -83,10 +92,22 @@
     <ClInclude Include="Move.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CheckersSolver1.h">
+    <ClInclude Include="GeneticAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneticAlgorithm.h">
+    <ClInclude Include="TestCheckersSolver1.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="TestGeneticAlgorithm.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Solver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Solver1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Solver0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
