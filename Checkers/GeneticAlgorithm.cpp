@@ -13,7 +13,7 @@ population_t GeneticAlgorithm::generateInitialPopulation()
 	for (size_t i = 0; i < population.capacity(); i++)
 	{
 		// Create a 1-ply solver 
-		solver_t solver(1);
+		solver_t solver(DEPTH_LIMIT);
 
 		for (size_t j = 0; j < solver.N_WEIGHTS; j++)
 		{
@@ -42,7 +42,7 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 	// (once as black, once as red)
 	// and count their wins and loses
 	// Wins count as +1 point loses count as -1 point
-	for (size_t player1 = 0; player1 = popSize; player1++)
+	for (size_t player1 = 0; player1 < popSize; player1++)
 	{
 		for (size_t player2 = 0; player2 < popSize; player2++)
 		{
@@ -52,16 +52,26 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 				solver_t & redSolver = population[player2].first;
 
 				CheckersManager game;
-				game.playComputerVsComputer(blackSolver, redSolver);
+				game.playComputerVsComputer(blackSolver, redSolver, false);
 				
 				switch (game.status())
 				{
 				case Checkers::BLACK_WINS:
+					///cout << "Black Wins" << endl;
+					///cout << "B";
 					population[player1].second++;
 					population[player2].second--;
+					break;
 				case Checkers::RED_WINS:
+					///cout << "Red Wins" << endl;
+					///cout << "R";
 					population[player1].second--;
 					population[player2].second++;
+					break;
+				default:
+					///cout << "Draw" << endl;
+					///cout << "D";
+					break;
 				}
 			} // end if (player1 != player2)
 		} // end for (size_t player2 = player1 + 1; 
@@ -79,9 +89,12 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 
 individual_t & GeneticAlgorithm::selectRandomIndividual(population_t & population, int sumOfFitness)
 {
-	uniform_int_distribution<int> dist(0, sumOfFitness - 1);
-	int r = dist(generator);
+	int b = sumOfFitness - 1;
 
+	uniform_int_distribution<int> dist(0, b);
+	
+	int r = dist(generator);
+	
 	int temp = 0;
 	for (size_t i = 0; i < population.size(); i++)
 	{
@@ -148,6 +161,7 @@ solver_t GeneticAlgorithm::solve()
 {
 	population_t population;
 	population_t newPopulation;
+	int fitnessSum = 0;
 
 	// 1.) Generation the initial population (1st Genteration)
 	population = generateInitialPopulation();
@@ -167,9 +181,12 @@ solver_t GeneticAlgorithm::solve()
 
 		// 2-3.) Evaluate fitness of each individual
 		//	 *** THIS FUNCTION WILL TAKE A LONG TIME ***
-		int fitnessSum = evaluateFitnessOfPopulation(population);
+		cout << "\tEvaluating Fitness Of Population...";
+		fitnessSum = evaluateFitnessOfPopulation(population);
+		cout << "done" << endl;
 
 		// 2-4.) Create next generation
+		cout << "\tCreating Next Generation...";
 		for (size_t i = 0; i < POPULATION_SIZE; i++)
 		{
 			individual_t & parent1 =
@@ -181,6 +198,7 @@ solver_t GeneticAlgorithm::solve()
 
 			singleMutation(newPopulation[i].first);
 		}
+		cout << "done" << endl;
 
 		// 2-5.) Copy the new population over the old one
 		swap(population, newPopulation);
@@ -193,7 +211,7 @@ solver_t GeneticAlgorithm::solve()
 
 	// 3.) Evaluate the fitness of the most recent generation
 	//	 *** THIS FUNCTION WILL TAKE A LONG TIME ***
-	int fitnessSum = evaluateFitnessOfPopulation(population);
+	fitnessSum = evaluateFitnessOfPopulation(population);
 
 	// 3.) Return individual with the best fitness 
 	size_t indexOfBest = 0;

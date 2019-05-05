@@ -20,11 +20,12 @@ default_random_engine generator((unsigned int) time(0));
 
 int main()
 {
-	Solver1 blackSolver(7), redSolver(7);
-
-	CheckersManager game;
+	//Solver1 blackSolver(3), redSolver(3);
+	//CheckersManager game;
 	//game.playUserVsUser();
-	game.playComputerVsComputer(blackSolver, redSolver);
+	//game.playComputerVsComputer(blackSolver, redSolver);
+
+	GeneticAlgorithm::solve();
 
 	//TestCheckersEngine t;
 	//t.isPieceSafe();
@@ -36,7 +37,9 @@ int main()
 	//t.test();
 
 	//TestGeneticAlgorithm t;
-	//t.test();
+	//t.generateInitialPopulation();
+	//t._evaluateFitnessOfPopulation();
+	//t._produceASingleGeneration();
 
 	system("pause");
 	return 0;

@@ -21,7 +21,7 @@ public:
 	void playUserVsUser();
 	void playComputerVsUser();
 	void playComputerVsComputer();
-	void playComputerVsComputer(Solver & blackSolver, Solver & redSolver);
+	void playComputerVsComputer(Solver & blackSolver, Solver & redSolver, bool showOutput = true);
 
 	stringstream getEndGameMessage() const;
 

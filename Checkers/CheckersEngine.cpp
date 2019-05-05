@@ -51,8 +51,8 @@ Checkers::STATUS CheckersEngine::status() const
 	if (redCount == 0)
 		return BLACK_WINS;
 	
-	size_t nValidMovesRed = getValidMoves(false).size();
 	size_t nValidMovesBlack = getValidMoves(true).size();
+	size_t nValidMovesRed = getValidMoves(false).size();
 
 	if (nValidMovesRed == 0 && nValidMovesBlack == 0)
 		return DRAW;
@@ -203,7 +203,7 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 			if (toRow == 7)
 			{
 				// Yes, Black piece becomes a King.
-				placePiece(toRow, toCol, false, true);
+				placePiece(toRow, toCol, true, true);
 				// If Piece was already a BLACK king it will still work.
 
 				nMovesSinceLastTakeOrPromotion = 0;
@@ -212,12 +212,14 @@ bool CheckersEngine::movePiece(int fromRow, int fromCol, int toRow, int toCol)
 	}
 	else
 	{
+		// Then piece must be Red
 		if (pieceIsKing == false)
-		{// Then piece must be Red. Did it reach the end zone?
+		{
+			// Did it reach the end zone?
 			if (toRow == 0)
 			{
 				// Yes. Red piece becomes a King.
-				placePiece(toRow, toCol, true, true);
+				placePiece(toRow, toCol, false, true);
 				// If Piece was already a RED king it will still work.
 
 				nMovesSinceLastTakeOrPromotion = 0;

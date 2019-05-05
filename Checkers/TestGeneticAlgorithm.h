@@ -8,6 +8,11 @@ public:
 	TestGeneticAlgorithm();
 	~TestGeneticAlgorithm();
 
-	void test();
+	void _generateInitialPopulation();
+
+	void _evaluateFitnessOfPopulation();
+
+	void _produceASingleGeneration();
+
 };
 

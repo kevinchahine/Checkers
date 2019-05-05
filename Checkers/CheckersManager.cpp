@@ -115,7 +115,7 @@ void CheckersManager::playComputerVsComputer()
 	cout << (char)7;
 }
 
-void CheckersManager::playComputerVsComputer(Solver & blackSolver, Solver & redSolver)
+void CheckersManager::playComputerVsComputer(Solver & blackSolver, Solver & redSolver, bool showOutput)
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -123,7 +123,8 @@ void CheckersManager::playComputerVsComputer(Solver & blackSolver, Solver & redS
 	clock_t gameEndTime;
 	int gameMoveCounter = 1;
 
-	print();
+	if (showOutput)
+		print();
 
 	bool blacksTurn = true;
 
@@ -131,7 +132,9 @@ void CheckersManager::playComputerVsComputer(Solver & blackSolver, Solver & redS
 	{
 		if (status() != CheckersEngine::CONTINUE) break;
 
-		cout << (blacksTurn ? "BLACK" : "RED") << "'s turn" << endl;
+		if (showOutput)
+			cout << (blacksTurn ? "BLACK" : "RED")
+			<< "'s turn" << endl;
 
 		pair<bool, move_t> ret;
 
@@ -148,23 +151,28 @@ void CheckersManager::playComputerVsComputer(Solver & blackSolver, Solver & redS
 
 		move_t move = ret.second;
 
-		print(20, move);
-		printAnalytics(
-			nMovesSinceLastTakeOrPromotion,
-			startTime, endTime, gameStartTime,
-			gameMoveCounter, 0,
-			console);
-		cout << "Blacks heuristic = " << blackSolver.calcHeuristic(*this) << endl;
-		cout << "Reds heuristic = " << redSolver.calcHeuristic(*this) << endl;
+		if (showOutput)
+		{
+			print(20, move);
+			printAnalytics(
+				nMovesSinceLastTakeOrPromotion,
+				startTime, endTime, gameStartTime,
+				gameMoveCounter, blackSolver.calcHeuristic(*this),
+				console);
+			cout << "Blacks heuristic = " << blackSolver.calcHeuristic(*this) << endl;
+			cout << "Reds heuristic = " << redSolver.calcHeuristic(*this) << endl;
+		}
 	}
 
 	gameEndTime = clock();
-	cout << "average move time = "
-		<< (gameEndTime - gameStartTime) / gameMoveCounter / 1000.0
-		<< " sec" << endl;
+	if (showOutput)
+	{
+		cout << "average move time = "
+			<< (gameEndTime - gameStartTime) / gameMoveCounter / 1000.0
+			<< " sec" << endl;
 
-	cout << getEndGameMessage().str() << endl;
-	cout << (char)7;
+		cout << getEndGameMessage().str() << endl;
+	}
 }
 
 stringstream CheckersManager::getEndGameMessage() const
