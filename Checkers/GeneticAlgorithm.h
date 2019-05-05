@@ -40,7 +40,8 @@ namespace GeneticAlgorithm
 
 	void writePopulationToFile(string fileName, const population_t & population);
 
-	const size_t POPULATION_SIZE = 10; // 50;
+	const size_t POPULATION_SIZE = 50;
+
 	const int MIN_WEIGHT = -40;
 	const int MAX_WEIGHT = 40;
 	const int PROBABILITY_OF_SINGLE_MUTATION = 10;	// 10%

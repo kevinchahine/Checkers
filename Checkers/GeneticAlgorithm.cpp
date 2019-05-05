@@ -193,7 +193,11 @@ solver_t GeneticAlgorithm::solve()
 
 		// 2-4.) Write population to file
 		stringstream filename;
+<<<<<<< HEAD
 		filename << "GA" << generationNumber << ".txt";
+=======
+		filename << "GA Generation " << generationNumber << ".txt";
+>>>>>>> master
 		writePopulationToFile(filename.str(), population);
 
 		// 2-4.) Create next generation
@@ -246,17 +250,27 @@ solver_t GeneticAlgorithm::solve()
 
 void GeneticAlgorithm::writePopulationToFile(string fileName, const population_t & population)
 {
+	static clock_t prevWriteTime = 0;
+
 	ofstream outFile(fileName);
 
 	cout << "Opening file...";
 	while (!outFile);
 	cout << "done" << endl;
 
+	outFile << "duration = "
+		<< (clock() - prevWriteTime) / 1000.0 << " mSec"
+		<< endl;
+
+	prevWriteTime = clock();
+
 	for (const individual_t & i : population)
 	{
-		outFile << i.first.toStream().str()
-			<< "\tfitness = "
+		outFile
+			<< "fitness = "
 			<< i.second
+			<< "\t"
+			<< i.first.toStream().str()
 			<< endl;
 	}
 
