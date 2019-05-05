@@ -81,7 +81,13 @@ Solver1::Solver1()
 }
 
 Solver1::Solver1(int depthLimit) :
-	Solver(depthLimit) {}
+	Solver(depthLimit) 
+{
+	for (size_t i = 0; i < N_WEIGHTS; i++)
+	{
+		this->weights[i] = 1;
+	}
+}
 
 Solver1::Solver1(const Solver1 & solver1) :
 	Solver(solver1.depthLimit)
@@ -103,6 +109,26 @@ Solver1::Solver1(const Solver1 && solver1) :
 
 Solver1::~Solver1()
 {
+}
+
+Solver1 & Solver1::operator=(const Solver1 & solver1)
+{
+	for (size_t i = 0; i < N_WEIGHTS; i++)
+	{
+		this->weights[i] = solver1.weights[i];
+	}
+
+	return *this;
+}
+
+Solver1 & Solver1::operator=(const Solver1 && solver1)
+{
+	for (size_t i = 0; i < N_WEIGHTS; i++)
+	{
+		this->weights[i] = solver1.weights[i];
+	}
+
+	return *this;
 }
 
 stringstream Solver1::toStream() const

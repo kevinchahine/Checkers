@@ -38,15 +38,17 @@ namespace GeneticAlgorithm
 
 	solver_t solve();
 
-	const size_t POPULATION_SIZE = 4;
+	void writePopulationToFile(string fileName, const population_t & population);
+
+	const size_t POPULATION_SIZE = 10; // 50;
 	const int MIN_WEIGHT = -40;
 	const int MAX_WEIGHT = 40;
-	const int PROBABILITY_OF_SINGLE_MUTATION = 20;	// 20%
+	const int PROBABILITY_OF_SINGLE_MUTATION = 10;	// 10%
 	const int DEPTH_LIMIT = 1;
 
-	const bool LIMIT_BY_TIME = true;
 	const bool LIMIT_BY_GENERATIONS = false;
+	const bool LIMIT_BY_TIME = false;
 
-	const size_t N_GENERATIONS = 30;
-	const clock_t TIME_LIMIT = 5 * 60 * 1000;	// 5 minutes
+	const size_t N_GENERATIONS = 100;
+	const clock_t TIME_LIMIT = 1 * 60 * 1000;	// 1 minutes
 }

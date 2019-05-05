@@ -59,18 +59,24 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 				case Checkers::BLACK_WINS:
 					///cout << "Black Wins" << endl;
 					///cout << "B";
-					population[player1].second++;
-					population[player2].second--;
+					//population[player1].second++;
+					//population[player2].second--;
+					population[player1].second += 2;
+					population[player2].second += 0;
 					break;
 				case Checkers::RED_WINS:
 					///cout << "Red Wins" << endl;
 					///cout << "R";
-					population[player1].second--;
-					population[player2].second++;
+					//population[player1].second--;
+					//population[player2].second++;
+					population[player1].second += 0;
+					population[player2].second += 2;
 					break;
-				default:
+				case Checkers::DRAW:
 					///cout << "Draw" << endl;
 					///cout << "D";
+					population[player1].second += 1;
+					population[player2].second += 1;
 					break;
 				}
 			} // end if (player1 != player2)
@@ -185,6 +191,11 @@ solver_t GeneticAlgorithm::solve()
 		fitnessSum = evaluateFitnessOfPopulation(population);
 		cout << "done" << endl;
 
+		// 2-4.) Write population to file
+		stringstream filename;
+		filename << "GA" << generationNumber << ".txt";
+		writePopulationToFile(filename.str(), population);
+
 		// 2-4.) Create next generation
 		cout << "\tCreating Next Generation...";
 		for (size_t i = 0; i < POPULATION_SIZE; i++)
@@ -197,11 +208,18 @@ solver_t GeneticAlgorithm::solve()
 			reproduce(parent1.first, parent2.first, newPopulation[i].first);
 
 			singleMutation(newPopulation[i].first);
+
+			cout << "\t\t" << population[i].second << endl;
 		}
 		cout << "done" << endl;
 
 		// 2-5.) Copy the new population over the old one
-		swap(population, newPopulation);
+		for (size_t i = 0; i < POPULATION_SIZE; i++)
+		{
+			population.at(i).first = newPopulation.at(i).first;
+			population.at(i).second = newPopulation.at(i).second;
+		}
+		
 		// now population contains the new individuals
 		// WARNING: population does not have valid fitness values
 
@@ -224,4 +242,23 @@ solver_t GeneticAlgorithm::solve()
 	}
 
 	return population[indexOfBest].first;
+}
+
+void GeneticAlgorithm::writePopulationToFile(string fileName, const population_t & population)
+{
+	ofstream outFile(fileName);
+
+	cout << "Opening file...";
+	while (!outFile);
+	cout << "done" << endl;
+
+	for (const individual_t & i : population)
+	{
+		outFile << i.first.toStream().str()
+			<< "\tfitness = "
+			<< i.second
+			<< endl;
+	}
+
+	outFile.close();
 }
