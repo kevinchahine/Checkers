@@ -14,6 +14,9 @@ public:
 	Solver1(const Solver1 && solver1);
 	~Solver1();
 
+	Solver1 & operator=(const Solver1 & solver1);
+	Solver1 & operator=(const Solver1 && solver1);
+	
 	virtual stringstream toStream() const;
 
 	virtual int calcHeuristic(const CheckersEngine & game) const;
