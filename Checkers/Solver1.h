@@ -5,6 +5,9 @@
 
 #include "Solver.h"
 
+const int WEIGHTS_COMBO_0[25] =
+	{-6, -7, -26, -15, 11, 31, 29, -12, -3, 17, -31, -22, -35, 18, -32, -29, 39, -39, 18, -11, -32, -37, -20, -1, 28 };
+
 class Solver1 : public Solver
 {
 public:
@@ -12,6 +15,7 @@ public:
 	Solver1(int depthLimit);
 	Solver1(const Solver1 & solver1);
 	Solver1(const Solver1 && solver1);
+	Solver1(int depthLimit, const int weightsCombo[25]);
 	~Solver1();
 
 	Solver1 & operator=(const Solver1 & solver1);

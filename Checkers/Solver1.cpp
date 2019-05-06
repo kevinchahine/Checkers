@@ -1,6 +1,7 @@
 #include "Solver1.h"
 
-Solver1::Solver1()
+Solver1::Solver1() :
+	Solver(3)
 {
 	// 1.) # of Pawns 
 	weights[0] = 1;
@@ -104,6 +105,15 @@ Solver1::Solver1(const Solver1 && solver1) :
 	for (size_t i = 0; i < N_WEIGHTS; i++)
 	{
 		this->weights[i] = solver1.weights[i];
+	}
+}
+
+Solver1::Solver1(int depthLimit, const int weightsCombo[25]) :
+	Solver(depthLimit)
+{
+	for (size_t i = 0; i < 25; i++)
+	{
+		weights[i] = weightsCombo[i];
 	}
 }
 

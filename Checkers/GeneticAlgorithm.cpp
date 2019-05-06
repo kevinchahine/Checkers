@@ -8,7 +8,7 @@ population_t GeneticAlgorithm::generateInitialPopulation()
 
 	population.reserve(POPULATION_SIZE);
 
-	uniform_int_distribution<int> dist(MIN_WEIGHT, MAX_WEIGHT);
+	uniform_real_distribution<fitness_t> dist(MIN_WEIGHT, MAX_WEIGHT);
 
 	for (size_t i = 0; i < population.capacity(); i++)
 	{
@@ -93,28 +93,59 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 	return fitnessSum;
 }
 
-individual_t & GeneticAlgorithm::selectRandomIndividual(population_t & population, int sumOfFitness)
+void GeneticAlgorithm::sortAndScale(population_t & population, fitness_t sumOfFitness)
 {
-	int b = sumOfFitness - 1;
+	// 1.) Normalize fitness scores
+	//		Divide the current fitness score of each individual
+	//		by the sum of all fitness scores
+	//		The sum of all normalized fitness scores should equal 1 (or 100%)
+	for (individual_t & i : population)
+	{
+		i.second /= sumOfFitness;
+	}
 
-	uniform_int_distribution<int> dist(0, b);
+	// 2.) Sort population in decending order
+	sort(population.begin(), population.end(), GeneticAlgorithm::_compareFunction);
 	
-	int r = dist(generator);
+	// 3.) Accumulate normalized fitness values
+	//		Take each fitness score starting with the 1st one (which 
+	//		should be the greatest) and add up the fitness scores
+	//		of the previous individuals.
+	//		ex: let f be the array of all fitness scores
+	//			f[i] = f[0] + f[1] + ... + f[i + 1]
+	//		ex: (As an recursive function)
+	//			f[i] = f[i - 1]	where size > i >= 1
+	//		Note: The value of the final fitness score should be 1
+	for (size_t i = 1; i < POPULATION_SIZE; i++)
+	{
+		population[i].second += population[i - 1].second;
+	}
+
+	// -.) After function return call selectRandomIndividual()
+	//		to select the parents of the next child
+}
+
+individual_t & GeneticAlgorithm::selectRandomIndividual(population_t & population, fitness_t sumOfFitness)
+{
+	// 4.) Choose a random number r between 0 and 1
+	uniform_real_distribution<fitness_t> dist(0.0, 1.0);
+	fitness_t r = dist(generator);
 	
-	int temp = 0;
+	// 5.) Choose the individual whose fitness score is 
+
 	for (size_t i = 0; i < population.size(); i++)
 	{
-		temp += population[i].second;
-
-		if (r < temp)
+		if (r < population[i].second)
+		{
 			return population[i];
+		}
 	}
 
 	cerr << "Error: " << __FILE__ << " line " << __LINE__
 		<< " a random individual could not be chosen" << endl
 		<< "r = " << r << " sumOfFitness = " << sumOfFitness << endl;
 
-	return population[0];	// return bluff value
+	return population.back();	// return last value as a bluff
 }
 
 void GeneticAlgorithm::reproduce(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual)
@@ -127,7 +158,7 @@ void GeneticAlgorithm::reproduce(const solver_t & parent1, const solver_t & pare
 void GeneticAlgorithm::splice(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual)
 {
 	// Where should we perform the splice?
-	uniform_int_distribution<int> dist1(0, solver_t::N_WEIGHTS - 1);
+	uniform_real_distribution<fitness_t> dist1(0, solver_t::N_WEIGHTS - 1);
 	int crossOverPoint = dist1(generator);
 
 	// Copy values from parent1 in the range [0, crossOverPoint)
@@ -187,21 +218,27 @@ solver_t GeneticAlgorithm::solve()
 
 		// 2-3.) Evaluate fitness of each individual
 		//	 *** THIS FUNCTION WILL TAKE A LONG TIME ***
-		cout << "\tEvaluating Fitness Of Population...";
+		cout << "\tEvaluating Fitness Of Population..." << endl;
 		fitnessSum = evaluateFitnessOfPopulation(population);
-		cout << "done" << endl;
-
+		for (const individual_t & i : population)
+		{
+			cout << '\t' << left << setw(10) << i.second
+				<< i.first.toStream().str() << endl;
+		}
+		sortAndScale(population, fitnessSum);
+		
 		// 2-4.) Write population to file
-		stringstream filename;
-<<<<<<< HEAD
-		filename << "GA" << generationNumber << ".txt";
-=======
-		filename << "GA Generation " << generationNumber << ".txt";
->>>>>>> master
-		writePopulationToFile(filename.str(), population);
+		if (WRITE_TO_FILE)
+		{
+			stringstream filename;
+			
+			filename << "GA Generation " << generationNumber << ".txt";
+
+			writePopulationToFile(filename.str(), population);
+		}
 
 		// 2-4.) Create next generation
-		cout << "\tCreating Next Generation...";
+		cout << "\tCreating Next Generation" << endl;
 		for (size_t i = 0; i < POPULATION_SIZE; i++)
 		{
 			individual_t & parent1 =
@@ -275,4 +312,9 @@ void GeneticAlgorithm::writePopulationToFile(string fileName, const population_t
 	}
 
 	outFile.close();
+}
+
+bool GeneticAlgorithm::_compareFunction(const individual_t & i, const individual_t & j)
+{
+	return i.second > j.second;
 }

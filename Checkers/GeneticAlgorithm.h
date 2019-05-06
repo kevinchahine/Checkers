@@ -15,10 +15,13 @@ using namespace std;
 
 extern default_random_engine generator;
 
+// https://en.wikipedia.org/wiki/Selection_(genetic_algorithm)
+
 namespace GeneticAlgorithm
 {
+	typedef double fitness_t;
 	typedef Solver1 solver_t;
-	typedef pair<solver_t, int> individual_t;
+	typedef pair<solver_t, fitness_t> individual_t;
 	typedef vector<individual_t> population_t;
 
 	// Generates the initial population (Generation 0) to be
@@ -28,7 +31,13 @@ namespace GeneticAlgorithm
 
 	int evaluateFitnessOfPopulation(population_t & population);
 	
-	individual_t & selectRandomIndividual(population_t & population, int sumOfFitness);
+	// Call this after evaluateFitnessOfPopulation()
+	// This function will Normalize the individuals fitness
+	// and sort them in descending order, so that the selection
+	// function can select the better individuals for breeding
+	void sortAndScale(population_t & population, fitness_t sumOfFitness);
+
+	individual_t & selectRandomIndividual(population_t & population, fitness_t sumOfFitness);
 
 	void reproduce(const solver_t & parent1, const solver_t & parent2, solver_t & newIndividual);
 	
@@ -40,10 +49,12 @@ namespace GeneticAlgorithm
 
 	void writePopulationToFile(string fileName, const population_t & population);
 
-	const size_t POPULATION_SIZE = 50;
+	bool _compareFunction(const individual_t & i, const individual_t & j);
 
-	const int MIN_WEIGHT = -40;
-	const int MAX_WEIGHT = 40;
+	const size_t POPULATION_SIZE = 10;// 50;
+
+	const fitness_t MIN_WEIGHT = -40;
+	const fitness_t MAX_WEIGHT = 40;
 	const int PROBABILITY_OF_SINGLE_MUTATION = 10;	// 10%
 	const int DEPTH_LIMIT = 1;
 
@@ -52,4 +63,6 @@ namespace GeneticAlgorithm
 
 	const size_t N_GENERATIONS = 100;
 	const clock_t TIME_LIMIT = 1 * 60 * 1000;	// 1 minutes
+
+	const bool WRITE_TO_FILE = false;
 }

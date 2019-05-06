@@ -275,7 +275,7 @@ void CheckersManager::printAnalytics(
 		<< (endTime - startTime) / 1000.0 << " sec\t"
 		<< "average move time = "
 		<< (endTime - gameStartTime) / gameMoveCounter / 1000.0
-		<< " sec\n"
+		<< " sec "
 		<< "game duration = " << (endTime - gameStartTime) / 1000.0
 		<< " sec\t"
 		<< "Heuristic = ";
