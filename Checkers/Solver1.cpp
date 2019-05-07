@@ -147,7 +147,7 @@ stringstream Solver1::toStream() const
 
 	for (size_t i = 0; i < N_WEIGHTS; i++)
 	{
-		ss << weights[i] << ' ';
+		ss << setw(3) << weights[i] << ' ';
 	}
 
 	return ss;
@@ -271,8 +271,6 @@ int Solver1::calcHeuristic(const CheckersEngine & game) const
 					// 17.) # on loner pawns (pawn not adjacent to any other piece)
 					if (game.isPieceLoner(r, c))
 						nLonerPawns += pieceAdder;
-
-					
 				}
 
 				// 2.) # of Kings

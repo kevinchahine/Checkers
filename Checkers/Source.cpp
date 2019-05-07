@@ -20,7 +20,7 @@ default_random_engine generator((unsigned int) time(0));
 
 int main()
 {
-	Solver1 blackSolver(6), redSolver(6, WEIGHTS_COMBO_0);
+	Solver1 blackSolver(6, WEIGHTS_COMBO_2), redSolver(6);
 	CheckersManager game;
 	//game.playUserVsUser();
 	game.playComputerVsComputer(blackSolver, redSolver);
