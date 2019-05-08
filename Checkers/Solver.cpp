@@ -1,15 +1,20 @@
 #include "Solver.h"
 
-Solver::Solver() {}
+Solver::Solver() :
+	depthLimit(1),
+	timeLimit(CLOCK_MAX) {}
 
-Solver::Solver(int depthLimit) :
-	depthLimit(depthLimit) {}
+Solver::Solver(int depthLimit, clock_t timeLimit) :
+	depthLimit(depthLimit),
+	timeLimit(timeLimit) {}
 
 Solver::~Solver() {}
 
 pair<bool, move_t> Solver::playAsRed(CheckersEngine & game)
 {
 	pair<int, move_t> ret;
+
+	startTime = clock();
 
 	///ret = minimax(game, 0, false);
 	ret = alphabeta(game, 0, INT_MIN, INT_MAX, false);
@@ -22,11 +27,32 @@ pair<bool, move_t> Solver::playAsBlack(CheckersEngine & game)
 {
 	pair<int, move_t> ret;
 
+	startTime = clock();
+
 	///ret = minimax(game, 0, true);
 	ret = alphabeta(game, 0, INT_MIN, INT_MAX, true);
 
 	return pair<bool, move_t>(
 		game.movePiece(ret.second), ret.second);
+}
+
+pair<bool, move_t> Solver::playAsX(CheckersEngine & game, bool maxPlayersMove)
+{
+	pair<int, move_t> bestMove;
+	pair<int, move_t> bestMoveOfThisPly;
+
+	startTime = clock();
+
+	// Use Iterative Deepening and only keep the best move
+	// of the deepest search. Compare each move with the best
+	// move of its depth.
+	//while (clock() - startTime < timeLimit)
+	//{
+		bestMove = alphabeta(game, 0, INT_MIN, INT_MAX, false);
+	//}
+
+	return pair<bool, move_t>(
+		game.movePiece(bestMove.second), bestMove.second);
 }
 
 pair<int, move_t> Solver::minimax(CheckersEngine & game, int depth, bool maxPlayersMove)
@@ -47,7 +73,8 @@ pair<int, move_t> Solver::minimax(CheckersEngine & game, int depth, bool maxPlay
 	}
 
 	// 2.) Did we reach the depth limit?
-	if (depth >= this->depthLimit)
+	if (depth >= this->depthLimit || 
+		(clock() - startTime > this->timeLimit))
 	{
 		// return a heuristic
 		int h = calcHeuristic(game);
@@ -148,8 +175,9 @@ pair<int, move_t> Solver::alphabeta(CheckersEngine & game, int depth, int alpha,
 		break;
 	}
 
-	// 2.) Did we reach the depth limit?
-	if (depth >= this->depthLimit)
+	// 2.) Did we reach the depth or time limit?
+	if (depth >= this->depthLimit || 
+		(clock() - startTime > this->timeLimit))
 	{
 		// Yes. return a heuristic
 		int h = calcHeuristic(game);

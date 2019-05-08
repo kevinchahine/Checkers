@@ -1,7 +1,7 @@
 #include "Solver1.h"
 
 Solver1::Solver1() :
-	Solver(3)
+	Solver(3, 1000000)
 {
 	// 1.) # of Pawns 
 	weights[0] = 1;
@@ -81,8 +81,8 @@ Solver1::Solver1() :
 	weights[24] = 1;
 }
 
-Solver1::Solver1(int depthLimit) :
-	Solver(depthLimit) 
+Solver1::Solver1(int depthLimit, clock_t timeLimit) :
+	Solver(depthLimit, timeLimit) 
 {
 	for (size_t i = 0; i < N_WEIGHTS; i++)
 	{
@@ -91,7 +91,7 @@ Solver1::Solver1(int depthLimit) :
 }
 
 Solver1::Solver1(const Solver1 & solver1) :
-	Solver(solver1.depthLimit)
+	Solver(solver1.depthLimit, solver1.timeLimit)
 {
 	for (size_t i = 0; i < N_WEIGHTS; i++)
 	{
@@ -100,7 +100,7 @@ Solver1::Solver1(const Solver1 & solver1) :
 }
 
 Solver1::Solver1(const Solver1 && solver1) :
-	Solver(solver1.depthLimit)
+	Solver(solver1.depthLimit, solver1.timeLimit)
 {
 	for (size_t i = 0; i < N_WEIGHTS; i++)
 	{
@@ -108,8 +108,8 @@ Solver1::Solver1(const Solver1 && solver1) :
 	}
 }
 
-Solver1::Solver1(int depthLimit, const int weightsCombo[25]) :
-	Solver(depthLimit)
+Solver1::Solver1(int depthLimit, clock_t timeLimit, const int weightsCombo[25]) :
+	Solver(depthLimit, timeLimit)
 {
 	for (size_t i = 0; i < 25; i++)
 	{
