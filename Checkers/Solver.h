@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+#include <tuple>
 #include <Windows.h>
 
 #include "CheckersEngine.h"
@@ -22,6 +23,14 @@ Red plays 2nd (MIN)
 class Solver
 {
 public:
+	typedef tuple<int, move_t, bool> minimax_t;
+	enum MINIMAX
+	{
+		BLUFF_MOVE,
+		REAL_MOVE
+	};
+
+public:
 	Solver();
 	Solver(int depthLimit, clock_t timeLimit = CLOCK_MAX);
 	~Solver();
@@ -32,10 +41,10 @@ public:
 	virtual pair<bool, move_t> playAsX(CheckersEngine & game, bool maxPlayersMove);
 
 	// Minimax 
-	pair<int, move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);
+	///pair<int, move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);
 
 	// Minimax with Alpha Beta Prunning
-	pair<int, move_t> alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove);
+	minimax_t alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove);
 	
 	virtual stringstream toStream() const = 0;
 
