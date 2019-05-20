@@ -1,6 +1,11 @@
 #pragma once
 
+#include <iostream>
+#include <string>
+
 #include "Player.h"
+
+using namespace std;
 
 class User : public Player
 {
@@ -8,7 +13,7 @@ public:
 	User();
 	~User();
 
-	virtual move_t getDecision(const CheckersEngine & game, COLOR asPlayer) const;
+	virtual move_t getDecision(const CheckersEngine & game, bool isBlack) const;
 	virtual move_t getDecisionAsBlack(const CheckersEngine & game) const;
 	virtual move_t getDecisionAsRed(const CheckersEngine & game) const;
 };

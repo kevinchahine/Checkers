@@ -10,22 +10,41 @@ Solver::Solver(int depthLimit, clock_t timeLimit) :
 
 Solver::~Solver() {}
 
-move_t Solver::getDecision(const CheckersEngine & game, COLOR asPlayer) const
+move_t Solver::getDecision(const CheckersEngine & game, bool isBlack) const
 {
-	cerr << "Method not implemented" << __FILE__ << " line " << __LINE__ << endl;
-	return -1;
+	// Save the bestMove in here.
+	minimax_t bestMove;
+
+	// Use Iterative Deepening and only return the best move
+	// of the deepest search.
+	for (int ply = 1; ply <= depthLimit; ply++)
+	{
+		// Do we still have time left?
+		if (clock() - startTime > timeLimit)
+		{
+			break; // No, we're out of time.
+		}
+
+		// Then evaluate all valid moves of the next depth.
+		bestMove = alphabeta(
+			game, depthLimit - ply, INT_MIN, INT_MAX, isBlack);
+	}
+
+	// Return the best move (get<1> of bestMove)
+	// the we found for the
+	// deepest ply that we searched completely.
+	// without making that move in the real game.
+	return get<1>(bestMove);
 }
 
 move_t Solver::getDecisionAsBlack(const CheckersEngine & game) const
 {
-	cerr << "Method not implemented" << __FILE__ << " line " << __LINE__ << endl;
-	return -1;
+	return getDecision(game, true);
 }
 
 move_t Solver::getDecisionAsRed(const CheckersEngine & game) const
 {
-	cerr << "Method not implemented" << __FILE__ << " line " << __LINE__ << endl;
-	return -1;
+	return getDecision(game, false);
 }
 
 move_pair_t Solver::playAsRed(CheckersEngine & game)
@@ -187,7 +206,7 @@ move_pair_t Solver::playAsX(CheckersEngine & game, bool maxPlayersMove)
 //	} // -------------------- MIN -------------------------
 //}
 
-Solver::minimax_t Solver::alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove)
+Solver::minimax_t Solver::alphabeta(const CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove) const
 {
 	// 1.) Did we reach a terminal node?
 	auto s = game.status();

@@ -25,19 +25,33 @@ Red plays 2nd (MIN)
 class Solver : public Player
 {
 public:
-	typedef tuple<int, move_t, bool> minimax_t;
 	enum MINIMAX
 	{
+		// A "Bluff Move" is a move that could not
+		// be fully analyzed before the time limit
+		// and therefore its heuristic cannot be
+		// compared with the heuristics of other moves. 
+		// It is called bluff because it acts as a 
+		// place holder when some value needs to be 
+		// returned.
 		BLUFF_MOVE,
+		// A "Real Move" is a move that is fully 
+		// analyzed till a depth limit is reached. 
+		// The heuristic of a "Read Move" can be 
+		// compared with the heuristics of other moves.
 		REAL_MOVE
 	};
+	// get<0> - heuristic of a move according to search
+	// get<1> - move
+	// get<2> - real/bluff move (MINIMAX::REAL_MOVE or MINIMAX::BLUFF_MOVE)
+	typedef tuple<int, move_t, bool> minimax_t;
 
 public:
 	Solver();
 	Solver(int depthLimit, clock_t timeLimit = CLOCK_MAX);
 	~Solver();
 
-	virtual move_t getDecision(const CheckersEngine & game, COLOR asPlayer) const;
+	virtual move_t getDecision(const CheckersEngine & game, bool isBlack) const;
 	virtual move_t getDecisionAsBlack(const CheckersEngine & game) const;
 	virtual move_t getDecisionAsRed(const CheckersEngine & game) const;
 
@@ -50,7 +64,7 @@ public:
 	///pair<int, move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);
 
 	// Minimax with Alpha Beta Prunning
-	minimax_t alphabeta(CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove);
+	minimax_t alphabeta(const CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove) const;
 	
 	virtual stringstream toStream() const = 0;
 

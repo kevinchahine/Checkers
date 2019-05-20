@@ -168,6 +168,7 @@
     <ClCompile Include="Checkers.cpp" />
     <ClCompile Include="CheckersEngine.cpp" />
     <ClCompile Include="CheckersManager.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Solver.cpp" />
     <ClCompile Include="Solver0.cpp" />
     <ClCompile Include="Solver1.cpp" />
@@ -179,12 +180,14 @@
     <ClCompile Include="TestCheckersEngine.cpp" />
     <ClCompile Include="TestCheckersSolver1.cpp" />
     <ClCompile Include="TestGeneticAlgorithm.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CheckerBoard.h" />
     <ClInclude Include="Checkers.h" />
     <ClInclude Include="CheckersEngine.h" />
     <ClInclude Include="CheckersManager.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Solver.h" />
     <ClInclude Include="Solver0.h" />
     <ClInclude Include="Solver1.h" />
@@ -196,6 +199,7 @@
     <ClInclude Include="TestCheckersEngine.h" />
     <ClInclude Include="TestCheckersSolver1.h" />
     <ClInclude Include="TestGeneticAlgorithm.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
