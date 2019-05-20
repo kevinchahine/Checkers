@@ -10,7 +10,25 @@ Solver::Solver(int depthLimit, clock_t timeLimit) :
 
 Solver::~Solver() {}
 
-pair<bool, move_t> Solver::playAsRed(CheckersEngine & game)
+move_t Solver::getDecision(const CheckersEngine & game, COLOR asPlayer) const
+{
+	cerr << "Method not implemented" << __FILE__ << " line " << __LINE__ << endl;
+	return -1;
+}
+
+move_t Solver::getDecisionAsBlack(const CheckersEngine & game) const
+{
+	cerr << "Method not implemented" << __FILE__ << " line " << __LINE__ << endl;
+	return -1;
+}
+
+move_t Solver::getDecisionAsRed(const CheckersEngine & game) const
+{
+	cerr << "Method not implemented" << __FILE__ << " line " << __LINE__ << endl;
+	return -1;
+}
+
+move_pair_t Solver::playAsRed(CheckersEngine & game)
 {
 	minimax_t ret;
 
@@ -19,11 +37,11 @@ pair<bool, move_t> Solver::playAsRed(CheckersEngine & game)
 	///ret = minimax(game, 0, false);
 	ret = alphabeta(game, 0, INT_MIN, INT_MAX, false);
 
-	return pair<bool, move_t>(
+	return move_pair_t(
 		game.movePiece(get<1>(ret)), get<1>(ret));
 }
 
-pair<bool, move_t> Solver::playAsBlack(CheckersEngine & game)
+move_pair_t Solver::playAsBlack(CheckersEngine & game)
 {
 	minimax_t ret;
 
@@ -32,11 +50,11 @@ pair<bool, move_t> Solver::playAsBlack(CheckersEngine & game)
 	///ret = minimax(game, 0, true);
 	ret = alphabeta(game, 0, INT_MIN, INT_MAX, true);
 
-	return pair<bool, move_t>(
+	return move_pair_t(
 		game.movePiece(get<1>(ret)), get<1>(ret));
 }
 
-pair<bool, move_t> Solver::playAsX(CheckersEngine & game, bool maxPlayersMove)
+move_pair_t Solver::playAsX(CheckersEngine & game, bool maxPlayersMove)
 {
 	// Save the bestMove in here.
 	minimax_t bestMove;
@@ -62,7 +80,7 @@ pair<bool, move_t> Solver::playAsX(CheckersEngine & game, bool maxPlayersMove)
 	// Return the best move we found for the
 	// deepest ply that we searched completely.
 	// And make that move in the real game.
-	return pair<bool, move_t>(
+	return move_pair_t(
 		game.movePiece(get<1>(bestMove)), get<1>(bestMove));
 }
 

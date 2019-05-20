@@ -9,6 +9,8 @@
 #include <tuple>
 #include <Windows.h>
 
+#include "Player.h"
+
 #include "CheckersEngine.h"
 
 using namespace std;
@@ -20,7 +22,7 @@ const clock_t CLOCK_MAX = LONG_MAX;
 Black plays 1st (MAX)
 Red plays 2nd (MIN)
 */
-class Solver
+class Solver : public Player
 {
 public:
 	typedef tuple<int, move_t, bool> minimax_t;
@@ -35,10 +37,14 @@ public:
 	Solver(int depthLimit, clock_t timeLimit = CLOCK_MAX);
 	~Solver();
 
-	virtual pair<bool, move_t> playAsRed(CheckersEngine & game);
-	virtual pair<bool, move_t> playAsBlack(CheckersEngine & game);
+	virtual move_t getDecision(const CheckersEngine & game, COLOR asPlayer) const;
+	virtual move_t getDecisionAsBlack(const CheckersEngine & game) const;
+	virtual move_t getDecisionAsRed(const CheckersEngine & game) const;
 
-	virtual pair<bool, move_t> playAsX(CheckersEngine & game, bool maxPlayersMove);
+	virtual move_pair_t playAsRed(CheckersEngine & game);
+	virtual move_pair_t playAsBlack(CheckersEngine & game);
+
+	virtual move_pair_t playAsX(CheckersEngine & game, bool maxPlayersMove);
 
 	// Minimax 
 	///pair<int, move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);

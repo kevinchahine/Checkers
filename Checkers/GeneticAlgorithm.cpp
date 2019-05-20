@@ -17,7 +17,7 @@ population_t GeneticAlgorithm::generateInitialPopulation()
 
 		for (size_t j = 0; j < solver.N_WEIGHTS; j++)
 		{
-			solver.weights[j] = dist(generator);
+			solver.weights[j] = (int) dist(generator);
 		}
 
 		population.push_back(individual_t(solver, 0));
@@ -87,7 +87,7 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 	int fitnessSum = 0;
 	for (size_t i = 0; i < popSize; i++)
 	{
-		fitnessSum += population[i].second;
+		fitnessSum += (int) population[i].second;
 	}
 
 	return fitnessSum;
@@ -159,7 +159,7 @@ void GeneticAlgorithm::splice(const solver_t & parent1, const solver_t & parent2
 {
 	// Where should we perform the splice?
 	uniform_real_distribution<fitness_t> dist1(0, solver_t::N_WEIGHTS - 1);
-	int crossOverPoint = dist1(generator);
+	int crossOverPoint = (int) dist1(generator);
 
 	// Copy values from parent1 in the range [0, crossOverPoint)
 	for (size_t i = 0; i < crossOverPoint; i++)

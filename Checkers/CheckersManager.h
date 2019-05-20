@@ -5,6 +5,8 @@
 #include <time.h>
 
 #include "CheckersEngine.h"
+#include "Player.h"
+#include "User.h"
 #include "Solver.h"
 #include "Solver1.h"
 #include "Console.h"
@@ -16,6 +18,9 @@ class CheckersManager : public CheckersEngine
 public:
 	CheckersManager();
 	~CheckersManager();
+
+	// *** Use only this to make moves ***
+	void play(Player & blackPlayer, Player & redPlayer);
 
 	void playUserVsComputer();
 	void playUserVsUser();
