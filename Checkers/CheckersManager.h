@@ -19,14 +19,7 @@ public:
 	CheckersManager();
 	~CheckersManager();
 
-	// *** Use only this to make moves ***
 	void play(Player & blackPlayer, Player & redPlayer, bool showOutput = true);
-
-	void playUserVsComputer();
-	void playUserVsUser();
-	void playComputerVsUser();
-	void playComputerVsComputer();
-	void playComputerVsComputer(Solver & blackSolver, Solver & redSolver, bool showOutput = true);
 
 	stringstream getEndGameMessage() const;
 

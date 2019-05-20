@@ -21,8 +21,8 @@ public:
 	Player();
 	~Player();
 
-	virtual move_t getDecision(const CheckersEngine & game, bool isBlack) const = 0;
-	virtual move_t getDecisionAsBlack(const CheckersEngine & game) const = 0;
-	virtual move_t getDecisionAsRed(const CheckersEngine & game) const = 0;
+	virtual move_t getDecision(const CheckersEngine & game, bool isBlack) = 0;
+	virtual move_t getDecisionAsBlack(const CheckersEngine & game) = 0;
+	virtual move_t getDecisionAsRed(const CheckersEngine & game) = 0;
 };
 

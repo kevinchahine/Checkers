@@ -6,7 +6,7 @@ User::~User()
 {
 }
 
-move_t User::getDecision(const CheckersEngine & game, bool isBlack) const
+move_t User::getDecision(const CheckersEngine & game, bool isBlack)
 {
 	vector<move_t> validMoves = game.getValidMoves(isBlack);
 
@@ -71,12 +71,12 @@ move_t User::getDecision(const CheckersEngine & game, bool isBlack) const
 	return move;
 }
 
-move_t User::getDecisionAsBlack(const CheckersEngine & game) const
+move_t User::getDecisionAsBlack(const CheckersEngine & game)
 {
 	return getDecision(game, true);
 }
 
-move_t User::getDecisionAsRed(const CheckersEngine & game) const
+move_t User::getDecisionAsRed(const CheckersEngine & game)
 {
 	return getDecision(game, false);
 }

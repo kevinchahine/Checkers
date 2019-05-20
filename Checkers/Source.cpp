@@ -7,7 +7,9 @@
 #include "CheckerBoard.h"
 #include "CheckersEngine.h"
 #include "CheckersManager.h"
+#include "Player.h"
 #include "Solver.h"
+#include "User.h"
 
 #include "TestCheckerBoard.h"
 #include "TestCheckersEngine.h"
@@ -20,10 +22,14 @@ default_random_engine generator((unsigned int) time(0));
 
 int main()
 {
-	Solver1 blackSolver(1000000, 5000, WEIGHTS_COMBO_2), redSolver(1000000, 5000);
+	Solver1 blackSolver(1000000, 5000, WEIGHTS_COMBO_2);
+	Solver1 redSolver(1000000, 5000);
+	User user;
+
 	CheckersManager game;
+	game.play(blackSolver, user);
 	//game.playUserVsUser();
-	game.playComputerVsComputer(blackSolver, redSolver);
+	//game.playComputerVsComputer(blackSolver, redSolver);
 
 	//GeneticAlgorithm::solve();
 

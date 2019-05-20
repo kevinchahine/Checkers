@@ -13,8 +13,8 @@ public:
 	User();
 	~User();
 
-	virtual move_t getDecision(const CheckersEngine & game, bool isBlack) const;
-	virtual move_t getDecisionAsBlack(const CheckersEngine & game) const;
-	virtual move_t getDecisionAsRed(const CheckersEngine & game) const;
+	virtual move_t getDecision(const CheckersEngine & game, bool isBlack);
+	virtual move_t getDecisionAsBlack(const CheckersEngine & game);
+	virtual move_t getDecisionAsRed(const CheckersEngine & game);
 };
 

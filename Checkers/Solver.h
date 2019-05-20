@@ -22,6 +22,7 @@ const clock_t CLOCK_MAX = LONG_MAX;
 Black plays 1st (MAX)
 Red plays 2nd (MIN)
 */
+
 class Solver : public Player
 {
 public:
@@ -41,6 +42,7 @@ public:
 		// compared with the heuristics of other moves.
 		REAL_MOVE
 	};
+	
 	// get<0> - heuristic of a move according to search
 	// get<1> - move
 	// get<2> - real/bluff move (MINIMAX::REAL_MOVE or MINIMAX::BLUFF_MOVE)
@@ -51,17 +53,9 @@ public:
 	Solver(int depthLimit, clock_t timeLimit = CLOCK_MAX);
 	~Solver();
 
-	virtual move_t getDecision(const CheckersEngine & game, bool isBlack) const;
-	virtual move_t getDecisionAsBlack(const CheckersEngine & game) const;
-	virtual move_t getDecisionAsRed(const CheckersEngine & game) const;
-
-	virtual move_pair_t playAsRed(CheckersEngine & game);
-	virtual move_pair_t playAsBlack(CheckersEngine & game);
-
-	virtual move_pair_t playAsX(CheckersEngine & game, bool maxPlayersMove);
-
-	// Minimax 
-	///pair<int, move_t> minimax(CheckersEngine & game, int depth, bool maxPlayersMove);
+	virtual move_t getDecision(const CheckersEngine & game, bool isBlack);
+	virtual move_t getDecisionAsBlack(const CheckersEngine & game);
+	virtual move_t getDecisionAsRed(const CheckersEngine & game);
 
 	// Minimax with Alpha Beta Prunning
 	minimax_t alphabeta(const CheckersEngine & game, int depth, int alpha, int beta, bool maxPlayersMove) const;
@@ -76,7 +70,7 @@ public:
 
 protected:
 	// keeps track of the start time of the minimax algorithm
-	// set this to clock() before of every non-recursive
+	// set this to clock() before of every non-recursive (initial)
 	// minimax() or alphabeta() function call.
 	clock_t startTime;
 };

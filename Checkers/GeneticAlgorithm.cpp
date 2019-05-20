@@ -52,7 +52,7 @@ int GeneticAlgorithm::evaluateFitnessOfPopulation(population_t & population)
 				solver_t & redSolver = population[player2].first;
 
 				CheckersManager game;
-				game.playComputerVsComputer(blackSolver, redSolver, false);
+				game.play(blackSolver, redSolver, false);
 				
 				switch (game.status())
 				{
