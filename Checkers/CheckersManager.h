@@ -20,7 +20,7 @@ public:
 	~CheckersManager();
 
 	// *** Use only this to make moves ***
-	void play(Player & blackPlayer, Player & redPlayer);
+	void play(Player & blackPlayer, Player & redPlayer, bool showOutput = true);
 
 	void playUserVsComputer();
 	void playUserVsUser();

@@ -8,6 +8,62 @@ CheckersManager::~CheckersManager()
 {
 }
 
+void CheckersManager::play(Player & blackPlayer, Player & redPlayer, bool showOutput)
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	clock_t gameStartTime = clock();
+	clock_t gameEndTime;
+	int gameMoveCounter = 1;
+
+	if (showOutput)
+		print();
+
+	bool blacksTurn = true;
+
+	while (true)
+	{
+		if (status() != CheckersEngine::CONTINUE) break;
+
+		if (showOutput)
+			cout << (blacksTurn ? "BLACK" : "RED")
+			<< "'s turn" << endl;
+
+		move_t move;
+
+		clock_t startTime = clock();
+		
+		if (blacksTurn)
+			move = blackPlayer.getDecisionAsBlack(*this);
+		else
+			move = redPlayer.getDecisionAsRed(*this);
+	
+		bool jumpOccurred = movePiece(move);
+		clock_t endTime = clock();
+		
+		// If jump did not occur, then its the opponents turn
+		if (!jumpOccurred) { blacksTurn = !blacksTurn; }
+
+		gameMoveCounter++;
+
+		if (showOutput)
+		{
+			print(20, move);
+		}
+	}
+
+	gameEndTime = clock();
+
+	if (showOutput)
+	{
+		cout << "average move time = "
+			<< (gameEndTime - gameStartTime) / gameMoveCounter / 1000.0
+			<< " sec" << endl;
+
+		cout << getEndGameMessage().str() << endl;
+	}
+}
+
 void CheckersManager::playUserVsComputer()
 {
 }

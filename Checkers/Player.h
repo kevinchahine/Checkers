@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// first - true iff jump occured 
+// first - true iff the move will involve a jump 
 // second - the move itself (fromRow, fromCol, toRow, toCol)
 typedef pair<bool, move_t> move_pair_t;
 
