@@ -26,7 +26,7 @@ public:
 
 	void stamp(const BaseView & view, size_t row, size_t col);
 	
-	void print();
+	void print() const;
 
 protected:
 	// Each element points to a color_text_t value in a 

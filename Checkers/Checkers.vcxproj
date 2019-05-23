@@ -169,6 +169,7 @@
     <ClCompile Include="Checkers.cpp" />
     <ClCompile Include="CheckersEngine.cpp" />
     <ClCompile Include="CheckersManager.cpp" />
+    <ClCompile Include="GameInterface.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Solver.cpp" />
     <ClCompile Include="Solver0.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Checkers.h" />
     <ClInclude Include="CheckersEngine.h" />
     <ClInclude Include="CheckersManager.h" />
+    <ClInclude Include="GameInterface.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Solver.h" />
     <ClInclude Include="Solver0.h" />

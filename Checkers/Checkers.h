@@ -8,6 +8,8 @@
 #include "CheckerBoard.h"
 #include "Colors.h"
 #include "Move.h"
+#include "ViewLayout.h"
+#include "GameInterface.h"
 
 class Checkers
 {

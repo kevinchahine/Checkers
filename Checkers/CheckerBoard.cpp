@@ -1,6 +1,7 @@
 #include "CheckerBoard.h"
 
-CheckerBoard::CheckerBoard() {}
+CheckerBoard::CheckerBoard() :
+	boardView(N_ROWS, N_COLS) {}
 
 CheckerBoard::~CheckerBoard() {}
 
@@ -24,9 +25,9 @@ void CheckerBoard::print(int indent)
 		// 2.) Print row
 		for (size_t c = 0; c < N_COLS; c++)
 		{
-			Console::setColor(console, foreColor[r][c], backColor[r][c]);
-
-			cout << text[r][c];
+			Console::setColor(console, boardView.colorText[r][c].first);
+			
+			cout << boardView.colorText[r][c].second;
 		}
 
 		// 3.) ENDL
@@ -54,9 +55,8 @@ void CheckerBoard::resetArrays()
 	{
 		for (size_t c = 0; c < N_COLS; c++)
 		{
-			text[r][c] = ' ';
-			foreColor[r][c] = Colors::WHITE;
-			backColor[r][c] = Colors::BLACK;
+			boardView.colorText[r][c].second = ' ';
+			boardView.colorText[r][c].first = Colors::combine(Colors::WHITE, Colors::BLACK);
 		}
 	}
 }
@@ -72,44 +72,48 @@ void CheckerBoard::initBoarders()
 	temp = ASCII::lines[ASCII::HORIZONTAL_DOUBLE];
 	for (c = 0; c < N_COLS; c++)
 	{
-		text[0][c] = temp;
-		foreColor[0][c] = tempForeColor;
-		backColor[0][c] = tempBackColor;
+		boardView.colorText[0][c].second = temp;
+		boardView.colorText[0][c].first = 
+			Colors::combine(tempForeColor, tempBackColor);
 
-		text[N_ROWS - 1][c] = temp;
-		foreColor[N_ROWS - 1][c] = tempForeColor;
-		backColor[N_ROWS - 1][c] = tempBackColor;
+		boardView.colorText[N_ROWS - 1][c].second = temp;
+		boardView.colorText[N_ROWS - 1][c].first =
+			Colors::combine(tempForeColor, tempBackColor);
 	}
 
 	// Left and Right Borders
 	temp = ASCII::lines[ASCII::VERTICAL_DOUBLE];
 	for (r = 0; r < N_ROWS; r++)
 	{
-		text[r][0] = temp;
-		foreColor[r][0] = tempForeColor;
-		backColor[r][0] = tempBackColor;
+		boardView.colorText[r][0].second = temp;
+		boardView.colorText[r][0].first =
+			Colors::combine(tempForeColor, tempBackColor);
 
-		text[r][N_COLS - 1] = temp;
-		foreColor[r][N_COLS - 1] = tempForeColor;
-		backColor[r][N_COLS - 1] = tempBackColor;
+		boardView.colorText[r][N_COLS - 1].second = temp;
+		boardView.colorText[r][N_COLS - 1].first =
+			Colors::combine(tempForeColor, tempBackColor);
 	}
 
 	// Corners
-	text[0][0] = ASCII::lines[ASCII::RIGHT_DOUBLE | ASCII::DOWN_DOUBLE];
-	foreColor[0][0] = tempForeColor;
-	backColor[0][0] = tempBackColor;
+	boardView.colorText[0][0].second = 
+		ASCII::lines[ASCII::RIGHT_DOUBLE | ASCII::DOWN_DOUBLE];;
+	boardView.colorText[0][0].first =
+		Colors::combine(tempForeColor, tempBackColor);
+
+	boardView.colorText[0][N_COLS - 1].second = 
+		ASCII::lines[ASCII::LEFT_DOUBLE | ASCII::DOWN_DOUBLE];
+	boardView.colorText[0][N_COLS - 1].first =
+		Colors::combine(tempForeColor, tempBackColor);
 	
-	text[0][N_COLS - 1] = ASCII::lines[ASCII::LEFT_DOUBLE | ASCII::DOWN_DOUBLE];
-	foreColor[0][N_COLS - 1] = tempForeColor;
-	backColor[r][N_COLS - 1] = tempBackColor; 
-	
-	text[N_ROWS - 1][0] = ASCII::lines[ASCII::UP_DOUBLE | ASCII::RIGHT_DOUBLE];
-	foreColor[N_ROWS - 1][0] = tempForeColor;
-	backColor[N_ROWS - 1][0] = tempBackColor;
-	
-	text[N_ROWS - 1][N_COLS - 1] = ASCII::lines[ASCII::UP_DOUBLE | ASCII::LEFT_DOUBLE];
-	foreColor[N_ROWS - 1][N_COLS - 1]  = tempForeColor;
-	backColor[N_ROWS - 1][N_COLS - 1] = tempBackColor;
+	boardView.colorText[N_ROWS - 1][0].second = 
+		ASCII::lines[ASCII::UP_DOUBLE | ASCII::RIGHT_DOUBLE];
+	boardView.colorText[N_ROWS - 1][0].first = 
+		Colors::combine(tempForeColor, tempBackColor);
+
+	boardView.colorText[N_ROWS - 1][N_COLS - 1].second =
+		ASCII::lines[ASCII::UP_DOUBLE | ASCII::LEFT_DOUBLE];
+	boardView.colorText[N_ROWS - 1][N_COLS - 1].first =
+		Colors::combine(tempForeColor, tempBackColor);
 }
 
 void CheckerBoard::initCoordinates()
@@ -124,8 +128,8 @@ void CheckerBoard::initCoordinates()
 		
 		const size_t CHAR_COL = 2 + spaceCol * SPACE_WIDTH + SPACE_WIDTH / 2;
 
-		text[1][CHAR_COL] = 'A' + spaceCol;
-		text[N_ROWS - VERTICAL_OFFSET][CHAR_COL] = 'A' + spaceCol;
+		boardView.colorText[1][CHAR_COL].second = 'A' + spaceCol;
+		boardView.colorText[N_ROWS - VERTICAL_OFFSET][CHAR_COL].second = 'A' + spaceCol;
 
 		for (size_t c = 0; c < SPACE_WIDTH; c++)
 		{
@@ -135,8 +139,14 @@ void CheckerBoard::initCoordinates()
 				spaceCol * SPACE_WIDTH +
 				c;
 
-			backColor[ROW][COL] = TEMP_BACK_COLOR_TOP;
-			backColor[N_ROWS - VERTICAL_OFFSET][COL] = TEMP_BACK_COLOR_BOTTOM;
+			char tempColor;
+			tempColor = boardView.colorText[ROW][COL].first;
+			tempColor = Colors::combine(Colors::foreColor(tempColor), TEMP_BACK_COLOR_TOP);
+			boardView.colorText[ROW][COL].first = tempColor;
+
+			tempColor = boardView.colorText[N_ROWS - VERTICAL_OFFSET][COL].first;
+			tempColor = Colors::combine(Colors::foreColor(tempColor), TEMP_BACK_COLOR_BOTTOM);
+			boardView.colorText[N_ROWS - VERTICAL_OFFSET][COL].first = tempColor;
 		}
 	}
 	
@@ -150,8 +160,8 @@ void CheckerBoard::initCoordinates()
 		
 		const size_t CHAR_ROW = 2 + spaceRow * SPACE_HEIGHT + SPACE_HEIGHT / 2;
 
-		text[CHAR_ROW][HORIZONTAL_OFFSET - 1] = '0' + (spaceRow + 1);
-		text[CHAR_ROW][N_COLS - HORIZONTAL_OFFSET] = '0' + (spaceRow + 1);
+		boardView.colorText[CHAR_ROW][HORIZONTAL_OFFSET - 1].second = '0' + (spaceRow + 1);
+		boardView.colorText[CHAR_ROW][N_COLS - HORIZONTAL_OFFSET].second = '0' + (spaceRow + 1);
 		
 		for (size_t r = 0; r < SPACE_HEIGHT; r++)
 		{
@@ -162,8 +172,14 @@ void CheckerBoard::initCoordinates()
 
 			const size_t COL = 1;
 
-			backColor[ROW][COL] = TEMP_BACK_COLOR_TOP;
-			backColor[ROW][N_COLS - HORIZONTAL_OFFSET] = TEMP_BACK_COLOR_BOTTOM;
+			char tempColor;
+			tempColor = boardView.colorText[ROW][COL].first;
+			tempColor = Colors::combine(Colors::foreColor(tempColor), TEMP_BACK_COLOR_TOP);
+			boardView.colorText[ROW][COL].first = tempColor;
+
+			tempColor = boardView.colorText[ROW][N_COLS - HORIZONTAL_OFFSET].first;
+			tempColor = Colors::combine(Colors::foreColor(tempColor), TEMP_BACK_COLOR_BOTTOM);
+			boardView.colorText[ROW][N_COLS - HORIZONTAL_OFFSET].first = tempColor;
 		}
 	}
 }
@@ -203,7 +219,10 @@ void CheckerBoard::initSpaces()
 						spaceCol * SPACE_WIDTH +
 						c;
 
-					backColor[ROW][COL] = tempBackColor;
+					char tempColor = boardView.colorText[ROW][COL].first;
+					tempColor = Colors::backColor(tempColor);
+					tempColor = Colors::combine(tempColor, tempBackColor);
+					boardView.colorText[ROW][COL].first = tempColor;
 				} // end for (size_t c = 0
 			} // end for (size_t r = 0
 		} // end for (size_t spaceCol = 0
@@ -226,8 +245,11 @@ void CheckerBoard::placePieces()
 				spaceCol * SPACE_WIDTH +
 				SPACE_WIDTH / 2;
 
-			text[ROW][COL] = peices[spaceRow][spaceCol];
-			foreColor[ROW][COL] = peicesForeColor[spaceRow][spaceCol];
+			boardView.colorText[ROW][COL].second = peices[spaceRow][spaceCol];
+			char tempColor = boardView.colorText[ROW][COL].first;
+			tempColor = Colors::backColor(tempColor);
+			tempColor = Colors::combine(peicesForeColor[spaceRow][spaceCol], tempColor);
+			boardView.colorText[ROW][COL].first = tempColor;
 		} // end for (size_t spaceCol = 0
 	} // end for (size_t spaceRow = 0
 }

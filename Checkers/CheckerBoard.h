@@ -7,6 +7,7 @@
 #include "E:\Documents\Programming\C++\ASCII\ASCII\ASCII.h"
 #include "Colors.h"
 #include "Console.h"
+#include "View.h"
 
 class CheckerBoard
 {
@@ -22,6 +23,7 @@ public:
 	void print(int indent = 10);
 
 protected:
+public:
 	// Initializes the background and foreground color 
 	// Initializes the background text
 	// Only needs to be called once 
@@ -51,7 +53,6 @@ public:
 	char peicesForeColor[8][8] = { Colors::WHITE };
 	bool highlightedSpaces[8][8] = { false };
 
-protected:
 	static const size_t SPACE_WIDTH = 5;
 	static const size_t SPACE_HEIGHT = 3;
 
@@ -61,10 +62,13 @@ protected:
 	const size_t HORIZONTAL_OFFSET = 2;
 	const size_t VERTICAL_OFFSET = 2;
 
-	char text[N_ROWS][N_COLS] = { ' ' };
-	char foreColor[N_ROWS][N_COLS] = { Colors::WHITE };
-	char backColor[N_ROWS][N_COLS] = { Colors::BLACK };
+public:
+	//char text[N_ROWS][N_COLS] = { ' ' };
+	//char foreColor[N_ROWS][N_COLS] = { Colors::WHITE };
+	//char backColor[N_ROWS][N_COLS] = { Colors::BLACK };
 	
+	View boardView;
+
 #pragma endregion
 };
 

@@ -53,7 +53,7 @@ void ViewLayout::stamp(const BaseView & view, size_t row, size_t col)
 
 			const size_t COL_CUTOFF =
 				min(vRow.size(),
-					max((int) colorTextPtr.size() - (int) col, 0));
+					max((int) colorTextPtr.at(r).size() - (int) col, 0));
 
 			for (size_t c = 0; c < COL_CUTOFF; c++)
 			{
@@ -92,7 +92,7 @@ void ViewLayout::stamp(const BaseView & view, size_t row, size_t col)
 	}
 }
 
-void ViewLayout::print()
+void ViewLayout::print() const
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 

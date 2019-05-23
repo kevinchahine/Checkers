@@ -146,6 +146,9 @@ void Checkers::placePiece(uint8_t row, uint8_t col, bool black, bool king)
 
 void Checkers::print(uint8_t indent, move_t highlightMove) const
 {
+	GameInterface gameInterface;
+	auto v = gameInterface.layout;
+	cout << v.colorText.size() << endl;
 	CheckerBoard board;
 
 	// 1.) Add peices and their color
@@ -171,8 +174,12 @@ void Checkers::print(uint8_t indent, move_t highlightMove) const
 		board.highlightedSpaces[toRow][toCol] = true;
 	}
 
+	board.initBase();
+
 	// 3.) Print Board
-	board.print(indent);
+	gameInterface.layout.stamp(board.boardView, 0, 20);
+	gameInterface.layout.print();
+	//board.print(indent);
 }
 
 void Checkers::init()
