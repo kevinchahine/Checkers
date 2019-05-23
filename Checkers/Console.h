@@ -13,5 +13,5 @@ namespace Console
 
 	// returns true if successfull
 	// returns false is unseccessfull
-	bool getColor(uint8_t & color) ;
+	bool getColor(uint8_t & color);
 }

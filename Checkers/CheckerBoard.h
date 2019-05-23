@@ -64,7 +64,7 @@ protected:
 	char text[N_ROWS][N_COLS] = { ' ' };
 	char foreColor[N_ROWS][N_COLS] = { Colors::WHITE };
 	char backColor[N_ROWS][N_COLS] = { Colors::BLACK };
-
+	
 #pragma endregion
 };
 

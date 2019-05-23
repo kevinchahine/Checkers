@@ -1,5 +1,12 @@
 #pragma once
 
+/*
+	=============== SOLVER 1 ====================
+	This solver used a simple linear combination
+	of components and weights to calculate a
+	heuristic.
+*/
+
 #include <list>
 #include <sstream>
 
@@ -12,7 +19,40 @@ const int WEIGHTS_COMBO_1[25] =
 	{-38, -27, 39, 5, 14, 34, 22, 34, 21, -22, -7, 7, -35, -21, -14, 11, -16, 1, 3, -35, -16, -24, 7, -26, -15};
 
 const int WEIGHTS_COMBO_2[25] =
-{19, 33, 36, 27, -1, 19, 34, 20, -7, 8, 6, -23, -6, 27, -2, 37, 22, 32, -11, 36, -18, 0, 12, -20, -6 };
+	{
+	19, // 1.) # of Pawns 
+	33,	// 2.) # of Kings
+	36, // 3.) # of safe Pawns
+	27, // 4.) # of safe Kings
+	-1, // 5.) # of moveable pawns (able to make a move other than capture)
+	19, // 6.) # of moveable kings (able to make a move other than capture)
+	34, // 7.) Aggregated distance of Pawns to promotion line
+	20, // 8.) # of unoccupied fields on promotion line
+	-7, // 9.) # of defender pieces (pieces in 2 lower most rows)
+	8,  // 10.) # of attacking pawns (pieces in 3 upper most rows)
+	6,  // 11.) # of centrally positioned pawns (pawns in 8 central positions on board)
+	-23,// 12.) # of centrally positioned kings 
+	-6, // 13.) # of pawns positioned on the main diagonal
+	27, // 14.) # of kings positioned on the main diagonal
+	-2, // 15.) # of pawns positioned on the double diagonal
+	37, // 16.) # of kings positioned on the double diagonal
+	22, // 17.) # on loner pawns (pawn not adjacent to any other piece)
+	32, // 18.) # of loner kings (king not adjacent to any other piece)
+	-11,// 19.) # of holes (empty spaces adjacent to at least 3 pieces of the same color)
+	36, // 20.) Presence of a Triangle pattern *  Not yet counted
+	-18,// 21.) Presence of an Oreo pattern *  Not yet counted
+	0,  // 22.) Presence of a Bridge pattern *  Not yet counted
+	12, // 23.) Presence of a Dog pattern *  Not yet counted
+	-20,// 24.) Presence of a pawn in corner
+	-6 	// 25.) Presence of a king in corner
+	};
+
+const int WEIGHTS_COMBO_3[25] =
+	{	-6, 36, 26, 16, 8, 
+		 39, 34, 32, -11, 0, 
+		-17, 15, -18, -5, -1, 
+		-21, -5, 36, -5, 16, 
+		 16, 34, -36, -4, -16 };
 
 class Solver1 : public Solver
 {
@@ -74,6 +114,7 @@ public:
 	static const size_t N_WEIGHTS = 25;
 	// 1.) # of Pawns 
 	// 2.) # of Kings
+	// 3.) # of safe Pawns
 	// 4.) # of safe Kings
 	// 5.) # of moveable pawns (able to make a move other than capture)
 	// 6.) # of moveable kings (able to make a move other than capture)

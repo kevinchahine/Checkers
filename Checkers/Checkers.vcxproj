@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseView.cpp" />
     <ClCompile Include="CheckerBoard.cpp" />
     <ClCompile Include="Checkers.cpp" />
     <ClCompile Include="CheckersEngine.cpp" />
@@ -181,8 +182,11 @@
     <ClCompile Include="TestCheckersSolver1.cpp" />
     <ClCompile Include="TestGeneticAlgorithm.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="View.cpp" />
+    <ClCompile Include="ViewLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseView.h" />
     <ClInclude Include="CheckerBoard.h" />
     <ClInclude Include="Checkers.h" />
     <ClInclude Include="CheckersEngine.h" />
@@ -200,6 +204,8 @@
     <ClInclude Include="TestCheckersSolver1.h" />
     <ClInclude Include="TestGeneticAlgorithm.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="View.h" />
+    <ClInclude Include="ViewLayout.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

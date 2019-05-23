@@ -303,7 +303,9 @@ void GeneticAlgorithm::writePopulationToFile(string fileName, const population_t
 
 	for (const individual_t & i : population)
 	{
-		outFile
+		outFile 
+			<< setprecision(5)
+			<< setw(9)
 			<< "fitness = "
 			<< i.second
 			<< "\t"

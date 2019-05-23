@@ -51,11 +51,11 @@ namespace GeneticAlgorithm
 
 	bool _compareFunction(const individual_t & i, const individual_t & j);
 
-	const size_t POPULATION_SIZE = 100;
+	const size_t POPULATION_SIZE = 50;
 
 	const fitness_t MIN_WEIGHT = -40;
 	const fitness_t MAX_WEIGHT = 40;
-	const int PROBABILITY_OF_SINGLE_MUTATION = 20;	// 20%
+	const int PROBABILITY_OF_SINGLE_MUTATION = 10;	// 20 means 20%
 	const int DEPTH_LIMIT = 1;
 	
 	const bool LIMIT_BY_GENERATIONS = false;

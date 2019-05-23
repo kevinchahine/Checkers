@@ -147,7 +147,7 @@ stringstream Solver1::toStream() const
 
 	for (size_t i = 0; i < N_WEIGHTS; i++)
 	{
-		ss << setw(3) << weights[i] << ' ';
+		ss << setw(3) << weights[i] << ", ";
 	}
 
 	return ss;

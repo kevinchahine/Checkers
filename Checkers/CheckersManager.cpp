@@ -92,67 +92,6 @@ stringstream CheckersManager::getEndGameMessage() const
 	return ss;
 }
 
-move_t CheckersManager::getUserInput(
-	int & fromRow, int & fromCol, int & toRow, int & toCol, 
-	const vector<move_t>& validMoves) const
-{
-	move_t move;
-
-	char fromRowChar, fromColChar, toRowChar, toColChar;
-	
-	while (true)
-	{
-		cout << "Enter: ";
-
-		// 1.) Read input
-		cin >> fromColChar >> fromRowChar >> toColChar >> toRowChar;
-		string s;
-		getline(cin, s);
-
-		// 2.) Convert to numerical coordinates
-		if (isalpha(fromColChar) && !isalpha(fromRowChar))
-		{
-			fromColChar = toupper(fromColChar);
-			fromCol = fromColChar - 'A';
-
-			fromRow = fromRowChar - '1';
-		}
-		else
-		{
-			continue;
-		}
-
-		if (isalpha(toColChar) && !isalpha(toRowChar))
-		{
-			toColChar = toupper(toColChar);
-			toCol = toColChar - 'A';
-
-			toRow = toRowChar - '1';
-		}
-		else
-		{
-			continue;
-		}
-
-		cout << "Move = " << fromRow << " " << fromCol << " -> "
-			<< toRow << ' ' << toCol << endl;
-
-		// 3.) Calc move
-		move = Move::combine(fromRow, fromCol, toRow, toCol);
-
-		// 4.) See if move is valid
-		vector<move_t>::const_iterator it =
-			find(validMoves.begin(), validMoves.end(), move);
-
-		if (it == validMoves.end())
-			continue;	// Move is not valid
-		else
-			break;		// Move is valid
-	}
-
-	return move;
-}
-
 void CheckersManager::printAnalytics(
 	int nMovesSinceLastJumpOrPromotion, 
 	clock_t startTime, 

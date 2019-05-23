@@ -18,4 +18,19 @@ namespace Colors {
 	const unsigned char	YELLOW = 14;
 	const unsigned char	WHITE = 15;
 	const unsigned char	BLINK = 128;
+
+	inline unsigned char combine(unsigned char foreColor, unsigned char backColor)
+	{
+		return foreColor + (backColor << 4);
+	}
+
+	inline unsigned char backColor(unsigned char color)
+	{
+		return color >> 4;
+	}
+
+	inline unsigned char foreColor(unsigned char color)
+	{
+		return color & 0x0f;
+	}
 }
