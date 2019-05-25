@@ -64,6 +64,8 @@ public:
 	
 	void print(uint8_t indent = 20, move_t highlightMove = 0) const;
 
+	void clearBoard();
+
 #pragma endregion
 
 #pragma region Private Functions
@@ -78,7 +80,6 @@ private:
 
 #pragma region Protected Variables
 protected:
-
 	/*
 	Represents the board and all the pieces on it.
 	Each bit cooresponds to a single space on the board.

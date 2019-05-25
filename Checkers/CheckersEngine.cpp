@@ -78,86 +78,93 @@ vector<move_t> CheckersEngine::getValidMoves(bool playerIsBlack) const
 	{
 		for (int fromCol = (fromRow % 2); fromCol < 8; fromCol++)
 		{
-			// Is this space occupied and by the correct color Piece?
-			if (!isOccupied(fromRow, fromCol) ||
-				(isPieceBlack(fromRow, fromCol) != playerIsBlack))
-				continue;	// No, Skip this space
-
-			// UP RIGHT
-			if (isMoveUpRightValid(fromRow, fromCol))
+			// Is this space occupied?
+			if (isOccupied(fromRow, fromCol))
 			{
-				toRow = fromRow - 1;
-				toCol = fromCol + 1;
-				
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+				// And, by the correct color Piece ?
+				if (isPieceBlack(fromRow, fromCol) == playerIsBlack)
+				{
+					//if (!isOccupied(fromRow, fromCol) ||
+						//(isPieceBlack(fromRow, fromCol) != playerIsBlack))
+						//continue;	// No, Skip this space
 
-				validMoves.push_back(move);
-			}
-			if (isJumpUpRightValid(fromRow, fromCol))
-			{
-				toRow = fromRow - 2;
-				toCol = fromCol + 2;
+					// UP RIGHT
+					if (isMoveUpRightValid(fromRow, fromCol))
+					{
+						toRow = fromRow - 1;
+						toCol = fromCol + 1;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
-			}
-			// UP LEFT
-			if (isMoveUpLeftValid(fromRow, fromCol))
-			{
-				toRow = fromRow - 1;
-				toCol = fromCol - 1;
+						validMoves.push_back(move);
+					}
+					if (isJumpUpRightValid(fromRow, fromCol))
+					{
+						toRow = fromRow - 2;
+						toCol = fromCol + 2;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
-			}
-			if (isJumpUpLeftValid(fromRow, fromCol))
-			{
-				toRow = fromRow - 2;
-				toCol = fromCol - 2;
+						validMoves.push_back(move);
+					}
+					// UP LEFT
+					if (isMoveUpLeftValid(fromRow, fromCol))
+					{
+						toRow = fromRow - 1;
+						toCol = fromCol - 1;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
-			}
-			// DOWN LEFT
-			if (isMoveDownLeftValid(fromRow, fromCol))
-			{
-				toRow = fromRow + 1;
-				toCol = fromCol - 1;
+						validMoves.push_back(move);
+					}
+					if (isJumpUpLeftValid(fromRow, fromCol))
+					{
+						toRow = fromRow - 2;
+						toCol = fromCol - 2;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
-			}
-			if (isJumpDownLeftValid(fromRow, fromCol))
-			{
-				toRow = fromRow + 2;
-				toCol = fromCol - 2;
+						validMoves.push_back(move);
+					}
+					// DOWN LEFT
+					if (isMoveDownLeftValid(fromRow, fromCol))
+					{
+						toRow = fromRow + 1;
+						toCol = fromCol - 1;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
-			}
-			// DOWN RIGHT
-			if (isMoveDownRightValid(fromRow, fromCol))
-			{
-				toRow = fromRow + 1;
-				toCol = fromCol + 1;
+						validMoves.push_back(move);
+					}
+					if (isJumpDownLeftValid(fromRow, fromCol))
+					{
+						toRow = fromRow + 2;
+						toCol = fromCol - 2;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
-			}
-			if (isJumpDownRightValid(fromRow, fromCol))
-			{
-				toRow = fromRow + 2;
-				toCol = fromCol + 2;
+						validMoves.push_back(move);
+					}
+					// DOWN RIGHT
+					if (isMoveDownRightValid(fromRow, fromCol))
+					{
+						toRow = fromRow + 1;
+						toCol = fromCol + 1;
 
-				move = Move::combine(fromRow, fromCol, toRow, toCol);
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
 
-				validMoves.push_back(move);
+						validMoves.push_back(move);
+					}
+					if (isJumpDownRightValid(fromRow, fromCol))
+					{
+						toRow = fromRow + 2;
+						toCol = fromCol + 2;
+
+						move = Move::combine(fromRow, fromCol, toRow, toCol);
+
+						validMoves.push_back(move);
+					}
+				}
 			}
 		} // end for (int c = 
 	} // end for (int r = 0

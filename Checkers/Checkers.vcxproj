@@ -178,6 +178,7 @@
     <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StarterGames.cpp" />
     <ClCompile Include="TestCheckerBoard.cpp" />
     <ClCompile Include="TestCheckersEngine.cpp" />
     <ClCompile Include="TestCheckersSolver1.cpp" />
@@ -201,10 +202,12 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="Move.h" />
+    <ClInclude Include="StarterGames.h" />
     <ClInclude Include="TestCheckerBoard.h" />
     <ClInclude Include="TestCheckersEngine.h" />
     <ClInclude Include="TestCheckersSolver1.h" />
     <ClInclude Include="TestGeneticAlgorithm.h" />
+    <ClInclude Include="TestSolver.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="ViewLayout.h" />

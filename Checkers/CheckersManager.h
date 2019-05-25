@@ -17,20 +17,17 @@ class CheckersManager : public CheckersEngine
 {
 public:
 	CheckersManager();
+	CheckersManager(const CheckersManager & checkersManager);
+	CheckersManager(const CheckersManager && checkersManager);
+	CheckersManager(const CheckersEngine & checkersEngine);
+	CheckersManager(const CheckersEngine && checkersEngine);
 	~CheckersManager();
 
-	void play(Player & blackPlayer, Player & redPlayer, bool showOutput = true);
+	void play(Player & blackPlayer, Player & redPlayer, bool showOutput = true, bool blacksFirst = true);
 
 	stringstream getEndGameMessage() const;
 
 private:
-	move_t getUserInput(
-		int & fromRow, 
-		int & fromCol, 
-		int & toRow, 
-		int & toCol,
-		const vector<move_t> & validMoves) const;
-
 	void printAnalytics(
 		int nMovesSinceLastJumpOrPromotion,
 		clock_t startTime,

@@ -1,8 +1,10 @@
 #pragma once
 
 #include <time.h>
+#include <sstream>
 
 #include "CheckersEngine.h"
+#include "Move.h"
 
 class TestCheckersEngine : private CheckersEngine
 {
@@ -13,6 +15,8 @@ public:
 	void possibleMoves();
 
 	void validMoves();
+
+	void validMoves(const CheckersEngine & gameState);
 
 	void print() const;
 

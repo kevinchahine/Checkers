@@ -8,7 +8,9 @@
 /*
 	class CheckersEngine
 
-	Purpose: Controls game mechanics: rules and piece movement 
+	Purpose: 
+		Controls game mechanics: 
+			rules and piece movement 
 */
 class CheckersEngine : public Checkers
 {

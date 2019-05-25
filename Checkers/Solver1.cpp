@@ -274,7 +274,7 @@ int Solver1::calcHeuristic(const CheckersEngine & game) const
 				}
 
 				// 2.) # of Kings
-				if (game.isKing(r, c))
+				else if (game.isKing(r, c))
 				{
 					nOfKings += pieceAdder;
 
@@ -414,14 +414,14 @@ int8_t Solver1::countUnoccupiedSpacesOnPromotionLine(const CheckersEngine & game
 	int8_t r = 0;
 	for (int8_t c = (r % 2); c < 8; c += 2)
 	{
-		if (game.isOccupied(r, c))
+		if (!game.isOccupied(r, c))
 			count++;
 	}
 	r = 7;
 	// RED promotion line next
 	for (int8_t c = (r % 2); c < 8; c += 2)
 	{
-		if (game.isOccupied(r, c))
+		if (!game.isOccupied(r, c))
 			count--;
 	}
 

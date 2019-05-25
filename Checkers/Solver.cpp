@@ -1,5 +1,10 @@
 #include "Solver.h"
 
+extern CheckersEngine win1;
+extern CheckersEngine win2;
+extern CheckersEngine win3;
+extern CheckersEngine win0;
+
 Solver::Solver() :
 	depthLimit(1),
 	timeLimit(CLOCK_MAX) {}
@@ -28,8 +33,26 @@ move_t Solver::getDecision(const CheckersEngine & game, bool isBlack)
 		}
 
 		// Then evaluate all valid moves of the next depth.
-		bestMove = alphabeta(
+		
+		minimax_t plyBestMove = alphabeta(
 			game, depthLimit - ply, INT_MIN, INT_MAX, isBlack);
+		
+		if (get<2>(plyBestMove) == BLUFF_MOVE)
+		{
+			/*cerr << __FILE__ << " line " << __LINE__
+				<< " bluff move was returned"
+				<< get<0>(plyBestMove) << '\t'
+				<< get<1>(plyBestMove) << endl
+				<< " clock = " << clock()
+				<< " startTime = " << startTime
+				<< " timeLimit = " << timeLimit << endl
+				<< " ply = " << ply
+				<< endl;*/
+			//system("pause");
+		}
+		else {
+			bestMove = plyBestMove;
+		}
 	}
 
 	// Return the best move (get<1> of bestMove)
@@ -94,7 +117,7 @@ Solver::minimax_t Solver::alphabeta(const CheckersEngine & game, int depth, int 
 		int bestMoveValue = INT_MIN;
 
 		vector<move_t> validMovesBlack = game.getValidMoves(true);
-
+		
 		minimax_t ret;
 
 		for (int i = 0; i < validMovesBlack.size(); i++)
@@ -109,15 +132,15 @@ Solver::minimax_t Solver::alphabeta(const CheckersEngine & game, int depth, int 
 			else
 				ret = alphabeta(nextState, depth + 1, alpha, beta, !maxPlayersMove);
 
-			int result = get<0>(ret);
+			int retHeuristic = get<0>(ret);
 
-			if (result > bestMoveValue)
+			if (retHeuristic > bestMoveValue)
 			{
 				bestMoveIndex = i;
-				bestMoveValue = result;
+				bestMoveValue = retHeuristic;
 			}
 
-			alpha = max(alpha, result);
+			alpha = max(alpha, retHeuristic);
 			if (alpha >= beta)
 				break;	// cut-off
 		}
@@ -140,6 +163,7 @@ Solver::minimax_t Solver::alphabeta(const CheckersEngine & game, int depth, int 
 
 		for (int i = 0; i < validMovesRed.size(); i++)
 		{
+			
 			CheckersEngine nextState = game;
 			bool jumpOccured;
 			jumpOccured = nextState.movePiece(validMovesRed[i]);
@@ -149,15 +173,15 @@ Solver::minimax_t Solver::alphabeta(const CheckersEngine & game, int depth, int 
 			else
 				ret = alphabeta(nextState, depth + 1, alpha, beta, !maxPlayersMove);
 
-			int result = get<0>(ret);
+			int retHeuristic = get<0>(ret);
 
-			if (result < bestMoveValue)
+			if (retHeuristic < bestMoveValue)
 			{
 				bestMoveIndex = i;
-				bestMoveValue = result;
+				bestMoveValue = retHeuristic;
 			}
 
-			beta = min(beta, result);
+			beta = min(beta, retHeuristic);
 			if (alpha >= beta)
 				break;	// cut-off
 		}

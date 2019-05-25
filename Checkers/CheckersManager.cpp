@@ -4,11 +4,33 @@ CheckersManager::CheckersManager()
 {
 }
 
+CheckersManager::CheckersManager(const CheckersManager & checkersManager) :
+	//CheckersEngine(0, 0, 0)
+	//Checkers(checkersManager.occupied, checkersManager.black, checkersManager.king)
+	CheckersEngine(checkersManager)
+{
+}
+
+CheckersManager::CheckersManager(const CheckersManager && checkersManager) :
+	CheckersEngine(checkersManager)
+{
+}
+
+CheckersManager::CheckersManager(const CheckersEngine & checkersEngine) :
+	CheckersEngine(checkersEngine)
+{
+}
+
+CheckersManager::CheckersManager(const CheckersEngine && checkersEngine) :
+	CheckersEngine(checkersEngine)
+{
+}
+
 CheckersManager::~CheckersManager()
 {
 }
 
-void CheckersManager::play(Player & blackPlayer, Player & redPlayer, bool showOutput)
+void CheckersManager::play(Player & blackPlayer, Player & redPlayer, bool showOutput, bool blacksFirst)
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -19,7 +41,7 @@ void CheckersManager::play(Player & blackPlayer, Player & redPlayer, bool showOu
 	if (showOutput)
 		print();
 
-	bool blacksTurn = true;
+	bool blacksTurn = blacksFirst;
 
 	while (true)
 	{

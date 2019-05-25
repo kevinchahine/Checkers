@@ -55,7 +55,7 @@ namespace GeneticAlgorithm
 
 	const fitness_t MIN_WEIGHT = -40;
 	const fitness_t MAX_WEIGHT = 40;
-	const int PROBABILITY_OF_SINGLE_MUTATION = 10;	// 20 means 20%
+	const int PROBABILITY_OF_SINGLE_MUTATION = 15;	// 20 means 20%
 	const int DEPTH_LIMIT = 1;
 	
 	const bool LIMIT_BY_GENERATIONS = false;

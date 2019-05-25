@@ -81,6 +81,9 @@
     <ClCompile Include="GameInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StarterGames.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Checkers.h">
@@ -145,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="GameInterface.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StarterGames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSolver.h">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

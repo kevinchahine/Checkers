@@ -93,6 +93,64 @@ void TestCheckersEngine::validMoves()
 	}
 }
 
+void TestCheckersEngine::validMoves(const CheckersEngine & gameState)
+{
+	gameState.print();
+
+	vector<move_t> movesBlack = gameState.getValidMoves(true);
+	vector<move_t> movesRed = gameState.getValidMoves(false);
+
+	size_t maxIndex = max(movesBlack.size(), movesRed.size());
+
+	cout << setw(20) << "Valid Moves BLACK" 
+		<< setw(20) << "Valid Moves RED" << endl;
+
+	for (size_t i = 0; i < maxIndex; i++)
+	{
+		uint8_t fromRow = 0;
+		uint8_t fromCol = 0;
+		uint8_t toRow = 0;
+		uint8_t toCol = 0;
+			
+		stringstream ss;
+
+		if (i < movesBlack.size())
+		{
+			move_t m = movesBlack.at(i);
+
+			Move::separate(m, fromRow, fromCol, toRow, toCol);
+
+			ss << m << "["
+				<< (int)fromRow << ", "
+				<< (int)fromCol << "]->["
+				<< (int)toRow << ", "
+				<< (int)toCol << "]";
+
+		}
+		
+		cout << setw(20) << ss.str();
+
+		if (i < movesRed.size())
+		{
+			move_t m = movesRed.at(i);
+
+			Move::separate(m, fromRow, fromCol, toRow, toCol);
+
+			stringstream ss;
+
+			ss << m << "["
+				<< (int) fromRow << ", " 
+				<< (int) fromCol << "]->["
+				<< (int) toRow << ", " 
+				<< (int) toCol << "]";
+
+			cout << setw(23) << ss.str();
+		}
+
+		cout << endl;
+	}
+}
+
 void TestCheckersEngine::print() const
 {
 	CheckersEngine::print();

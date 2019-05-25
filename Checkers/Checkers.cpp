@@ -182,6 +182,11 @@ void Checkers::print(uint8_t indent, move_t highlightMove) const
 	//board.print(indent);
 }
 
+void Checkers::clearBoard()
+{
+	this->occupied = 0;
+}
+
 void Checkers::init()
 {
 	placePiece(0, 0, 1, 0);
